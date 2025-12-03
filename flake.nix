@@ -62,11 +62,17 @@
           ];
 
           buildPhase = ''
-            echo "Setting CARGO_HOME to a temporary, writable directory..."
-            export CARGO_HOME=$TMPDIR/cargo_home
-            mkdir -p $CARGO_HOME
-            echo "Running trunk build..."
-            trunk build --release
+          echo "Setting CARGO_HOME and WASM_BINDGEN_CACHE to temporary, writable directories..."
+          
+          export CARGO_HOME=$TMPDIR/cargo_home
+          mkdir -p $CARGO_HOME
+
+          # cache location for wasm-bindgen to a writable directory
+          export WASM_BINDGEN_CACHE=$TMPDIR/wasm_bindgen_cache
+          mkdir -p $WASM_BINDGEN_CACHE
+
+          echo "Running trunk build..."
+          trunk build --release
           '';
 
           # move the final artifacts to the Nix output ($out)
