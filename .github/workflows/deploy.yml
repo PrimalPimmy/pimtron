@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Install Stylance
-        run: nix develop --command cargo install stylance-cli --locked
+        run: nix develop --command cargo install stylance-cli --locked --force
         # We run this inside nix develop to ensure we use the rustc from the flake
 
       - name: Build with Trunk
