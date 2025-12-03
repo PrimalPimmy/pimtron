@@ -6,41 +6,32 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim 
     permissions:
       contents: read
       deployments: write
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Install Nix
         uses: cachix/install-nix-action@v27
-        with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - uses: DeterminateSystems/flake-checker-action@main
 
-      - name: Cache Cargo
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+      - name: Perform Pure Nix Build
+        # Explicitly building the 'pimtron-site' package defined in flake.nix 
+        run: nix build .#pimtron-site --out-link site-result
 
-      - name: Install Stylance
-        run: nix develop --command cargo install stylance-cli --locked --force
-        # We run this inside nix develop to ensure we use the rustc from the flake
-
-      - name: Build with Trunk
-        run: nix develop --command trunk build --release
+      - name: Prepare Deployment Directory
+        run: |
+          # Clean the default 'dist' directory just in case
+          rm -rf dist
+          # Copy the contents of the Nix store path to 'dist'
+          cp -r site-result/* dist/
+          echo "Deployment directory created at: $(ls -F dist)"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
