@@ -1,0 +1,37 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Fira Code', monospace;
+    width: 100%;
+}
+
+.back_link_container {
+    margin-bottom: 2rem;
+}
+
+.back_link {
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid #fff;
+    padding: 8px 16px;
+    transition: all 0.2s;
+}
+
+.back_link:hover {
+    background-color: #000;
+    color: #00ff00;
+    border-color: #00ff00;
+    box-shadow: 4px 4px 0px 0px #00ff00;
+    transform: translate(-2px, -2px);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 16px;
+    }
+}

@@ -1,0 +1,23 @@
+[package]
+name = "pimtron"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+gray_matter = "0.3.2"
+include_dir = "0.7.4"
+leptos = { version = "0.8.14", features = ["csr"] }
+leptos_router = "0.8.10"
+pulldown-cmark = "0.13.0"
+serde = { version = "1.0.228", features = ["derive"] }
+stylance = "0.7.4"
+
+# Optimize dependencies even in dev builds to reduce binary size and memory usage
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"

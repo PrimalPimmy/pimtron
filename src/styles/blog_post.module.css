@@ -1,0 +1,152 @@
+.article {
+    font-family: 'Fira Code', monospace;
+    color: #ffffff;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+}
+
+.header {
+    margin-bottom: 3rem;
+    border-bottom: 1px dashed #333;
+    padding-bottom: 2rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 1rem 0;
+    color: #00ff00;
+    text-shadow: 0 0 4px rgba(0, 255, 0, 0.4);
+    line-height: 1.1;
+}
+
+.date {
+    color: #888;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.content {
+    font-size: 1.1rem;
+    color: #ddd;
+}
+
+/* Markdown Content Styling */
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+}
+
+.content h1 { 
+    font-size: 2.2rem; 
+    border-bottom: 1px dashed #333; 
+    padding-bottom: 0.5rem;
+    color: #00ff00;
+}
+.content h2 { font-size: 1.8rem; }
+.content h3 { font-size: 1.5rem; }
+
+.content p {
+    margin-bottom: 1.8rem;
+}
+
+.content ul, .content ol {
+    margin-bottom: 1.8rem;
+    padding-left: 1.5rem;
+}
+
+.content li {
+    margin-bottom: 0.8rem;
+    padding-left: 0.5rem;
+}
+
+.content li::marker {
+    color: #00ff00;
+}
+
+.content a {
+    color: #00ff00;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 4px;
+    transition: all 0.2s;
+}
+
+.content a:hover {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #fff;
+}
+
+.content blockquote {
+    border-left: 4px solid #00ff00;
+    margin: 2.5rem 0;
+    padding: 1rem 2rem;
+    background-color: #111;
+    font-style: italic;
+    color: #aaa;
+}
+
+.content pre {
+    background-color: #050505;
+    padding: 1.5rem;
+    border: 1px solid #333;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+}
+
+.content code {
+    font-family: 'Fira Code', monospace;
+    background-color: #1a1a1a;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+    color: #00ff00;
+    border-radius: 3px;
+}
+
+.content pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.95em;
+    color: #ccc;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #333;
+    margin: 2rem 0;
+}
+
+.content hr {
+    border: 0;
+    border-top: 1px dashed #333;
+    margin: 3rem 0;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+    
+    .header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .content {
+        font-size: 1rem;
+    }
+    
+    .content h1 { font-size: 1.8rem; }
+    .content h2 { font-size: 1.5rem; }
+    .content h3 { font-size: 1.3rem; }
+    
+    .content pre {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,14 @@
+.footer {
+    border-top: 1px dashed #333;
+    background-color: #000000;
+    color: #888;
+    font-family: 'Fira Code', monospace;
+    padding: 2rem;
+    text-align: center;
+}
+
+.text {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
