@@ -23,7 +23,7 @@ jobs:
 
       - name: Perform Pure Nix Build
         # Explicitly building the 'pimtron-site' package defined in flake.nix 
-        run: nix build .#pimtron-site --out-link site-result
+        run: nix build . --out-link site-result
 
       - name: Prepare Deployment Directory
         run: |

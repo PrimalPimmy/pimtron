@@ -1,105 +1,183 @@
 {
-  description = "Pimtron development environment and build";
+  description = "Build a cargo project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    crane.url = "github:ipetkov/crane";
+
     flake-utils.url = "github:numtide/flake-utils";
-    
-    # We define the stylance source here. Nix will lock its exact Git hash in flake.lock.
-    stylance-rs-src = {
-      url = "github:basro/stylance-rs/v0.7.4";
-      flake = false;
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, rust-overlay, flake-utils, stylance-rs-src, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      crane,
+      flake-utils,
+      rust-overlay,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
-        overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
-          inherit system overlays;
+          inherit system;
+          overlays = [ (import rust-overlay) ];
         };
 
-        rustToolchain = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" ];
-          targets = [ "wasm32-unknown-unknown" ];
+        inherit (pkgs) lib;
+
+        rustToolchainFor =
+          p:
+          p.rust-bin.stable.latest.default.override {
+            # Set the build targets supported by the toolchain,
+            # wasm32-unknown-unknown is required for trunk
+            targets = [ "wasm32-unknown-unknown" ];
+          };
+        craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchainFor;
+
+        # When filtering sources, we want to allow assets other than .rs files
+        unfilteredRoot = ./.; # The original, unfiltered source
+        src = lib.fileset.toSource {
+          root = unfilteredRoot;
+          fileset = lib.fileset.unions [
+            # Default files from crane (Rust and cargo files)
+            (craneLib.fileset.commonCargoSources unfilteredRoot)
+            (lib.fileset.fileFilter (
+              file:
+              lib.any file.hasExt [
+                "html"
+                "scss"
+                "css"
+                "md"
+                "toml"
+              ]
+            ) unfilteredRoot)
+            # Example of a folder for images, icons, etc
+            (lib.fileset.maybeMissing ./assets)
+            (lib.fileset.maybeMissing ./posts)
+          ];
         };
 
-        # Helper for reproducible Rust builds
-        rustPlatform = pkgs.makeRustPlatform {
-          cargo = rustToolchain;
-          rustc = rustToolchain;
-        };
-        
-        # --- Custom Stylance CLI Package ---
-        stylanceCliPackage = rustPlatform.buildRustPackage rec {
+        stylance-cli = pkgs.rustPlatform.buildRustPackage rec {
           pname = "stylance-cli";
           version = "0.7.4";
 
-          src = stylance-rs-src;
+          src = pkgs.fetchCrate {
+            inherit pname version;
+            hash = "sha256-lGgKmNqZ0nflVAM3GMDwGgxnXyLCqVz1bTUsvabXmj8=";
+          };
 
-          # FIX 1: Point to the workspace root lockfile
-          cargoLock.lockFile = "${src}/Cargo.lock";
-
-          buildAndTestSubdir = "stylance-cli";
+          cargoHash = "sha256-HWZQNEKTyNnmA1twN5cfo5RY2tOeCnL6zEp+M4F+Tqg=";
         };
 
-        # The Leptos site build derivation
-        leptosSitePackage = pkgs.stdenv.mkDerivation {
-          pname = "pimtron-site";
-          version = "0.1.0";
+        # Common arguments can be set here to avoid repeating them later
+        commonArgs = {
+          inherit src;
+          strictDeps = true;
+          # We must force the target, otherwise cargo will attempt to use your native target
+          CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
 
-          # Source: Use the entire current directory as the source for the build
-          src = self;
-
-          nativeBuildInputs = with pkgs; [
-            rustToolchain
-            trunk
-            pkg-config
-            openssl
-            stylanceCliPackage 
+          nativeBuildInputs = [
+            stylance-cli
           ];
 
-          buildPhase = ''
-          echo "Setting CARGO_HOME and WASM_BINDGEN_CACHE to temporary, writable directories..."
-          
-          export CARGO_HOME=$TMPDIR/cargo_home
-          mkdir -p $CARGO_HOME
-
-          # cache location for wasm-bindgen to a writable directory
-          export WASM_BINDGEN_CACHE=$TMPDIR/wasm_bindgen_cache
-          mkdir -p $WASM_BINDGEN_CACHE
-
-          echo "Running trunk build..."
-          trunk build --release
-          '';
-
-          # move the final artifacts to the Nix output ($out)
-          installPhase = ''
-            echo "Copying built site from dist to $out..."
-            cp -r dist/* $out
-          '';
+          buildInputs = [
+            # Add additional build inputs here
+          ]
+          ++ lib.optionals pkgs.stdenv.isDarwin [
+            # Additional darwin specific inputs can be set here
+            pkgs.libiconv
+          ];
         };
 
+        # Build *just* the cargo dependencies, so we can reuse
+        # all of that work (e.g. via cachix) when running in CI
+        cargoArtifacts = craneLib.buildDepsOnly (
+          commonArgs
+          // {
+            # You cannot run cargo test on a wasm build
+            doCheck = false;
+          }
+        );
+
+        # Build the actual crate itself, reusing the dependency
+        # artifacts from above.
+        # This derivation is a directory you can put on a webserver.
+        my-app = craneLib.buildTrunkPackage (
+          commonArgs
+          // {
+            inherit cargoArtifacts;
+            # The version of wasm-bindgen-cli here must match the one from Cargo.lock.
+            wasm-bindgen-cli = pkgs.buildWasmBindgenCli rec {
+              src = pkgs.fetchCrate {
+                pname = "wasm-bindgen-cli";
+                version = "0.2.105";
+                hash = "sha256-zLPFFgnqAWq5R2KkaTGAYqVQswfBEYm9x3OPjx8DJRY";
+              };
+
+              cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+                inherit src;
+                inherit (src) pname version;
+                hash = "sha256-a2X9bzwnMWNt0fTf30qAiJ4noal/ET1jEtf5fBFj5OU";
+              };
+            };
+          }
+        );
+
+        # Quick example on how to serve the app,
+        # This is just an example, not useful for production environments
+        serve-app = pkgs.writeShellScriptBin "serve-app" ''
+          ${pkgs.python3Minimal}/bin/python3 -m http.server --directory ${my-app} 8000
+        '';
       in
       {
-        # --- 1. Define the actual deployable package ---
-        packages = {
-          pimtron-site = leptosSitePackage;
-          default = leptosSitePackage; # Allow running 'nix build' without arguments
+        checks = {
+          # Build the crate as part of `nix flake check` for convenience
+          inherit my-app;
+
+          # Run clippy (and deny all warnings) on the crate source,
+          # again, reusing the dependency artifacts from above.
+          #
+          # Note that this is done as a separate derivation so that
+          # we can block the CI if there are issues here, but not
+          # prevent downstream consumers from building our crate by itself.
+          my-app-clippy = craneLib.cargoClippy (
+            commonArgs
+            // {
+              inherit cargoArtifacts;
+              cargoClippyExtraArgs = "--all-targets -- --deny warnings";
+            }
+          );
+
+          # # Check formatting
+          # my-app-fmt = craneLib.cargoFmt {
+          #   inherit src;
+          # };
         };
 
-        # --- 2. Keep the Dev Shell for local development ---
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            rustToolchain
-            trunk
-            pkg-config
-            openssl
-            sass
-            # Also make the custom package available in the dev shell
-            stylanceCliPackage
+        packages.default = my-app;
+
+        apps.default = flake-utils.lib.mkApp {
+          drv = serve-app;
+        };
+
+        devShells.default = craneLib.devShell {
+          # Inherit inputs from checks.
+          checks = self.checks.${system};
+
+          # Additional dev-shell environment variables can be set directly
+          # MY_CUSTOM_DEVELOPMENT_VAR = "something else";
+
+          # Extra inputs can be added here; cargo and rustc are provided by default.
+          packages = [
+            pkgs.trunk
           ];
         };
       }
