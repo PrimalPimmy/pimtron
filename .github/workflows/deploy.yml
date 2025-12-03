@@ -29,6 +29,7 @@ jobs:
         run: |
           # Clean the default 'dist' directory just in case
           rm -rf dist
+          mkdir -p dist
           # Copy the contents of the Nix store path to 'dist'
           cp -r site-result/* dist/
           echo "Deployment directory created at: $(ls -F dist)"
