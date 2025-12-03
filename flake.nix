@@ -6,11 +6,9 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     flake-utils.url = "github:numtide/flake-utils";
     
-    # --- NEW INPUT FOR STYLANCE-RS ---
     # We define the stylance source here. Nix will lock its exact Git hash in flake.lock.
     stylance-rs-src = {
       url = "github:basro/stylance-rs/v0.7.4";
-      # CRITICAL FIX: Tell Nix this input is NOT a flake, just source code.
       flake = false;
     };
   };
@@ -55,35 +53,22 @@
           # Source: Use the entire current directory as the source for the build
           src = self;
 
-          # Build Tools: trunk, rust, and the custom stylance-cli package
           nativeBuildInputs = with pkgs; [
             rustToolchain
             trunk
             pkg-config
             openssl
-            # Now using the locally defined package
             stylanceCliPackage 
           ];
 
-          # This is the phase where trunk performs the build.
-          # Trunk builds into the 'dist' directory by default.
           buildPhase = ''
-            # 1. Run stylance-cli FIRST to generate all CSS/styles
-            # The executable is now available on the PATH from nativeBuildInputs
-            echo "Running stylance-cli..."
-            stylance-cli
-            
-            # 2. Run trunk build which calculates SRI hashes based on the files 
-            # created by the stylance-cli output and bundles the app into the 'dist' folder.
             echo "Running trunk build..."
             trunk build --release
           '';
 
-          # This is the phase where we move the final artifacts to the Nix output ($out)
+          # move the final artifacts to the Nix output ($out)
           installPhase = ''
             echo "Copying built site from dist to $out..."
-            # Copy all contents of the 'dist' folder (Trunk's output) to the $out directory.
-            # This $out path is the single, clean artifact ready for deployment.
             cp -r dist/* $out
           '';
         };
