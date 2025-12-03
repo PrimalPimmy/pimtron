@@ -9,6 +9,11 @@
 
 .text {
     font-size: 0.8rem;
-    text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.footer_highlight {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #00ff00;
 }

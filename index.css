@@ -269,10 +269,14 @@
 
 .text-7cf1cca {
     font-size: 0.8rem;
-    text-transform: uppercase;
     letter-spacing: 1px;
 }
 
+.footer_highlight-7cf1cca {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #00ff00;
+}
 
 body {
     margin: 0;
