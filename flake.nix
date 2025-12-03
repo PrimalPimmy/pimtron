@@ -35,21 +35,17 @@
         };
         
         # --- Custom Stylance CLI Package ---
-        # Define the stylance-cli package by building it from the GitHub repository.
         stylanceCliPackage = rustPlatform.buildRustPackage rec {
           pname = "stylance-cli";
-          version = "0.7.4"; # Based on latest crates.io version
+          version = "0.7.4";
 
-          # Use the new locked flake input directly as the source
           src = stylance-rs-src;
 
-          # Removed sha256 because it is now managed by flake.lock
+          # FIX 1: Point to the workspace root lockfile
+          cargoLock.lockFile = "${src}/Cargo.lock";
 
-          # The stylance-cli crate is located in the 'stylance-cli' directory of the repository
-          sourceRoot = "${src}/stylance-cli";
-          cargoLock.lockFile = "${sourceRoot}/Cargo.lock";
+          buildAndTestSubdir = "stylance-cli";
         };
-        # --- End Custom Stylance CLI Package ---
 
         # The Leptos site build derivation
         leptosSitePackage = pkgs.stdenv.mkDerivation {
