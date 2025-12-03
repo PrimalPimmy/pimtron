@@ -62,6 +62,9 @@
           ];
 
           buildPhase = ''
+            echo "Setting CARGO_HOME to a temporary, writable directory..."
+            export CARGO_HOME=$TMPDIR/cargo_home
+            mkdir -p $CARGO_HOME
             echo "Running trunk build..."
             trunk build --release
           '';
