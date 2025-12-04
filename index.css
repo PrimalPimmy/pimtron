@@ -44,6 +44,7 @@
 }
 
 .article_card-91f2f4a:active {
+    transition-duration: 0s;
     border-color: #00ff00;
     box-shadow: 4px 4px 0px 0px #00ff00;
     transform: translate(-2px, -2px);
@@ -65,6 +66,7 @@
 }
 
 .article_card-91f2f4a:active .article_title-91f2f4a {
+    transition-duration: 0s;
     color: #00ff00;
 }
 
