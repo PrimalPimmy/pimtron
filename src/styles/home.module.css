@@ -71,7 +71,6 @@
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 6px 6px 0 #fff;
     display: inline-block;
-    text-transform: uppercase;
     letter-spacing: 1px;
     text-align: center;
 }
@@ -97,7 +96,6 @@
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 6px 6px 0 #333;
     display: inline-block;
-    text-transform: uppercase;
     letter-spacing: 1px;
     text-align: center;
 }
