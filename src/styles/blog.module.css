@@ -35,10 +35,12 @@
     position: relative;
 }
 
-.article_card:hover {
-    border-color: #00ff00;
-    box-shadow: 4px 4px 0px 0px #00ff00;
-    transform: translate(-2px, -2px);
+@media (hover: hover) {
+    .article_card:hover {
+        border-color: #00ff00;
+        box-shadow: 4px 4px 0px 0px #00ff00;
+        transform: translate(-2px, -2px);
+    }
 }
 
 .article_title {
@@ -50,8 +52,10 @@
     transition: color 0.2s;
 }
 
-.article_card:hover .article_title {
-    color: #00ff00;
+@media (hover: hover) {
+    .article_card:hover .article_title {
+        color: #00ff00;
+    }
 }
 
 .date {
@@ -83,9 +87,11 @@
     transition: all 0.2s;
 }
 
-.back_link:hover {
-    color: #00ff00;
-    border-bottom: 1px dashed #00ff00;
+@media (hover: hover) {
+    .back_link:hover {
+        color: #00ff00;
+        border-bottom: 1px dashed #00ff00;
+    }
 }
 
 @media (max-width: 768px) {

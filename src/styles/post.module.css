@@ -22,12 +22,14 @@
     transition: all 0.2s;
 }
 
-.back_link:hover {
-    background-color: #000;
-    color: #00ff00;
-    border-color: #00ff00;
-    box-shadow: 4px 4px 0px 0px #00ff00;
-    transform: translate(-2px, -2px);
+@media (hover: hover) {
+    .back_link:hover {
+        background-color: #000;
+        color: #00ff00;
+        border-color: #00ff00;
+        box-shadow: 4px 4px 0px 0px #00ff00;
+        transform: translate(-2px, -2px);
+    }
 }
 
 @media (max-width: 768px) {

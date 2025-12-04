@@ -36,9 +36,29 @@
     transition: all 0.1s steps(2);
 }
 
-.link:hover {
-    background-color: #111;
-    color: #00ff00;
-    border: 1px solid #00ff00;
-    box-shadow: 2px 2px 0 #00ff00;
+@media (hover: hover) {
+    .link:hover {
+        background-color: #111;
+        color: #00ff00;
+        border: 1px solid #00ff00;
+        box-shadow: 2px 2px 0 #00ff00;
+    }
+}
+
+.github_icon {
+    color: #ffffff;
+    display: flex;
+    align_items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+    .github_icon:hover {
+        color: #00ff00;
+        background-color: #111;
+        transform: scale(1.1);
+    }
 }

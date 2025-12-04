@@ -76,9 +76,11 @@
     transition: all 0.2s;
 }
 
-.content a:hover {
-    background-color: rgba(0, 255, 0, 0.1);
-    color: #fff;
+@media (hover: hover) {
+    .content a:hover {
+        background-color: rgba(0, 255, 0, 0.1);
+        color: #fff;
+    }
 }
 
 .content blockquote {
