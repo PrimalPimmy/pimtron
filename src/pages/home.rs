@@ -15,7 +15,7 @@ pub fn Home() -> impl IntoView {
 
                 </p>
                 <div class=style::actions>
-                    <a href="/blog" class=style::btn_primary>"Read My Blog"</a>
+                    <a href="/blog" class=style::btn_primary>"Read my blog"</a>
                     <a href="https://github.com/primalpimmy" target="_blank" class=style::btn_secondary>"Check GitHub"</a>
                 </div>
             </div>
