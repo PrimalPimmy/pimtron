@@ -1116,6 +1116,7 @@ dependencies = [
  "pulldown-cmark",
  "serde",
  "stylance",
+ "web-sys",
 ]
 
 [[package]]

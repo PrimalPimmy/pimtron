@@ -1,7 +1,7 @@
+use crate::content::get_all_posts;
 use leptos::prelude::*;
 use leptos_router::hooks::use_navigate;
 use std::time::Duration;
-use crate::content::get_all_posts;
 stylance::import_style!(style, "../styles/blog.module.css");
 
 #[component]

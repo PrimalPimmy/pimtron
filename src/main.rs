@@ -1,15 +1,16 @@
 mod components;
-mod pages;
 mod content;
+mod pages;
 
-use leptos::prelude::*;
-use leptos_router::components::{Router, Routes, Route};
-use leptos_router::path;
-use pages::home::Home;
-use pages::blog::Blog;
-use pages::post::PostPage;
-use components::navbar::Navbar;
 use components::footer::Footer;
+use components::navbar::Navbar;
+use leptos::prelude::*;
+use leptos_router::components::{Route, Router, Routes};
+use leptos_router::path;
+use pages::blog::Blog;
+use pages::home::Home;
+use pages::post::PostPage;
+use web_sys;
 
 #[component]
 fn App() -> impl IntoView {
@@ -32,5 +33,12 @@ fn App() -> impl IntoView {
 
 fn main() {
     console_error_panic_hook::set_once();
+
+    let window = web_sys::window().expect("no global `window` exists");
+    let document = window.document().expect("should have a document on window");
+    if let Some(loader) = document.get_element_by_id("loading-layer") {
+        loader.remove();
+    }
+
     leptos::mount::mount_to_body(App);
 }

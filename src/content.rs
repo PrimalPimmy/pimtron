@@ -1,7 +1,7 @@
+use base64::prelude::*;
 use gray_matter::{Matter, engine::YAML};
 use include_dir::{Dir, include_dir};
 use serde::{Deserialize, Serialize};
-use base64::prelude::*;
 
 static POSTS_DIR: Dir = include_dir!("$CARGO_MANIFEST_DIR/posts");
 
@@ -72,15 +72,15 @@ pub fn get_post_by_slug(slug: &str) -> Option<Post> {
 
 pub fn get_post_image(path: &str) -> Option<String> {
     let clean_path = path.trim_start_matches("./").trim_start_matches("/");
-    
+
     let file = POSTS_DIR.get_file(clean_path)?;
     let content = file.contents();
-    
+
     let extension = std::path::Path::new(clean_path)
         .extension()
         .and_then(|e| e.to_str())
         .unwrap_or("octet-stream");
-        
+
     let mime_type = match extension.to_lowercase().as_str() {
         "png" => "image/png",
         "jpg" | "jpeg" => "image/jpeg",
@@ -89,7 +89,7 @@ pub fn get_post_image(path: &str) -> Option<String> {
         "webp" => "image/webp",
         _ => "application/octet-stream",
     };
-    
+
     let b64 = BASE64_STANDARD.encode(content);
     Some(format!("data:{};base64,{}", mime_type, b64))
 }

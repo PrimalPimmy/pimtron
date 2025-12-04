@@ -13,6 +13,7 @@ leptos_router = "0.8.10"
 pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
 stylance = "0.7.4"
+web-sys = { version = "0.3", features = ["Document", "Element", "Window", "Node"] }
 
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]
