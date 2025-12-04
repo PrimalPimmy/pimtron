@@ -45,6 +45,13 @@
     }
 }
 
+.link:active {
+    background-color: #111;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    box-shadow: 2px 2px 0 #00ff00;
+}
+
 .github_icon {
     color: #ffffff;
     display: flex;
@@ -61,4 +68,10 @@
         background-color: #111;
         transform: scale(1.1);
     }
+}
+
+.github_icon:active {
+    color: #00ff00;
+    background-color: #111;
+    transform: scale(1.1);
 }

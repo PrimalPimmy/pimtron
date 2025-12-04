@@ -43,6 +43,12 @@
     }
 }
 
+.article_card:active {
+    border-color: #00ff00;
+    box-shadow: 4px 4px 0px 0px #00ff00;
+    transform: translate(-2px, -2px);
+}
+
 .article_title {
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
@@ -56,6 +62,10 @@
     .article_card:hover .article_title {
         color: #00ff00;
     }
+}
+
+.article_card:active .article_title {
+    color: #00ff00;
 }
 
 .date {
@@ -92,6 +102,11 @@
         color: #00ff00;
         border-bottom: 1px dashed #00ff00;
     }
+}
+
+.back_link:active {
+    color: #00ff00;
+    border-bottom: 1px dashed #00ff00;
 }
 
 @media (max-width: 768px) {

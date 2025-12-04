@@ -32,6 +32,14 @@
     }
 }
 
+.back_link:active {
+    background-color: #000;
+    color: #00ff00;
+    border-color: #00ff00;
+    box-shadow: 4px 4px 0px 0px #00ff00;
+    transform: translate(-2px, -2px);
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 20px 16px;

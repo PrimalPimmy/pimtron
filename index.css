@@ -43,6 +43,12 @@
     }
 }
 
+.article_card-91f2f4a:active {
+    border-color: #00ff00;
+    box-shadow: 4px 4px 0px 0px #00ff00;
+    transform: translate(-2px, -2px);
+}
+
 .article_title-91f2f4a {
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
@@ -56,6 +62,10 @@
     .article_card-91f2f4a:hover .article_title-91f2f4a {
         color: #00ff00;
     }
+}
+
+.article_card-91f2f4a:active .article_title-91f2f4a {
+    color: #00ff00;
 }
 
 .date-91f2f4a {
@@ -92,6 +102,11 @@
         color: #00ff00;
         border-bottom: 1px dashed #00ff00;
     }
+}
+
+.back_link-91f2f4a:active {
+    color: #00ff00;
+    border-bottom: 1px dashed #00ff00;
 }
 
 @media (max-width: 768px) {
@@ -193,6 +208,11 @@
         background-color: rgba(0, 255, 0, 0.1);
         color: #fff;
     }
+}
+
+.content-3cdad1b a:active {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #fff;
 }
 
 .content-3cdad1b blockquote {
@@ -470,6 +490,13 @@ body {
     }
 }
 
+.link-c57c730:active {
+    background-color: #111;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    box-shadow: 2px 2px 0 #00ff00;
+}
+
 .github_icon-c57c730 {
     color: #ffffff;
     display: flex;
@@ -486,6 +513,12 @@ body {
         background-color: #111;
         transform: scale(1.1);
     }
+}
+
+.github_icon-c57c730:active {
+    color: #00ff00;
+    background-color: #111;
+    transform: scale(1.1);
 }
 
 .container-ab56842 {
@@ -520,6 +553,14 @@ body {
         box-shadow: 4px 4px 0px 0px #00ff00;
         transform: translate(-2px, -2px);
     }
+}
+
+.back_link-ab56842:active {
+    background-color: #000;
+    color: #00ff00;
+    border-color: #00ff00;
+    box-shadow: 4px 4px 0px 0px #00ff00;
+    transform: translate(-2px, -2px);
 }
 
 @media (max-width: 768px) {

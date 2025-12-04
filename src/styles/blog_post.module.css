@@ -83,6 +83,11 @@
     }
 }
 
+.content a:active {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #fff;
+}
+
 .content blockquote {
     border-left: 4px solid #00ff00;
     margin: 2.5rem 0;
