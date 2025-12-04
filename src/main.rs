@@ -5,6 +5,7 @@ mod pages;
 use components::footer::Footer;
 use components::navbar::Navbar;
 use leptos::prelude::*;
+use leptos_meta::*;
 use leptos_router::components::{Route, Router, Routes};
 use leptos_router::path;
 use pages::blog::Blog;
@@ -14,6 +15,8 @@ use web_sys;
 
 #[component]
 fn App() -> impl IntoView {
+    provide_meta_context();
+
     view! {
         <Router>
             <div style="display: flex; flex-direction: column; min-height: 100vh;">

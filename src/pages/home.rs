@@ -1,9 +1,11 @@
 use leptos::prelude::*;
+use leptos_meta::*;
 stylance::import_style!(style, "../styles/home.module.css");
 
 #[component]
 pub fn Home() -> impl IntoView {
     view! {
+        <Title text="Pimtron" />
         <div class=style::home_container>
             <div class=style::content_wrapper>
                 <h1 class=style::hero_title>

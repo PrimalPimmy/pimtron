@@ -1,5 +1,6 @@
 use crate::content::get_all_posts;
 use leptos::prelude::*;
+use leptos_meta::*;
 use leptos_router::hooks::use_navigate;
 use std::time::Duration;
 stylance::import_style!(style, "../styles/blog.module.css");
@@ -10,6 +11,7 @@ pub fn Blog() -> impl IntoView {
     let navigate = use_navigate();
 
     view! {
+        <Title text="Pimtron - Blog" />
         <div class=style::container>
             <h1 class=style::title>"Latest Blog Posts"</h1>
             <div class=style::post_list>

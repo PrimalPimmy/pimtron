@@ -9,6 +9,7 @@ console_error_panic_hook = "0.1.7"
 gray_matter = "0.3.2"
 include_dir = "0.7.4"
 leptos = { version = "0.8.14", features = ["csr"] }
+leptos_meta = "0.8.5"
 leptos_router = "0.8.10"
 pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
