@@ -7,5 +7,4 @@ summary: This is the summary of the first post.
 
 # Hello World
 
-This is the **full content** of the first post.
-It has multiple paragraphs. EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+Made with **Rust Leptos**, Deployed with Nix. :D

@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+base64 = "0.22.1"
 console_error_panic_hook = "0.1.7"
 gray_matter = "0.3.2"
 include_dir = "0.7.4"

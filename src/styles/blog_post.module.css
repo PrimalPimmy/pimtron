@@ -122,6 +122,10 @@
     color: #ccc;
 }
 
+.content strong {
+    color: #00ff00;
+}
+
 .content img {
     max-width: 100%;
     height: auto;
