@@ -5,6 +5,6 @@ slug: hello-world
 summary: This is the summary of the first post.
 ---
 
-# Hello World
+### Blog Post coming soon
 
-Made with **Rust Leptos**, Deployed with Nix. :D
+Made with **Rust Leptos**, Deployed with Nix. :D 
