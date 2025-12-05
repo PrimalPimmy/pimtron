@@ -18,6 +18,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .content_wrapper {
@@ -73,6 +74,38 @@
     display: inline-block;
     letter-spacing: 1px;
     text-align: center;
+}
+
+/* GPU Status styles */
+.gpu_status_container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    border: 1px solid #333;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #888;
+    font-size: 0.8rem;
+    text-align: right;
+    z-index: 10;
+    border-radius: 4px;
+}
+
+.gpu_status_item {
+    margin: 4px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.gpu_status_active {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.gpu_status_inactive {
+    color: #ff3333;
+    font-weight: bold;
 }
 
 @media (hover: hover) {
@@ -133,4 +166,12 @@
         display: block;
         padding: 14px 20px;
     }
+    
+    .gpu_status_container {
+        position: static;
+        margin-bottom: 20px;
+        align-self: flex-end;
+        margin-right: 20px;
+    }
 }
+
