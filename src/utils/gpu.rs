@@ -1,5 +1,9 @@
 use wasm_bindgen::JsCast;
 use web_sys::HtmlCanvasElement;
+use leptos::prelude::*;
+use std::rc::Rc;
+use std::cell::RefCell;
+use wasm_bindgen::prelude::*;
 
 pub fn check_webgl_support() -> bool {
     let window = match web_sys::window() {
@@ -54,4 +58,46 @@ pub async fn check_webgpu_support() -> bool {
         }
     }
     false
+}
+
+pub fn track_fps(set_fps: WriteSignal<i32>) {
+    let window = match web_sys::window() {
+        Some(w) => w,
+        None => return,
+    };
+    let performance = match window.performance() {
+        Some(p) => p,
+        None => return,
+    };
+
+    let last_time = Rc::new(RefCell::new(performance.now()));
+    let frame_count = Rc::new(RefCell::new(0));
+
+    let f = Rc::new(RefCell::new(None::<Closure<dyn FnMut()>>));
+    let g = f.clone();
+    
+    let window_clone = window.clone();
+    let performance_clone = performance.clone();
+
+    let loop_fn = move || {
+        let now = performance_clone.now();
+        *frame_count.borrow_mut() += 1;
+
+        let delta = now - *last_time.borrow();
+        if delta >= 1000.0 {
+            set_fps.set(*frame_count.borrow());
+            *frame_count.borrow_mut() = 0;
+            *last_time.borrow_mut() = now;
+        }
+
+        if let Some(cb) = g.borrow().as_ref() {
+            let _ = window_clone.request_animation_frame(cb.as_ref().unchecked_ref());
+        }
+    };
+
+    *f.borrow_mut() = Some(Closure::wrap(Box::new(loop_fn) as Box<dyn FnMut()>));
+
+    if let Some(cb) = f.borrow().as_ref() {
+        let _ = window.request_animation_frame(cb.as_ref().unchecked_ref());
+    }
 }

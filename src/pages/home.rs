@@ -1,4 +1,4 @@
-use crate::utils::gpu::{check_webgl_support, check_webgpu_support};
+use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
 use leptos::html::Div;
 use leptos::prelude::*;
@@ -9,6 +9,7 @@ stylance::import_style!(style, "../styles/home.module.css");
 pub fn Home() -> impl IntoView {
     let (webgl_active, set_webgl_active) = signal(false);
     let (webgpu_active, set_webgpu_active) = signal(false);
+    let (fps, set_fps) = signal(0);
     let container_ref = NodeRef::<Div>::new();
 
     Effect::new(move |_| {
@@ -24,7 +25,8 @@ pub fn Home() -> impl IntoView {
             }
         });
 
-
+        // Track FPS
+        track_fps(set_fps);
     });
 
     view! {
@@ -41,6 +43,18 @@ pub fn Home() -> impl IntoView {
                     <span>"WebGPU"</span>
                     <span class=move || if webgpu_active.get() { style::gpu_status_active } else { style::gpu_status_inactive }>
                         {move || if webgpu_active.get() { "ON" } else { "OFF" }}
+                    </span>
+                </div>
+                <div class=style::gpu_status_item>
+                    <span>"FPS"</span>
+                    <span class=style::gpu_status_active>
+                        {fps}
+                    </span>
+                </div>
+                <div class=style::gpu_status_item>
+                    <span>"Performance"</span>
+                    <span class=style::gpu_status_active>
+                        {move || if fps.get() > 100 { "Optimal" } else if fps.get() > 60 { "Great" } else { "Good" }}
                     </span>
                 </div>
             </div>

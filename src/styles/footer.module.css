@@ -1,9 +1,9 @@
 .footer {
     border-top: 1px dashed #333;
-    background-color: #000000;
+    background-color: rgba(26, 25, 25, 0.7);
     color: #888;
     font-family: 'Fira Code', monospace;
-    padding: 2rem;
+    padding: 1rem 2rem;
     text-align: center;
 }
 
