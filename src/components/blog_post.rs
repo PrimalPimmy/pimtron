@@ -17,8 +17,7 @@ pub fn BlogPost(title: String, date: String, content: String) -> impl IntoView {
             if !dest_url.starts_with("http")
                 && !dest_url.starts_with("//")
                 && !dest_url.starts_with("data:")
-            {
-                if let Some(data_uri) = get_post_image(&dest_url) {
+                && let Some(data_uri) = get_post_image(&dest_url) {
                     return Event::Start(Tag::Image {
                         link_type,
                         dest_url: data_uri.into(),
@@ -26,7 +25,6 @@ pub fn BlogPost(title: String, date: String, content: String) -> impl IntoView {
                         id,
                     });
                 }
-            }
             Event::Start(Tag::Image {
                 link_type,
                 dest_url,

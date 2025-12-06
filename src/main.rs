@@ -11,7 +11,6 @@ use leptos_router::path;
 use pages::blog::Blog;
 use pages::home::Home;
 use pages::post::PostPage;
-use web_sys;
 
 #[component]
 fn App() -> impl IntoView {

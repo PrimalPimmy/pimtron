@@ -14,8 +14,8 @@ pub fn Home() -> impl IntoView {
         let document = window.document().unwrap();
 
         // Check WebGL
-        if let Ok(canvas) = document.create_element("canvas") {
-            if let Ok(canvas_el) = canvas.dyn_into::<HtmlCanvasElement>() {
+        if let Ok(canvas) = document.create_element("canvas")
+            && let Ok(canvas_el) = canvas.dyn_into::<HtmlCanvasElement>() {
                 // Try webgl2 first, then webgl
                 let gl2 = canvas_el.get_context("webgl2");
                 let gl1 = canvas_el.get_context("webgl");
@@ -26,34 +26,29 @@ pub fn Home() -> impl IntoView {
                     set_webgl_active.set(true);
                 }
             }
-        }
 
         // Check WebGPU
         let navigator = window.navigator();
         
         leptos::task::spawn_local(async move {
             let navigator_js: &wasm_bindgen::JsValue = navigator.as_ref();
-            if let Ok(gpu_val) = js_sys::Reflect::get(navigator_js, &"gpu".into()) {
-                if !gpu_val.is_undefined() && !gpu_val.is_null() {
+            if let Ok(gpu_val) = js_sys::Reflect::get(navigator_js, &"gpu".into())
+                && !gpu_val.is_undefined() && !gpu_val.is_null() {
                      // We use Reflect to call requestAdapter to avoid strict type dependencies 
                      // that might be missing or named differently in web-sys versions.
                      // gpu.requestAdapter() -> Promise<GPUAdapter?>
                      
                      let request_adapter_key = wasm_bindgen::JsValue::from_str("requestAdapter");
-                     if let Ok(request_adapter_fn_val) = js_sys::Reflect::get(&gpu_val, &request_adapter_key) {
-                         if let Ok(request_adapter_fn) = request_adapter_fn_val.dyn_into::<js_sys::Function>() {
-                             if let Ok(promise_val) = request_adapter_fn.call0(&gpu_val) {
+                     if let Ok(request_adapter_fn_val) = js_sys::Reflect::get(&gpu_val, &request_adapter_key)
+                         && let Ok(request_adapter_fn) = request_adapter_fn_val.dyn_into::<js_sys::Function>()
+                             && let Ok(promise_val) = request_adapter_fn.call0(&gpu_val) {
                                  let promise = promise_val.unchecked_into::<js_sys::Promise>();
-                                 if let Ok(adapter) = wasm_bindgen_futures::JsFuture::from(promise).await {
-                                     if !adapter.is_null() && !adapter.is_undefined() {
+                                 if let Ok(adapter) = wasm_bindgen_futures::JsFuture::from(promise).await
+                                     && !adapter.is_null() && !adapter.is_undefined() {
                                          set_webgpu_active.set(true);
                                      }
-                                 }
                              }
-                         }
-                     }
                 }
-            }
         });
     });
 
