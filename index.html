@@ -22,7 +22,7 @@
 
     <title>Pimtron</title>
     <style>
-      body { margin: 0; font-family: 'Fira Code', monospace; background-color: #000; }
+      body { margin: 0; font-family: 'Fira Code', monospace; background-color: #000000; overflow-x: hidden; }
       #loading-layer {
         position: fixed;
         top: 0;
@@ -70,5 +70,93 @@
       <div class="spinner"></div>
       <div class="loading-text">INITIALIZING SYSTEM...</div>
     </div>
+    <script>
+      (function() {
+        const starCount = 200;
+        const background = document.createElement('div');
+        background.id = 'star-background';
+        background.style.position = 'fixed';
+        background.style.top = '0';
+        background.style.left = '0';
+        background.style.width = '100%';
+        background.style.height = '100%';
+        background.style.zIndex = '-1';
+        background.style.pointerEvents = 'none';
+        document.body.appendChild(background);
+
+        const stars = [];
+        for (let i = 0; i < starCount; i++) {
+          const star = document.createElement('div');
+          star.style.position = 'absolute';
+          star.style.backgroundColor = '#878787';
+          star.style.width = '2px';
+          star.style.height = '2px';
+          star.style.borderRadius = '50%';
+          background.appendChild(star);
+          
+          stars.push({
+            element: star,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 2
+          });
+        }
+
+        function updateVisibility() {
+          const path = window.location.pathname;
+          // Only show stars on the root path
+          if (path === '/' || path === '/index.html') {
+            background.style.display = 'block';
+          } else {
+            background.style.display = 'none';
+          }
+        }
+
+        // Initial check
+        updateVisibility();
+
+        // Monkey patch history API to detect SPA navigation
+        const originalPushState = history.pushState;
+        history.pushState = function() {
+          originalPushState.apply(this, arguments);
+          updateVisibility();
+        };
+
+        const originalReplaceState = history.replaceState;
+        history.replaceState = function() {
+          originalReplaceState.apply(this, arguments);
+          updateVisibility();
+        };
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', updateVisibility);
+
+        function animate() {
+          // Skip animation if not visible
+          if (background.style.display === 'none') {
+            requestAnimationFrame(animate);
+            return;
+          }
+
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+
+          stars.forEach(star => {
+            star.x += star.r * 0.5;
+            if (star.x > width) {
+              star.x = 0;
+              star.y = Math.random() * height;
+            }
+
+            star.element.style.transform = `translate(${star.x}px, ${star.y}px) scale(${star.r})`;
+            star.element.style.opacity = star.r / 2;
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+      })();
+    </script>
   </body>
 </html>

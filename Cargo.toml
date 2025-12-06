@@ -14,7 +14,7 @@ leptos_router = "0.8.10"
 pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
 stylance = "0.7.4"
-web-sys = { version = "0.3", features = ["Document", "Element", "Window", "Node", "HtmlCanvasElement", "WebGlRenderingContext", "Navigator", "Gpu"] }
+web-sys = { version = "0.3", features = ["Document", "Element", "Window", "Node", "HtmlCanvasElement", "WebGlRenderingContext", "Navigator", "Gpu", "HtmlElement", "HtmlDivElement", "CssStyleDeclaration"] }
 wasm-bindgen = "0.2"
 js-sys = "0.3.83"
 wasm-bindgen-futures = "0.4.56"

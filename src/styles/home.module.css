@@ -9,7 +9,7 @@
 }
 
 .home_container {
-    background-color: #1d1e22;
+    background-color: transparent;
     color: #ffffff;
     font-family: 'Fira Code', monospace;
     width: 100%;
@@ -20,15 +20,6 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-}
-
-.star {
-    position: absolute;
-    background-color: #878787;
-    width: 2px;
-    height: 2px;
-    pointer-events: none;
-    z-index: 0;
 }
 
 .content_wrapper {
@@ -186,4 +177,5 @@
         margin-right: 20px;
     }
 }
+
 
