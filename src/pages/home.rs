@@ -10,8 +10,14 @@ pub fn Home() -> impl IntoView {
     let (webgpu_active, set_webgpu_active) = signal(false);
 
     Effect::new(move |_| {
-        let window = web_sys::window().unwrap();
-        let document = window.document().unwrap();
+        let window = match web_sys::window() {
+            Some(w) => w,
+            None => return,
+        };
+        let document = match window.document() {
+            Some(d) => d,
+            None => return,
+        };
 
         // Check WebGL
         if let Ok(canvas) = document.create_element("canvas")

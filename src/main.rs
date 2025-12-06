@@ -1,5 +1,5 @@
 mod components;
-mod content;
+mod utils;
 mod pages;
 
 use components::footer::Footer;

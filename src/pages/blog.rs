@@ -1,4 +1,4 @@
-use crate::content::get_all_posts;
+use crate::utils::content::get_all_posts;
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::hooks::use_navigate;

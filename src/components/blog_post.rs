@@ -1,4 +1,4 @@
-use crate::content::get_post_image;
+use crate::utils::content::get_post_image;
 use leptos::prelude::*;
 use pulldown_cmark::{Event, Parser, Tag, html};
 stylance::import_style!(style, "../styles/blog_post.module.css");

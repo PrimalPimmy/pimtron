@@ -9,7 +9,7 @@
 }
 
 .home_container {
-    background-color: #000000;
+    background-color: #1d1e22;
     color: #ffffff;
     font-family: 'Fira Code', monospace;
     width: 100%;
@@ -19,6 +19,16 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: #878787;
+    width: 2px;
+    height: 2px;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .content_wrapper {
@@ -26,6 +36,8 @@
     max-width: 900px;
     padding: 40px;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .hero_title {

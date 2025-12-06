@@ -322,7 +322,7 @@ body {
 }
 
 .home_container-5182da4 {
-    background-color: #000000;
+    background-color: #1d1e22;
     color: #ffffff;
     font-family: 'Fira Code', monospace;
     width: 100%;
@@ -332,6 +332,16 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
+}
+
+.star-5182da4 {
+    position: absolute;
+    background-color: #878787;
+    width: 2px;
+    height: 2px;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .content_wrapper-5182da4 {
@@ -339,6 +349,8 @@ body {
     max-width: 900px;
     padding: 40px;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .hero_title-5182da4 {

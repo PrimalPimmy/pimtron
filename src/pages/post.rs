@@ -1,5 +1,5 @@
 use crate::components::blog_post::BlogPost;
-use crate::content::get_post_by_slug;
+use crate::utils::content::get_post_by_slug;
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::hooks::use_params_map;
