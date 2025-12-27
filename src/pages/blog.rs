@@ -1,4 +1,4 @@
-use crate::utils::content::fetch_all_posts;
+use crate::utils::content::PostConfig;
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::hooks::use_navigate;
@@ -7,9 +7,8 @@ stylance::import_style!(style, "../styles/blog.module.css");
 
 #[component]
 pub fn Blog() -> impl IntoView {
-    let posts_resource = LocalResource::new(|| async move {
-        fetch_all_posts().await
-    });
+    let posts_resource = use_context::<LocalResource<Vec<PostConfig>>>()
+        .expect("Posts resource should be provided by App");
     
     let navigate = use_navigate();
 
