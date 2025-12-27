@@ -19,6 +19,11 @@ wasm-bindgen-futures = "0.4.56"
 gloo-net = "0.6.0"
 serde_json = "1.0.148"
 
+[build-dependencies]
+gray_matter = "0.3.2"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.148"
+
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]
 opt-level = 3
@@ -29,9 +34,6 @@ lto = true
 opt-level = "z"
 
 [[bin]]
-name = "generate_posts"
-path = "src/bin/generate_posts.rs"
-
-[[bin]]
 name = "pimtron"
 path = "src/main.rs"
+

@@ -1,6 +1,7 @@
 use gray_matter::{Matter, engine::YAML};
 use serde::{Deserialize, Serialize};
 use std::fs;
+use std::path::Path;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct PostConfig {
@@ -11,24 +12,32 @@ struct PostConfig {
 }
 
 fn main() {
-    let posts_dir = "posts";
-    let output_file = "posts/index.json";
-    
-    println!("Scanning posts in {}...", posts_dir);
+    println!("cargo:rerun-if-changed=posts");
 
+    let posts_dir = "posts";
+    let out_dir = std::env::var("OUT_DIR").expect("OUT_DIR not set");
+    let output_file = Path::new(&out_dir).join("posts.json");
+    
     let mut posts = Vec::new();
     let matter = Matter::<YAML>::new();
 
     if let Ok(entries) = fs::read_dir(posts_dir) {
         for entry in entries.flatten() {
             let path = entry.path();
-            if path.extension().and_then(|s| s.to_str()) == Some("md")
-                && let Ok(content) = fs::read_to_string(&path)
-                    && let Ok(parsed) = matter.parse::<gray_matter::Pod>(&content)
-                        && let Some(data) = parsed.data
-                            && let Ok(config) = data.deserialize::<PostConfig>() {
+            if path.extension().and_then(|s| s.to_str()) == Some("md") {
+                // Rerun if any specific markdown file changes
+                println!("cargo:rerun-if-changed={}", path.display());
+
+                if let Ok(content) = fs::read_to_string(&path) {
+                    if let Ok(parsed) = matter.parse::<gray_matter::Pod>(&content) {
+                        if let Some(data) = parsed.data {
+                            if let Ok(config) = data.deserialize::<PostConfig>() {
                                 posts.push(config);
                             }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -45,14 +54,6 @@ fn main() {
         to_sortable(&b.date).cmp(&to_sortable(&a.date))
     });
 
-    println!("Current dir: {:?}", std::env::current_dir());
-    let path = std::path::Path::new(output_file);
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).expect("Failed to create output directory");
-    }
-
     let json = serde_json::to_string_pretty(&posts).expect("Failed to serialize posts");
-    fs::write(output_file, json).expect("Failed to write index.json");
-    
-    println!("Generated {} with {} posts.", output_file, posts.len());
+    fs::write(output_file, json).expect("Failed to write posts.json to OUT_DIR");
 }

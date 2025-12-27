@@ -1,7 +1,5 @@
 use gray_matter::{Matter, engine::YAML};
 use serde::{Deserialize, Serialize};
-use gloo_net::http::Request;
-use web_sys::console;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct PostConfig {
@@ -20,29 +18,16 @@ pub struct Post {
     pub content: String,
 }
 
-pub async fn fetch_all_posts() -> Vec<PostConfig> {
-    match Request::get("/posts/index.json").send().await {
-        Ok(resp) => {
-            if !resp.ok() {
-                console::log_1(&format!("Failed to fetch posts: Status {}", resp.status()).into());
-                return Vec::new();
-            }
-            match resp.json().await {
-                Ok(posts) => posts,
-                Err(e) => {
-                    console::log_1(&format!("Failed to parse posts JSON: {}", e).into());
-                    Vec::new()
-                }
-            }
-        },
-        Err(e) => {
-            console::log_1(&format!("Network error fetching posts: {}", e).into());
-            Vec::new()
-        }
-    }
+static ALL_POSTS_JSON: &str = include_str!(concat!(env!("OUT_DIR"), "/posts.json"));
+
+pub fn get_all_posts() -> Vec<PostConfig> {
+    serde_json::from_str(ALL_POSTS_JSON).expect("Failed to parse embedded posts.json")
 }
 
 pub async fn fetch_post(slug: &str) -> Option<Post> {
+    // Keep this function as it fetches individual markdown files
+    // and parsing them at runtime for their content and frontmatter
+    use gloo_net::http::Request;
     let url = format!("/posts/{}.md", slug);
     let response = Request::get(&url).send().await.ok()?;
     

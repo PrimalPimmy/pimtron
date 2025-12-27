@@ -11,16 +11,10 @@ use leptos_router::path;
 use pages::blog::Blog;
 use pages::home::Home;
 use pages::post::PostPage;
-use utils::content::fetch_all_posts;
 
 #[component]
 fn App() -> impl IntoView {
     provide_meta_context();
-
-    let posts_resource = LocalResource::new(|| async move {
-        fetch_all_posts().await
-    });
-    provide_context(posts_resource);
 
     view! {
         <Router>
