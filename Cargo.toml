@@ -4,10 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-base64 = "0.22.1"
 console_error_panic_hook = "0.1.7"
 gray_matter = "0.3.2"
-include_dir = "0.7.4"
 leptos = { version = "0.8.14", features = ["csr"] }
 leptos_meta = "0.8.5"
 leptos_router = "0.8.10"
@@ -18,6 +16,8 @@ web-sys = { version = "0.3", features = ["Document", "Element", "Window", "Node"
 wasm-bindgen = "0.2"
 js-sys = "0.3.83"
 wasm-bindgen-futures = "0.4.56"
+gloo-net = "0.6.0"
+serde_json = "1.0.148"
 
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]
@@ -27,3 +27,11 @@ opt-level = 3
 codegen-units = 1
 lto = true
 opt-level = "z"
+
+[[bin]]
+name = "generate_posts"
+path = "src/bin/generate_posts.rs"
+
+[[bin]]
+name = "pimtron"
+path = "src/main.rs"

@@ -7,4 +7,6 @@ summary: Hello world
 
 ### Blog Post coming soon
 
-Made with **Rust Leptos**, Deployed with Nix. :D 
+Made with **Rust Leptos**, Deployed with Nix. :D
+
+![Pimtron Logo](/assets/pim.png)

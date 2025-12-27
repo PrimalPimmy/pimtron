@@ -62,6 +62,8 @@
             # Example of a folder for images, icons, etc
             (lib.fileset.maybeMissing ./assets)
             (lib.fileset.maybeMissing ./posts)
+            (lib.fileset.maybeMissing ./src/bin)
+            (lib.fileset.maybeMissing ./_redirects)
           ];
         };
 

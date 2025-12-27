@@ -45,6 +45,12 @@ fn main() {
         to_sortable(&b.date).cmp(&to_sortable(&a.date))
     });
 
+    println!("Current dir: {:?}", std::env::current_dir());
+    let path = std::path::Path::new(output_file);
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).expect("Failed to create output directory");
+    }
+
     let json = serde_json::to_string_pretty(&posts).expect("Failed to serialize posts");
     fs::write(output_file, json).expect("Failed to write index.json");
     

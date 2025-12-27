@@ -4,8 +4,13 @@
 
 [[hooks]]
 stage = "pre_build"
+command = "sh"
+command_arguments = ["-c", "unset CARGO_BUILD_TARGET && cargo run --bin generate_posts"]
+
+[[hooks]]
+stage = "pre_build"
 command = "stylance"
 command_arguments = [".", "--output-file", "index.css"]
 
 [watch]
-ignore = ["index.css"]
+ignore = ["index.css", "posts/index.json"]
