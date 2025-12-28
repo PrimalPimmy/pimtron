@@ -58,6 +58,7 @@
                 "css"
                 "md"
                 "toml"
+                "tmTheme"
               ]
             ) unfilteredRoot)
             # Example of a folder for images, icons, etc
@@ -86,7 +87,9 @@
           # We must force the target, otherwise cargo will attempt to use your native target
           CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
 
-          preBuild = "ls -R";
+          preBuild = ''
+            mkdir -p generated_posts
+          '';
 
           nativeBuildInputs = [
             stylance-cli

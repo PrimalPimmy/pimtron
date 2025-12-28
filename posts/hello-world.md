@@ -10,3 +10,11 @@ summary: Hello world
 Made with **Rust Leptos**, Deployed with Nix. :D
 
 ![Pimtron Logo](/assets/pim.png)
+
+Here is a sample Rust code block:
+
+```rust
+fn main() {
+    println!("Hello, world!");
+}
+```

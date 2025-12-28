@@ -1,37 +1,19 @@
 mod components;
-mod utils;
 mod pages;
+mod utils;
 
-use components::footer::Footer;
-use components::navbar::Navbar;
 use leptos::prelude::*;
-use leptos_meta::*;
-use leptos_router::components::{Route, Router, Routes};
-use leptos_router::path;
-use pages::blog::Blog;
-use pages::home::Home;
-use pages::post::PostPage;
+use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_router::{
+    components::{Route, Router, Routes},
+    path,
+};
 
-#[component]
-fn App() -> impl IntoView {
-    provide_meta_context();
-
-    view! {
-        <Router>
-            <div style="display: flex; flex-direction: column; min-height: 100vh;">
-                <Navbar/>
-                <main style="flex: 1; display: flex; flex-direction: column;">
-                    <Routes fallback=|| view! { <h2>"404 Not Found"</h2> }>
-                        <Route path=path!("/") view=Home/>
-                        <Route path=path!("/blog") view=Blog/>
-                        <Route path=path!("/blog/:slug") view=PostPage/>
-                    </Routes>
-                </main>
-                <Footer/>
-            </div>
-        </Router>
-    }
-}
+use crate::components::footer::Footer;
+use crate::components::navbar::Navbar;
+use crate::pages::blog_list::BlogList;
+use crate::pages::home::Home;
+use crate::pages::post::PostPage;
 
 fn main() {
     console_error_panic_hook::set_once();
@@ -42,5 +24,33 @@ fn main() {
         loader.remove();
     }
 
-    leptos::mount::mount_to_body(App);
+    mount_to_body(|| {
+        view! {
+            <App/>
+        }
+    })
+}
+
+#[component]
+fn App() -> impl IntoView {
+    provide_meta_context();
+
+    view! {
+        <MetaTags />
+        <Stylesheet id="leptos" href="/pkg/pimtron.css" />
+        <Title text="Pimtron" />
+        <Router>
+            <div class="main-layout" style="display: flex; flex-direction: column; min-height: 100vh;">
+                <Navbar />
+                <main class="content" style="flex: 1; display: flex; flex-direction: column;">
+                    <Routes fallback=|| view! { <h2>"404 Not Found"</h2> }>
+                        <Route path=path!("/") view=Home />
+                        <Route path=path!("/blog") view=BlogList />
+                        <Route path=path!("/blog/:slug") view=PostPage />
+                    </Routes>
+                </main>
+                <Footer />
+            </div>
+        </Router>
+    }
 }

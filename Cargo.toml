@@ -9,7 +9,6 @@ gray_matter = "0.3.2"
 leptos = { version = "0.8.14", features = ["csr"] }
 leptos_meta = "0.8.5"
 leptos_router = "0.8.10"
-pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
 stylance = "0.7.4"
 web-sys = { version = "0.3", features = ["Document", "Element", "Window", "Node", "HtmlCanvasElement", "WebGlRenderingContext", "Navigator", "Gpu", "HtmlElement", "HtmlDivElement", "CssStyleDeclaration", "Performance"] }
@@ -21,8 +20,10 @@ serde_json = "1.0.148"
 
 [build-dependencies]
 gray_matter = "0.3.2"
+pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.148"
+syntect = "5.3.0"
 
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]
