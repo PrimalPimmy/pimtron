@@ -108,7 +108,7 @@
         function updateVisibility() {
           const path = window.location.pathname;
           // Only show stars on the root path
-          if (path === '/' || path === '/index.html') {
+          if (path === '/' || path === '/index.html' || path === "/blog") {
             background.style.display = 'block';
           } else {
             background.style.display = 'none';

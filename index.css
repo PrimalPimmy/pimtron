@@ -772,7 +772,7 @@ body {
 
 :root {
     /* Colors */
-    --color-primary: #00ef3e; /* P3 Phosphor Green - KEPT FOR ACCENTS */
+    --color-primary: #00ef3e; 
     --color-secondary: #ffb000; /* Amber for accents */
     --color-alert: #ff3333; /* Tactical Red */
     
