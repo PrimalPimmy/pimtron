@@ -22,7 +22,7 @@ pub struct Post {
     pub date: String,
     pub slug: String,
     pub summary: String,
-    pub content: String, // This will now contain HTML
+    pub content: String,
 }
 
 fn highlight_code(events: Vec<Event<'_>>) -> Vec<Event<'_>> {
@@ -31,8 +31,8 @@ fn highlight_code(events: Vec<Event<'_>>) -> Vec<Event<'_>> {
     let syntax_set = SyntaxSet::load_defaults_nonewlines();
     let mut syntax = syntax_set.find_syntax_plain_text();
 
-    // Load theme from file relative to build script
-    let theme_str = include_str!("src/components/rose-pine.tmTheme");
+    // Load theme from file
+    let theme_str = include_str!("../components/rose-pine.tmTheme");
     let theme = ThemeSet::load_from_reader(&mut Cursor::new(theme_str)).unwrap();
 
     let mut to_highlight = String::new();
@@ -82,11 +82,8 @@ fn highlight_code(events: Vec<Event<'_>>) -> Vec<Event<'_>> {
 }
 
 fn main() {
-    println!("cargo:rerun-if-changed=posts");
-    println!("cargo:rerun-if-changed=src/components/rose-pine.tmTheme");
+    println!("Generating posts...");
 
-    let out_dir = std::env::var("OUT_DIR").unwrap();
-    let dest_path = Path::new(&out_dir).join("posts.json");
     let generated_posts_dir = Path::new("generated_posts");
 
     if !generated_posts_dir.exists() {
@@ -100,16 +97,14 @@ fn main() {
         let path = entry.path();
 
         if path.extension().is_some_and(|ext| ext == "md") {
+            println!("Processing {:?}", path);
             let content_str = fs::read_to_string(&path).unwrap();
             let matter = Matter::<YAML>::new();
             
-            // Parse returns a Result in this version, so we must unwrap or handle it
             if let Ok(parsed) = matter.parse::<PostConfig>(&content_str) {
                 if let Some(config) = parsed.data {
-                    // Add to list
                     posts.push(config.clone());
 
-                    // Process Content -> HTML
                     let parser = Parser::new(&parsed.content);
                     let events: Vec<_> = parser.collect();
                     let highlighted_events = highlight_code(events);
@@ -117,7 +112,6 @@ fn main() {
                     let mut html_output = String::new();
                     html::push_html(&mut html_output, highlighted_events.into_iter());
 
-                    // Create Post object
                     let post = Post {
                         title: config.title,
                         date: config.date,
@@ -126,7 +120,6 @@ fn main() {
                         content: html_output,
                     };
 
-                    // Write individual JSON file to generated_posts/
                     let json_filename = format!("{}.json", config.slug);
                     let json_path = generated_posts_dir.join(json_filename);
                     let json_str = serde_json::to_string(&post).unwrap();
@@ -138,9 +131,12 @@ fn main() {
         }
     }
 
-    // Sort posts by date (descending)
     posts.sort_by(|a, b| b.date.cmp(&a.date));
 
+    // Write the list of posts to generated_posts/posts.json
+    let dest_path = generated_posts_dir.join("posts.json");
     let json = serde_json::to_string(&posts).unwrap();
     fs::write(dest_path, json).unwrap();
+    
+    println!("Done!");
 }

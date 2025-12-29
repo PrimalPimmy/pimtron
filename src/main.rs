@@ -37,6 +37,12 @@ fn main() {
 fn App() -> impl IntoView {
     provide_meta_context();
 
+    // Eagerly fetch posts as soon as the app starts
+    let posts_resource = LocalResource::new(|| async {
+        crate::utils::content::fetch_all_posts().await
+    });
+    provide_context(posts_resource);
+
     view! {
         <MetaTags />
         <Stylesheet id="leptos" href="/pkg/pimtron.css" />

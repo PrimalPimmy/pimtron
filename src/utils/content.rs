@@ -17,15 +17,20 @@ pub struct Post {
     pub content: String,
 }
 
-static ALL_POSTS_JSON: &str = include_str!(concat!(env!("OUT_DIR"), "/posts.json"));
-
-pub fn get_all_posts() -> Vec<PostConfig> {
-    serde_json::from_str(ALL_POSTS_JSON).expect("Failed to parse embedded posts.json")
+pub async fn fetch_all_posts() -> Vec<PostConfig> {
+    use gloo_net::http::Request;
+    // Standard GET request, browser will handle caching automatically
+    let response = Request::get("/posts/posts.json").send().await;
+    
+    if let Ok(resp) = response
+        && resp.ok() {
+            return resp.json::<Vec<PostConfig>>().await.unwrap_or_default();
+        }
+    Vec::new()
 }
 
 pub async fn fetch_post(slug: &str) -> Option<Post> {
     use gloo_net::http::Request;
-    // Now fetching JSON which contains the pre-rendered HTML
     let url = format!("/posts/{}.json", slug);
     let response = Request::get(&url).send().await.ok()?;
     

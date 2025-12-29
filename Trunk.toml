@@ -7,5 +7,14 @@ stage = "pre_build"
 command = "stylance"
 command_arguments = [".", "--output-file", "index.css"]
 
+[[hooks]]
+stage = "pre_build"
+command = "cargo"
+command_arguments = ["run", "--bin", "gen_posts"]
+
 [watch]
-ignore = ["index.css"]
+ignore = ["index.css", "generated_posts"]
+
+[[copy]]
+source = "generated_posts"
+target = "posts"

@@ -49,7 +49,6 @@
           fileset = lib.fileset.unions [
             # Default files from crane (Rust and cargo files)
             (craneLib.fileset.commonCargoSources unfilteredRoot)
-            (lib.fileset.maybeMissing ./build.rs)
             (lib.fileset.fileFilter (
               file:
               lib.any file.hasExt [
@@ -85,7 +84,7 @@
           inherit src;
           strictDeps = true;
           # We must force the target, otherwise cargo will attempt to use your native target
-          CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
+          # CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
 
           preBuild = ''
             mkdir -p generated_posts
