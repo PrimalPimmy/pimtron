@@ -67,6 +67,12 @@
           ];
         };
 
+        # Separate source for dependency building to avoid rebuilding deps when assets change
+        cargoSrc = lib.fileset.toSource {
+            root = unfilteredRoot;
+            fileset = craneLib.fileset.commonCargoSources unfilteredRoot;
+        };
+
         stylance-cli = pkgs.rustPlatform.buildRustPackage rec {
           pname = "stylance-cli";
           version = "0.7.4";
@@ -108,6 +114,7 @@
         cargoArtifacts = craneLib.buildDepsOnly (
           commonArgs
           // {
+            src = cargoSrc;
             # You cannot run cargo test on a wasm build
             doCheck = false;
           }
