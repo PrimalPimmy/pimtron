@@ -1,20 +1,20 @@
 .nav {
     display: flex;
-    align_items: center;
+    align-items: center;
     padding: 1rem 2rem;
-    border-bottom: 1px dashed #333;
-    background-color: rgba(26, 25, 25, 0.7);
-    font-family: 'Fira Code', monospace;
+    border-bottom: var(--border-dashed);
+    background-color: var(--color-panel-bg);
+    font-family: var(--font-mono);
 }
 
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #00ff00;
+    color: var(--color-primary);
     text-decoration: none;
     letter-spacing: -1px;
-    text-shadow: 0 0 2px #00ff00;
+    text-shadow: 0 0 2px var(--color-primary);
 }
 
 .links {
@@ -26,7 +26,7 @@
 }
 
 .link {
-    color: #ffffff;
+    color: var(--color-text);
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
@@ -38,22 +38,22 @@
 
 @media (hover: hover) {
     .link:hover {
-        background-color: #111;
-        color: #00ff00;
-        border: 1px solid #00ff00;
-        box-shadow: 2px 2px 0 #00ff00;
+        background-color: var(--color-surface-hover);
+        color: var(--color-primary);
+        border: var(--border-primary);
+        box-shadow: 2px 2px 0 var(--color-primary);
     }
 }
 
 .link:active {
-    background-color: #111;
-    color: #00ff00;
-    border: 1px solid #00ff00;
-    box-shadow: 2px 2px 0 #00ff00;
+    background-color: var(--color-surface-hover);
+    color: var(--color-primary);
+    border: var(--border-primary);
+    box-shadow: 2px 2px 0 var(--color-primary);
 }
 
 .github_icon {
-    color: #ffffff;
+    color: var(--color-text);
     display: flex;
     align_items: center;
     justify-content: center;
@@ -64,14 +64,14 @@
 
 @media (hover: hover) {
     .github_icon:hover {
-        color: #00ff00;
-        background-color: #111;
+        color: var(--color-primary);
+        background-color: var(--color-surface-hover);
         transform: scale(1.1);
     }
 }
 
 .github_icon:active {
-    color: #00ff00;
-    background-color: #111;
+    color: var(--color-primary);
+    background-color: var(--color-surface-hover);
     transform: scale(1.1);
 }

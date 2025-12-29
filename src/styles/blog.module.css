@@ -2,8 +2,8 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
-    font-family: 'Fira Code', monospace;
-    color: #ffffff;
+    font-family: var(--font-mono);
+    color: var(--color-text);
     width: 100%;
 }
 
@@ -12,8 +12,8 @@
     text-transform: uppercase;
     margin-bottom: 3rem;
     text-align: center;
-    color: #00ff00;
-    text-shadow: 0 0 4px rgba(0, 255, 0, 0.5);
+    color: var(--color-primary);
+    text-shadow: var(--shadow-glow);
     font-weight: 700;
     letter-spacing: -1px;
 }
@@ -26,27 +26,27 @@
 
 .article_card {
     display: block;
-    border: 1px solid #333;
+    border: var(--border-solid);
     padding: 1.5rem;
     transition: all 0.2s ease;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--color-background);
+    color: var(--color-text);
     text-decoration: none;
     position: relative;
 }
 
 @media (hover: hover) {
     .article_card:hover {
-        border-color: #00ff00;
-        box-shadow: 4px 4px 0px 0px #00ff00;
+        border-color: var(--color-primary);
+        box-shadow: var(--shadow-hard);
         transform: translate(-2px, -2px);
     }
 }
 
 .article_card:active {
     transition-duration: 0s;
-    border-color: #00ff00;
-    box-shadow: 4px 4px 0px 0px #00ff00;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-hard);
     transform: translate(-2px, -2px);
 }
 
@@ -55,24 +55,24 @@
     font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: #ffffff;
+    color: var(--color-text);
     transition: color 0.2s;
 }
 
 @media (hover: hover) {
     .article_card:hover .article_title {
-        color: #00ff00;
+        color: var(--color-primary);
     }
 }
 
 .article_card:active .article_title {
     transition-duration: 0s;
-    color: #00ff00;
+    color: var(--color-primary);
 }
 
 .date {
     font-size: 0.9rem;
-    color: #888;
+    color: var(--color-text-muted);
     margin-bottom: 1rem;
     display: inline-block;
     font-style: italic;
@@ -82,7 +82,7 @@
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 0;
-    color: #ccc;
+    color: var(--color-text-secondary);
 }
 
 .back_link_container {
@@ -91,24 +91,24 @@
 }
 
 .back_link {
-    color: #888;
+    color: var(--color-text-muted);
     text-transform: uppercase;
     font-weight: 600;
     text-decoration: none;
-    border-bottom: 1px dashed #888;
+    border-bottom: 1px dashed var(--color-text-muted);
     transition: all 0.2s;
 }
 
 @media (hover: hover) {
     .back_link:hover {
-        color: #00ff00;
-        border-bottom: 1px dashed #00ff00;
+        color: var(--color-primary);
+        border-bottom: 1px dashed var(--color-primary);
     }
 }
 
 .back_link:active {
-    color: #00ff00;
-    border-bottom: 1px dashed #00ff00;
+    color: var(--color-primary);
+    border-bottom: 1px dashed var(--color-primary);
 }
 
 @media (max-width: 768px) {

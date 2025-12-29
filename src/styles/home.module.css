@@ -1,7 +1,7 @@
 :global(body) {
     margin: 0;
     padding: 0;
-    background-color: #000000;
+    background-color: var(--color-background);
 }
 
 :global(*), :global(*::before), :global(*::after) {
@@ -10,8 +10,8 @@
 
 .home_container {
     background-color: transparent;
-    color: #ffffff;
-    font-family: 'Fira Code', monospace;
+    color: var(--color-text);
+    font-family: var(--font-mono);
     width: 100%;
     flex-grow: 1;
     display: flex;
@@ -35,15 +35,15 @@
     font-size: 2rem;
     font-weight: 700;
     margin: 0 0 1.5rem 0;
-    color: #00ff00;
-    text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+    color: var(--color-primary);
+    text-shadow: var(--shadow-glow-strong);
     line-height: 1.1;
     letter-spacing: -2px;
 }
 
 .hero_subtitle {
     font-size: 1.5rem;
-    color: #cccccc;
+    color: var(--color-text-secondary);
     margin-bottom: 3rem;
     line-height: 1.6;
     max-width: 800px;
@@ -53,7 +53,7 @@
     color: #fff;
     text-decoration: underline;
     text-decoration-style: dashed;
-    text-decoration-color: #00ff00;
+    text-decoration-color: var(--color-primary);
     text-underline-offset: 6px;
 }
 
@@ -65,10 +65,10 @@
 }
 
 .btn_primary {
-    background-color: #00ff00;
+    background-color: var(--color-primary);
     color: #000;
     padding: 16px 32px;
-    border: 1px solid #00ff00;
+    border: var(--border-primary);
     font-weight: 700;
     text-decoration: none;
     font-size: 1.1rem;
@@ -85,9 +85,9 @@
     top: 20px;
     right: 20px;
     padding: 10px;
-    border: 1px solid #333;
+    border: var(--border-solid);
     background-color: rgba(0, 0, 0, 0.8);
-    color: #888;
+    color: var(--color-text-muted);
     font-size: 0.8rem;
     text-align: right;
     z-index: 10;
@@ -102,7 +102,7 @@
 }
 
 .gpu_status_active {
-    color: #00ff00;
+    color: var(--color-primary);
     font-weight: bold;
 }
 
@@ -178,5 +178,3 @@
         display: none;
     }
 }
-
-

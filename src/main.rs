@@ -3,7 +3,7 @@ mod pages;
 mod utils;
 
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_meta::{MetaTags, Stylesheet, Title, provide_meta_context};
 use leptos_router::{
     components::{Route, Router, Routes},
     path,
@@ -14,6 +14,8 @@ use crate::components::navbar::Navbar;
 use crate::pages::blog_list::BlogList;
 use crate::pages::home::Home;
 use crate::pages::post::PostPage;
+
+stylance::import_style!(_vars, "styles/variables.module.css");
 
 fn main() {
     console_error_panic_hook::set_once();
