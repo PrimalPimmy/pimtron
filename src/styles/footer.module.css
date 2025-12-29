@@ -5,6 +5,18 @@
     font-family: var(--font-mono);
     padding: 1rem 2rem;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::after {
+    content: "/// END OF LINE ///";
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    opacity: 0.3;
+    margin-top: 1rem;
+    letter-spacing: 2px;
 }
 
 .text {

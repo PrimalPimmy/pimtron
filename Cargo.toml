@@ -21,6 +21,7 @@ serde_json = "1.0.148"
 gray_matter = "0.3.2"
 pulldown-cmark = "0.13.0"
 syntect = "5.3.0"
+chrono = "0.4"
 
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]

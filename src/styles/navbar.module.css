@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     padding: 1rem 2rem;
-    border-bottom: var(--border-dashed);
+    border-bottom: 2px solid var(--color-border);
     background-color: var(--color-panel-bg);
     font-family: var(--font-mono);
 }
@@ -14,7 +14,7 @@
     color: var(--color-primary);
     text-decoration: none;
     letter-spacing: -1px;
-    text-shadow: 0 0 2px var(--color-primary);
+    text-shadow: 0 0 5px var(--color-primary);
 }
 
 .links {
@@ -33,23 +33,24 @@
     font-size: 1rem;
     padding: 5px 10px;
     border: 1px solid transparent;
-    transition: all 0.1s steps(2);
+    transition: none; /* Instant response */
 }
 
 @media (hover: hover) {
     .link:hover {
-        background-color: var(--color-surface-hover);
-        color: var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-background);
         border: var(--border-primary);
-        box-shadow: 2px 2px 0 var(--color-primary);
+        box-shadow: 4px 4px 0 var(--color-text);
     }
 }
 
 .link:active {
-    background-color: var(--color-surface-hover);
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-background);
     border: var(--border-primary);
-    box-shadow: 2px 2px 0 var(--color-primary);
+    box-shadow: 2px 2px 0 var(--color-text);
+    transform: translate(2px, 2px);
 }
 
 .github_icon {
@@ -57,21 +58,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
+    padding: 8px;
+    border: 1px solid transparent;
+    transition: none;
 }
 
 @media (hover: hover) {
     .github_icon:hover {
         color: var(--color-primary);
-        background-color: var(--color-surface-hover);
-        transform: scale(1.1);
+        background-color: rgba(51, 255, 0, 0.1);
+        border: 1px solid var(--color-primary);
+        box-shadow: 0 0 8px var(--color-primary);
     }
 }
 
 .github_icon:active {
     color: var(--color-primary);
-    background-color: var(--color-surface-hover);
-    transform: scale(1.1);
+    background-color: rgba(51, 255, 0, 0.2);
+    border: 1px solid var(--color-primary);
 }

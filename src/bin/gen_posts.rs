@@ -7,6 +7,7 @@ use std::path::Path;
 use syntect::{
     highlighting::ThemeSet, html::highlighted_html_for_string, parsing::SyntaxSet,
 };
+use chrono::NaiveDate;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct PostConfig {
@@ -91,6 +92,8 @@ fn main() {
     }
 
     let mut posts = Vec::new();
+    // Temporary storage to hold parsed content before final formatting
+    let mut raw_posts_data: Vec<(PostConfig, String)> = Vec::new();
 
     for entry in fs::read_dir("posts").unwrap() {
         let entry = entry.unwrap();
@@ -103,27 +106,8 @@ fn main() {
             
             if let Ok(parsed) = matter.parse::<PostConfig>(&content_str) {
                 if let Some(config) = parsed.data {
-                    posts.push(config.clone());
-
-                    let parser = Parser::new(&parsed.content);
-                    let events: Vec<_> = parser.collect();
-                    let highlighted_events = highlight_code(events);
-
-                    let mut html_output = String::new();
-                    html::push_html(&mut html_output, highlighted_events.into_iter());
-
-                    let post = Post {
-                        title: config.title,
-                        date: config.date,
-                        slug: config.slug.clone(),
-                        summary: config.summary,
-                        content: html_output,
-                    };
-
-                    let json_filename = format!("{}.json", config.slug);
-                    let json_path = generated_posts_dir.join(json_filename);
-                    let json_str = serde_json::to_string(&post).unwrap();
-                    fs::write(json_path, json_str).unwrap();
+                    // Store the config and the raw markdown content
+                    raw_posts_data.push((config, parsed.content));
                 }
             } else {
                  eprintln!("Failed to parse frontmatter for {:?}", path);
@@ -131,9 +115,44 @@ fn main() {
         }
     }
 
-    posts.sort_by(|a, b| b.date.cmp(&a.date));
+    // Sort by date (ISO 8601 strings sort correctly)
+    raw_posts_data.sort_by(|a, b| b.0.date.cmp(&a.0.date));
 
-    // Write the list of posts to generated_posts/posts.json
+    for (mut config, raw_content) in raw_posts_data {
+        // Parse date and reformat for display
+        if let Ok(date) = NaiveDate::parse_from_str(&config.date, "%Y-%m-%d") {
+            config.date = date.format("%B %d, %Y").to_string();
+        } else {
+            eprintln!("Warning: Could not parse date '{}' for post '{}'. Keeping original.", config.date, config.slug);
+        }
+
+        // Generate HTML content
+        let parser = Parser::new(&raw_content);
+        let events: Vec<_> = parser.collect();
+        let highlighted_events = highlight_code(events);
+
+        let mut html_output = String::new();
+        html::push_html(&mut html_output, highlighted_events.into_iter());
+
+        let post = Post {
+            title: config.title.clone(),
+            date: config.date.clone(), // Use formatted date
+            slug: config.slug.clone(),
+            summary: config.summary.clone(),
+            content: html_output,
+        };
+
+        // Write individual post JSON
+        let json_filename = format!("{}.json", config.slug);
+        let json_path = generated_posts_dir.join(json_filename);
+        let json_str = serde_json::to_string(&post).unwrap();
+        fs::write(json_path, json_str).unwrap();
+
+        // Add to the list for posts.json
+        posts.push(config);
+    }
+
+    // Write the sorted and formatted list of posts to generated_posts/posts.json
     let dest_path = generated_posts_dir.join("posts.json");
     let json = serde_json::to_string(&posts).unwrap();
     fs::write(dest_path, json).unwrap();

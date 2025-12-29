@@ -16,6 +16,7 @@ use crate::pages::home::Home;
 use crate::pages::post::PostPage;
 
 stylance::import_style!(_vars, "styles/variables.module.css");
+stylance::import_style!(_app, "styles/app.module.css");
 
 fn main() {
     console_error_panic_hook::set_once();

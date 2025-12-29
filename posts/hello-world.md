@@ -1,6 +1,6 @@
 ---
 title: Hello World
-date: 04-12-2025
+date: 2025-04-12
 slug: hello-world
 summary: Hello world
 ---

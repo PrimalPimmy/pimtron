@@ -1,11 +1,6 @@
-:global(body) {
-    margin: 0;
-    padding: 0;
-    background-color: var(--color-background);
-}
-
-:global(*), :global(*::before), :global(*::after) {
-    box-sizing: border-box;
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .home_container {
@@ -33,12 +28,24 @@
 
 .hero_title {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 900;
     margin: 0 0 1.5rem 0;
     color: var(--color-primary);
     text-shadow: var(--shadow-glow-strong);
     line-height: 1.1;
     letter-spacing: -2px;
+    display: inline-block;
+}
+
+/* Blinking Cursor */
+.hero_title::after {
+    content: "█";
+    display: inline-block;
+    margin-left: 10px;
+    color: var(--color-primary);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    font-size: 0.8em;
 }
 
 .hero_subtitle {
