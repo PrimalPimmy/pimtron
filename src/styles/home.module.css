@@ -89,36 +89,187 @@
     text-align: center;
 }
 
-/* GPU Status styles */
-.gpu_status_container {
+/* GPU Status styles - REFACTORED TO HUD */
+.hud_panel {
     position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+    font-family: 'Departure Mono', monospace;
+    color: var(--color-primary);
+    border-right: 2px solid var(--color-primary);
+}
+
+/* Decorative bracket for the HUD panel */
+.hud_panel::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 20px;
+    height: 2px;
+    background-color: var(--color-primary);
+}
+.hud_panel::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 2px;
+    background-color: var(--color-primary);
+}
+
+.hud_group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hud_label {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hud_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.hud_value {
+    font-weight: bold;
+    min-width: 40px;
+    text-align: right;
+}
+
+.hud_bar_container {
+    flex-grow: 1;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    border: 1px solid var(--color-text-muted);
+}
+
+.hud_bar_fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    width: 0%; /* Dynamic */
+    transition: width 0.2s ease-out;
+}
+
+.hud_status_indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-text-muted);
+    margin-right: 8px;
+}
+
+.hud_status_active {
+    background-color: var(--color-primary);
+    box-shadow: 0 0 5px var(--color-primary);
+}
+
+/* Earth Clock */
+.earth_clock {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-family: 'Departure Mono', monospace;
+    color: var(--color-secondary);
+    z-index: 10;
+}
+
+.earth_label {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.earth_time {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+/* Page Corners */
+.page_corner_tl, .page_corner_tr, .page_corner_bl, .page_corner_br {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: var(--color-text-muted);
+    border-style: solid;
+    z-index: 0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.page_corner_tl {
+    top: 20px;
+    left: 20px;
+    border-width: 2px 0 0 2px;
+}
+
+.page_corner_tr {
     top: 20px;
     right: 20px;
-    padding: 10px;
-    border: var(--border-solid);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
-    text-align: right;
-    z-index: 10;
-    border-radius: 4px;
+    border-width: 2px 2px 0 0;
 }
 
-.gpu_status_item {
-    margin: 4px 0;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+.page_corner_bl {
+    bottom: 20px;
+    left: 20px;
+    border-width: 0 0 2px 2px;
 }
 
-.gpu_status_active {
-    color: var(--color-primary);
-    font-weight: bold;
+.page_corner_br {
+    bottom: 20px;
+    right: 20px;
+    border-width: 0 2px 2px 0;
 }
 
-.gpu_status_inactive {
-    color: #ff3333;
-    font-weight: bold;
+@media (max-width: 480px) {
+    .hud_panel {
+        display: none;
+    }
+    
+    .page_corner_tl, .page_corner_tr, .page_corner_bl, .page_corner_br {
+        width: 20px;
+        height: 20px;
+    }
+
+    .page_corner_tl {
+        top: 10px;
+        left: 10px;
+    }
+
+    .page_corner_tr {
+        top: 10px;
+        right: 10px;
+    }
+
+    .page_corner_bl {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .page_corner_br {
+        bottom: 10px;
+        right: 10px;
+    }
 }
 
 @media (hover: hover) {
@@ -178,13 +329,5 @@
         width: 100%;
         display: block;
         padding: 14px 20px;
-    }
-    
-    .gpu_status_container {
-        position: static;
-        margin-bottom: 20px;
-        align-self: flex-end;
-        margin-right: 20px;
-        display: none;
     }
 }

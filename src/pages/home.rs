@@ -3,6 +3,8 @@ use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 use leptos::html::Div;
 use leptos::prelude::*;
 use leptos_meta::*;
+use std::time::Duration;
+use leptos::leptos_dom::helpers::set_interval_with_handle;
 stylance::import_style!(style, "../styles/home.module.css");
 
 #[component]
@@ -10,6 +12,7 @@ pub fn Home() -> impl IntoView {
     let (webgl_active, set_webgl_active) = signal(false);
     let (webgpu_active, set_webgpu_active) = signal(false);
     let (fps, set_fps) = signal(0);
+    let (time_str, set_time_str) = signal(String::new());
     let container_ref = NodeRef::<Div>::new();
 
     Effect::new(move |_| {
@@ -27,35 +30,93 @@ pub fn Home() -> impl IntoView {
 
         // Track FPS
         track_fps(set_fps);
+
+        // Earth Time Clock
+        let handle = set_interval_with_handle(
+            move || {
+                let now = js_sys::Date::new_0();
+                let hours = now.get_hours();
+                let minutes = now.get_minutes();
+                let seconds = now.get_seconds();
+                let milliseconds = now.get_milliseconds();
+                
+                // Format: HH:MM:SS:MS (where MS is first 2 digits of ms)
+                let formatted = format!(
+                    "{:02}:{:02}:{:02}:{:02}",
+                    hours,
+                    minutes,
+                    seconds,
+                    milliseconds / 10 // Take first 2 digits
+                );
+                set_time_str.set(formatted);
+            },
+            Duration::from_millis(33), // ~30fps update for clock
+        ).ok();
+        
+        // Cleanup interval on drop
+        on_cleanup(move || {
+            if let Some(h) = handle {
+                h.clear();
+            }
+        });
     });
 
     view! {
         <Title text="Pimtron" />
         <div class=style::home_container node_ref=container_ref>
-            <div class=style::gpu_status_container>
-                <div class=style::gpu_status_item>
-                    <span>"WebGL"</span>
-                    <span class=move || if webgl_active.get() { style::gpu_status_active } else { style::gpu_status_inactive }>
-                        {move || if webgl_active.get() { "ON" } else { "OFF" }}
-                    </span>
-                </div>
-                <div class=style::gpu_status_item>
-                    <span>"WebGPU"</span>
-                    <span class=move || if webgpu_active.get() { style::gpu_status_active } else { style::gpu_status_inactive }>
-                        {move || if webgpu_active.get() { "ON" } else { "OFF" }}
-                    </span>
-                </div>
-                <div class=style::gpu_status_item>
-                    <span>"FPS"</span>
-                    <span class=style::gpu_status_active>
-                        {fps}
-                    </span>
-                </div>
-                <div class=style::gpu_status_item>
-                    <span>"Performance"</span>
-                    <span class=style::gpu_status_active>
-                        {move || if fps.get() > 100 { "Optimal" } else if fps.get() > 60 { "Great" } else { "Good" }}
-                    </span>
+            // Decorative HUD Corners
+            <div class=style::page_corner_tl></div>
+            <div class=style::page_corner_tr></div>
+            <div class=style::page_corner_bl></div>
+            <div class=style::page_corner_br></div>
+
+            // Earth Time Clock
+            <div class=style::earth_clock>
+                <span class=style::earth_label>"EARTH TIME"</span>
+                <span class=style::earth_time>{time_str}</span>
+            </div>
+
+            <div class=style::hud_panel>
+                <div class=style::hud_group>
+                    <div class=style::hud_label>"SYS DIAG"</div>
+                    
+                    // WebGL Status
+                    <div class=style::hud_row>
+                        <span class=move || if webgl_active.get() { 
+                            format!("{} {}", style::hud_status_indicator, style::hud_status_active) 
+                        } else { 
+                            style::hud_status_indicator.to_string() 
+                        }></span>
+                        <span>"WEBGL"</span>
+                        <div class=style::hud_bar_container>
+                            <div class=style::hud_bar_fill style:width=move || if webgl_active.get() { "100%" } else { "0%" }></div>
+                        </div>
+                        <span class=style::hud_value>{move || if webgl_active.get() { "ON" } else { "OFF" }}</span>
+                    </div>
+
+                    // WebGPU Status
+                    <div class=style::hud_row>
+                        <span class=move || if webgpu_active.get() { 
+                            format!("{} {}", style::hud_status_indicator, style::hud_status_active) 
+                        } else { 
+                            style::hud_status_indicator.to_string() 
+                        }></span>
+                        <span>"WEBGPU"</span>
+                        <div class=style::hud_bar_container>
+                            <div class=style::hud_bar_fill style:width=move || if webgpu_active.get() { "100%" } else { "0%" }></div>
+                        </div>
+                        <span class=style::hud_value>{move || if webgpu_active.get() { "ON" } else { "OFF" }}</span>
+                    </div>
+
+                    // FPS Counter
+                    <div class=style::hud_row>
+                        <span class=format!("{} {}", style::hud_status_indicator, style::hud_status_active)></span>
+                        <span>"FPS"</span>
+                        <div class=style::hud_bar_container>
+                             <div class=style::hud_bar_fill style:width=move || format!("{}%", (fps.get() as f32 / 144.0 * 100.0).min(100.0)) ></div>
+                        </div>
+                        <span class=style::hud_value>{fps}</span>
+                    </div>
                 </div>
             </div>
 
