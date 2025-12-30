@@ -64,6 +64,7 @@
             (lib.fileset.maybeMissing ./assets)
             (lib.fileset.maybeMissing ./posts)
             (lib.fileset.maybeMissing ./_redirects)
+            (lib.fileset.maybeMissing ./_headers)
           ];
         };
 
