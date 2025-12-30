@@ -2,9 +2,6 @@
 # Posted by Chris
 # Retrieved 2025-11-28, License - CC BY-SA 4.0
 
-[build]
-no_sri = true
-
 [[hooks]]
 stage = "pre_build"
 command = "stylance"
