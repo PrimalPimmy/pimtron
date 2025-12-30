@@ -1,10 +1,10 @@
 use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
 use leptos::html::Div;
+use leptos::leptos_dom::helpers::set_interval_with_handle;
 use leptos::prelude::*;
 use leptos_meta::*;
 use std::time::Duration;
-use leptos::leptos_dom::helpers::set_interval_with_handle;
 stylance::import_style!(style, "../styles/home.module.css");
 
 #[component]
@@ -28,7 +28,6 @@ pub fn Home() -> impl IntoView {
             }
         });
 
-        // Track FPS
         track_fps(set_fps);
 
         // Earth Time Clock
@@ -39,21 +38,20 @@ pub fn Home() -> impl IntoView {
                 let minutes = now.get_minutes();
                 let seconds = now.get_seconds();
                 let milliseconds = now.get_milliseconds();
-                
-                // Format: HH:MM:SS:MS (where MS is first 2 digits of ms)
+
                 let formatted = format!(
                     "{:02}:{:02}:{:02}:{:02}",
                     hours,
                     minutes,
                     seconds,
-                    milliseconds / 10 // Take first 2 digits
+                    milliseconds / 10
                 );
                 set_time_str.set(formatted);
             },
             Duration::from_millis(33), // ~30fps update for clock
-        ).ok();
-        
-        // Cleanup interval on drop
+        )
+        .ok();
+
         on_cleanup(move || {
             if let Some(h) = handle {
                 h.clear();
@@ -64,7 +62,6 @@ pub fn Home() -> impl IntoView {
     view! {
         <Title text="Pimtron" />
         <div class=style::home_container node_ref=container_ref>
-            // Decorative HUD Corners
             <div class=style::page_corner_tl></div>
             <div class=style::page_corner_tr></div>
             <div class=style::page_corner_bl></div>
@@ -79,32 +76,28 @@ pub fn Home() -> impl IntoView {
             <div class=style::hud_panel>
                 <div class=style::hud_group>
                     <div class=style::hud_label>"SYS DIAG"</div>
-                    
+
                     // WebGL Status
                     <div class=style::hud_row>
-                        <span class=move || if webgl_active.get() { 
-                            format!("{} {}", style::hud_status_indicator, style::hud_status_active) 
-                        } else { 
-                            style::hud_status_indicator.to_string() 
+                        <span class=move || if webgl_active.get() {
+                            format!("{} {}", style::hud_status_indicator, style::hud_status_active)
+                        } else {
+                            style::hud_status_indicator.to_string()
                         }></span>
                         <span>"WEBGL"</span>
-                        <div class=style::hud_bar_container>
-                            <div class=style::hud_bar_fill style:width=move || if webgl_active.get() { "100%" } else { "0%" }></div>
-                        </div>
+                        <div class=style::hud_spacer></div>
                         <span class=style::hud_value>{move || if webgl_active.get() { "ON" } else { "OFF" }}</span>
                     </div>
 
                     // WebGPU Status
                     <div class=style::hud_row>
-                        <span class=move || if webgpu_active.get() { 
-                            format!("{} {}", style::hud_status_indicator, style::hud_status_active) 
-                        } else { 
-                            style::hud_status_indicator.to_string() 
+                        <span class=move || if webgpu_active.get() {
+                            format!("{} {}", style::hud_status_indicator, style::hud_status_active)
+                        } else {
+                            style::hud_status_indicator.to_string()
                         }></span>
                         <span>"WEBGPU"</span>
-                        <div class=style::hud_bar_container>
-                            <div class=style::hud_bar_fill style:width=move || if webgpu_active.get() { "100%" } else { "0%" }></div>
-                        </div>
+                        <div class=style::hud_spacer></div>
                         <span class=style::hud_value>{move || if webgpu_active.get() { "ON" } else { "OFF" }}</span>
                     </div>
 
