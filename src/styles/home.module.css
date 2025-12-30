@@ -106,24 +106,16 @@
 }
 
 /* Decorative bracket for the HUD panel */
-.hud_panel::before {
+.hud_panel::before, .hud_panel::after {
     content: "";
     position: absolute;
-    top: -2px;
     right: -2px;
     width: 20px;
     height: 2px;
     background-color: var(--color-primary);
 }
-.hud_panel::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
-    width: 20px;
-    height: 2px;
-    background-color: var(--color-primary);
-}
+.hud_panel::before { top: -2px; }
+.hud_panel::after { bottom: -2px; }
 
 .hud_group {
     display: flex;
@@ -247,37 +239,6 @@
     border-width: 0 2px 2px 0;
 }
 
-@media (max-width: 480px) {
-    .hud_panel {
-        display: none;
-    }
-    
-    .page_corner_tl, .page_corner_tr, .page_corner_bl, .page_corner_br {
-        width: 20px;
-        height: 20px;
-    }
-
-    .page_corner_tl {
-        top: 10px;
-        left: 10px;
-    }
-
-    .page_corner_tr {
-        top: 10px;
-        right: 10px;
-    }
-
-    .page_corner_bl {
-        bottom: 10px;
-        left: 10px;
-    }
-
-    .page_corner_br {
-        bottom: 10px;
-        right: 10px;
-    }
-}
-
 @media (hover: hover) {
     .btn_primary:hover {
         transform: translate(2px, 2px);
@@ -306,6 +267,20 @@
 }
 
 @media (max-width: 480px) {
+    .hud_panel {
+        display: none;
+    }
+
+    .page_corner_tl, .page_corner_tr, .page_corner_bl, .page_corner_br {
+        width: 20px;
+        height: 20px;
+    }
+
+    .page_corner_tl { top: 10px; left: 10px; }
+    .page_corner_tr { top: 10px; right: 10px; }
+    .page_corner_bl { bottom: 10px; left: 10px; }
+    .page_corner_br { bottom: 10px; right: 10px; }
+
     .hero_title {
         font-size: 2.2rem;
         letter-spacing: -1px;
@@ -313,16 +288,13 @@
     
     .hero_subtitle {
         font-size: 1.2rem;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .content_wrapper {
         padding: 24px;
         text-align: center;
-    }
-
-    .hero_subtitle {
-        margin-left: auto;
-        margin-right: auto;
     }
     
     .actions {

@@ -82,7 +82,7 @@
     }
 }
 
-.content a:active {
+.content a:active, .content a:focus {
     background-color: rgba(0, 255, 0, 0.1);
     color: var(--color-text);
 }
