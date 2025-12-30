@@ -27,7 +27,8 @@
 }
 
 .hero_title {
-    font-size: 2rem;
+    font-family: 'Departure Mono', monospace;
+    font-size: 3.5rem;
     font-weight: 900;
     margin: 0 0 1.5rem 0;
     color: var(--color-primary);
@@ -49,7 +50,8 @@
 }
 
 .hero_subtitle {
-    font-size: 1.5rem;
+    font-family: 'Departure Mono', monospace;
+    font-size: 1.8rem;
     color: var(--color-text-secondary);
     margin-bottom: 3rem;
     line-height: 1.6;
@@ -79,6 +81,7 @@
     font-weight: 700;
     text-decoration: none;
     font-size: 1.1rem;
+    font-family: 'Departure Mono', monospace;
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 6px 6px 0 #fff;
     display: inline-block;
@@ -136,7 +139,7 @@
     }
     
     .hero_subtitle {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         margin-bottom: 2rem;
     }
     
@@ -147,12 +150,12 @@
 
 @media (max-width: 480px) {
     .hero_title {
-        font-size: 2rem;
+        font-size: 2.2rem;
         letter-spacing: -1px;
     }
     
     .hero_subtitle {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
     
     .content_wrapper {
