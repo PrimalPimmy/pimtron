@@ -14,6 +14,7 @@
 
 .title {
     font-size: 2.5rem;
+    font-family: var(--font-mono);
     text-transform: uppercase;
     margin-bottom: 3rem;
     text-align: center;
@@ -48,7 +49,7 @@
     display: flex;
     flex-direction: column;
     border: var(--border-solid);
-    padding: 1.5rem;
+    padding: 1.25rem;
     transition: all 0.2s ease;
     background-color: var(--color-background);
     color: var(--color-text);
@@ -57,6 +58,7 @@
     overflow: hidden;
     counter-increment: blog-post; /* Increment Counter */
     height: 100%; /* Equal height cards */
+    font-family: var(--font-mono);
 }
 
 /* First item spans full width */
@@ -119,7 +121,7 @@
 
 .article_title {
     margin: 0 0 0.5rem 0;
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     font-weight: 700;
     text-transform: uppercase;
     color: var(--color-text);
@@ -154,7 +156,7 @@
 }
 
 .date {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
     margin-bottom: 1rem;
     display: inline-block;
@@ -162,8 +164,8 @@
 }
 
 .summary {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
     margin-bottom: 0;
     color: var(--color-text-secondary);
     flex-grow: 1; /* Push bottom content down if needed */
@@ -210,10 +212,10 @@
     }
     
     .article_card {
-        padding: 1.25rem;
+        padding: 1rem;
     }
     
     .article_title {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
     }
 }
