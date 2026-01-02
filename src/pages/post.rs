@@ -47,7 +47,6 @@ pub fn PostPage() -> impl IntoView {
                     <Meta name="twitter:title" content=p.title.clone() />
                     <Meta name="twitter:description" content=p.summary.clone() />
 
-                    <Style>{ "body { background-color: var(--color-surface-read) !important; }" }</Style>
                     <div class=post_style::container>
                         <div class=post_style::back_link_container>
                             <a href="/blog" class=post_style::back_link>"< Back to Blog"</a>

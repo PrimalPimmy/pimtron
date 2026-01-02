@@ -8,29 +8,35 @@
     color: var(--color-text);
     font-family: var(--font-main);
     width: 100%;
-    flex-grow: 1;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    padding-bottom: 5rem;
 }
 
+/* Content Styles */
 .content_wrapper {
     text-align: left;
     max-width: 900px;
-    padding: 40px;
+    padding: 120px 20px 40px; /* Top padding to clear HUD/Clock */
     width: 100%;
+    min-height: 100vh; /* Take up full height to hide diagram initially */
     position: relative;
-    z-index: 1;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Left align */
+    justify-content: center; /* Center content vertically */
+    margin-top: -10vh; /* Shift up slightly from center */
 }
 
 .hero_title {
-    font-family: 'Departure Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 3.5rem;
     font-weight: 900;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
     color: var(--color-primary);
     text-shadow: var(--shadow-glow-strong);
     line-height: 1.1;
@@ -50,10 +56,10 @@
 }
 
 .hero_subtitle {
-    font-family: 'Departure Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 1.8rem;
     color: var(--color-text-secondary);
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
     line-height: 1.6;
     max-width: 800px;
 }
@@ -69,27 +75,49 @@
 .actions {
     display: flex;
     gap: 24px;
-    margin-top: 2rem;
+    margin-top: 1rem;
     flex-wrap: wrap;
+    justify-content: flex-start; /* Left align */
 }
 
 .btn_primary {
-    background-color: var(--color-primary);
-    color: #000;
+    background-color: transparent;
+    color: var(--color-primary);
     padding: 16px 32px;
-    border: var(--border-primary);
+    border: 3px dotted var(--color-primary);
     font-weight: 700;
     text-decoration: none;
     font-size: 1.1rem;
-    font-family: 'Departure Mono', monospace;
-    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 6px 6px 0 #fff;
+    font-family: var(--font-mono);
+    transition: all 0.2s ease-in-out;
     display: inline-block;
     letter-spacing: 1px;
     text-align: center;
 }
 
-/* GPU Status styles - REFACTORED TO HUD */
+/* Diagram Styles */
+.diagram_container {
+    width: 100%;
+    height: 160vh; /* Significantly taller to make SVG bigger */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1rem;
+    margin-left: -5%;
+    align-self: flex-start; /* Align to the left edge naturally */
+    pointer-events: none;
+    position: relative;
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
+
+.diagram_image {
+    width: 100%;
+    height: 100%;
+    background: url('/assets/mercury-diagram.svg') left center/contain no-repeat;
+    opacity: 0.8;
+}
+
+/* HUD Panel */
 .hud_panel {
     position: absolute;
     top: 30px;
@@ -99,13 +127,12 @@
     flex-direction: column;
     gap: 12px;
     z-index: 10;
-    font-family: 'Departure Mono', monospace;
+    font-family: var(--font-mono);
     color: var(--color-primary);
     border-right: 2px solid var(--color-primary);
     min-width: 250px;
 }
 
-/* Decorative bracket for the HUD panel */
 .hud_panel::before, .hud_panel::after {
     content: "";
     position: absolute;
@@ -184,7 +211,7 @@
     position: absolute;
     top: 30px;
     left: 30px;
-    font-family: 'Departure Mono', monospace;
+    font-family: var(--font-mono);
     color: var(--color-secondary);
     z-index: 10;
 }
@@ -241,36 +268,43 @@
 
 @media (hover: hover) {
     .btn_primary:hover {
-        transform: translate(2px, 2px);
-        box-shadow: 4px 4px 0 #fff;
+        background-color: var(--color-primary);
+        color: #000;
     }
 }
 
 .btn_primary:active {
-    transform: translate(6px, 6px);
-    box-shadow: 0 0 0 #fff;
+    opacity: 0.8;
 }
 
-@media (max-width: 768px) {
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
     .hero_title {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
     
     .hero_subtitle {
         font-size: 1.5rem;
-        margin-bottom: 2rem;
     }
     
-    .content_wrapper {
-        padding: 30px;
+    .hud_panel {
+        display: none;
+    }
+    
+    .diagram_container {
+        height: 50vh;
+        margin-top: 2rem;
+        padding-left: 0;
+        justify-content: center;
+        align-self: center; /* Center on mobile */
+    }
+    
+    .diagram_image {
+        background-position: center bottom;
     }
 }
 
 @media (max-width: 480px) {
-    .hud_panel {
-        display: none;
-    }
-
     .page_corner_tl, .page_corner_tr, .page_corner_bl, .page_corner_br {
         width: 20px;
         height: 20px;
@@ -282,30 +316,10 @@
     .page_corner_br { bottom: 10px; right: 10px; }
 
     .hero_title {
-        font-size: 2.2rem;
-        letter-spacing: -1px;
+        font-size: 2rem;
     }
     
     .hero_subtitle {
-        font-size: 1.2rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .content_wrapper {
-        padding: 24px;
-        text-align: center;
-    }
-    
-    .actions {
-        flex-direction: column;
-        gap: 16px;
-        width: 100%;
-    }
-    
-    .btn_primary {
-        width: 100%;
-        display: block;
-        padding: 14px 20px;
+        font-size: 1.1rem;
     }
 }

@@ -113,6 +113,7 @@ pub fn Home() -> impl IntoView {
                 </div>
             </div>
 
+            // Main Content
             <div class=style::content_wrapper>
                 <h1 class=style::hero_title>
                     "Hey, I'm Prashant a.k.a Pimtron/Pimmy"
@@ -120,11 +121,15 @@ pub fn Home() -> impl IntoView {
                 <p class=style::hero_subtitle>
                     "I'm a " <span class=style::highlight>"Software Developer"</span>
                     ". I love to talk about the wide spectrum in Tech."
-
                 </p>
                 <div class=style::actions>
                     <a href="/blog" class=style::btn_primary>"Read my blog"</a>
                 </div>
+            </div>
+
+            // Diagram Section
+            <div class=style::diagram_container>
+                 <div class=style::diagram_image></div>
             </div>
         </div>
     }
