@@ -114,8 +114,10 @@
           // Only show stars on the root path
           if (path === '/' || path === '/index.html' || path === "/blog") {
             background.style.display = 'block';
+            document.body.style.backgroundColor = 'transparent';
           } else {
             background.style.display = 'none';
+            document.body.style.backgroundColor = '#0c0c0c';
           }
         }
 
