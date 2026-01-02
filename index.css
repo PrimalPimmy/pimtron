@@ -4,10 +4,17 @@ body {
     padding: 0;
     background-color: var(--color-background);
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     text-shadow: var(--text-shadow-std);
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+/* Scale up for Desktop */
+@media (min-width: 768px) {
+    html {
+        font-size: 110%;
+    }
 }
 
 *, *::before, *::after {
@@ -45,7 +52,7 @@ body {
     max-width: 1000px; /* Increased for grid */
     margin: 0 auto;
     padding: 40px 20px;
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     color: var(--color-text);
     width: 100%;
 }
@@ -426,7 +433,7 @@ body {
     border-top: var(--border-dashed);
     background-color: transparent;
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     padding: 1rem 2rem;
     text-align: center;
     position: relative;
@@ -463,7 +470,7 @@ body {
 .home_container-5182da4 {
     background-color: transparent;
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     width: 100%;
     flex-grow: 1;
     display: flex;
@@ -773,7 +780,7 @@ body {
     padding: 1rem 2rem;
     border-bottom: 2px solid var(--color-border);
     background-color: transparent;
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
 }
 
 .logo-c57c730 {
@@ -847,12 +854,36 @@ body {
     border: 1px solid var(--color-primary);
 }
 
+@media (max-width: 768px) {
+    .nav-c57c730 {
+        padding: 0.8rem 1rem;
+    }
+
+    .logo-c57c730 {
+        font-size: 1.2rem;
+    }
+
+    .links-c57c730 {
+        margin-left: 1rem;
+        gap: 0.5rem;
+    }
+
+    .link-c57c730 {
+        font-size: 0.85rem;
+        padding: 4px 8px;
+    }
+
+    .github_icon-c57c730 {
+        padding: 4px;
+    }
+}
+
 
 .container-ab56842 {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     width: 100%;
 }
 
@@ -924,7 +955,8 @@ body {
     --color-border: #333333;
     
     /* Fonts */
-    --font-mono: 'Fira Code', 'Courier New', monospace;
+    --font-mono: 'Courier New', monospace;
+    --font-main: 'Inter', sans-serif;
     
     /* Shadows & Glows */
     /* --shadow-glow: 0 0 10px rgba(51, 255, 0, 0.4), 0 0 2px rgba(51, 255, 0, 0.2);

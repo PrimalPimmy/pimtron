@@ -1,13 +1,11 @@
-use gray_matter::{engine::YAML, Matter};
-use pulldown_cmark::{html, CodeBlockKind, CowStr, Event, Parser, Tag, TagEnd};
+use chrono::NaiveDate;
+use gray_matter::{Matter, engine::YAML};
+use pulldown_cmark::{CodeBlockKind, CowStr, Event, Parser, Tag, TagEnd, html};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io::Cursor;
 use std::path::Path;
-use syntect::{
-    highlighting::ThemeSet, html::highlighted_html_for_string, parsing::SyntaxSet,
-};
-use chrono::NaiveDate;
+use syntect::{highlighting::ThemeSet, html::highlighted_html_for_string, parsing::SyntaxSet};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct PostConfig {
@@ -54,13 +52,8 @@ fn highlight_code(events: Vec<Event<'_>>) -> Vec<Event<'_>> {
                 if !in_code_block {
                     panic!("this should never happen");
                 }
-                let html = highlighted_html_for_string(
-                    &to_highlight,
-                    &syntax_set,
-                    syntax,
-                    &theme,
-                )
-                .unwrap();
+                let html = highlighted_html_for_string(&to_highlight, &syntax_set, syntax, &theme)
+                    .unwrap();
 
                 to_highlight.clear();
                 in_code_block = false;
@@ -103,14 +96,14 @@ fn main() {
             println!("Processing {:?}", path);
             let content_str = fs::read_to_string(&path).expect("Failed to read post file content");
             let matter = Matter::<YAML>::new();
-            
+
             if let Ok(parsed) = matter.parse::<PostConfig>(&content_str) {
                 if let Some(config) = parsed.data {
                     // Store the config and the raw markdown content
                     raw_posts_data.push((config, parsed.content));
                 }
             } else {
-                 eprintln!("Failed to parse frontmatter for {:?}", path);
+                eprintln!("Failed to parse frontmatter for {:?}", path);
             }
         }
     }
@@ -119,11 +112,13 @@ fn main() {
     raw_posts_data.sort_by(|a, b| b.0.date.cmp(&a.0.date));
 
     for (mut config, raw_content) in raw_posts_data {
-        // Parse date and reformat for display
         if let Ok(date) = NaiveDate::parse_from_str(&config.date, "%Y-%m-%d") {
             config.date = date.format("%B %d, %Y").to_string();
         } else {
-            eprintln!("Warning: Could not parse date '{}' for post '{}'. Keeping original.", config.date, config.slug);
+            eprintln!(
+                "Warning: Could not parse date '{}' for post '{}'. Keeping original.",
+                config.date, config.slug
+            );
         }
 
         // Generate HTML content
@@ -156,6 +151,6 @@ fn main() {
     let dest_path = generated_posts_dir.join("posts.json");
     let json = serde_json::to_string(&posts).unwrap();
     fs::write(dest_path, json).unwrap();
-    
+
     println!("Done!");
 }

@@ -2,7 +2,7 @@
     max-width: 1000px; /* Increased for grid */
     margin: 0 auto;
     padding: 40px 20px;
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     color: var(--color-text);
     width: 100%;
 }

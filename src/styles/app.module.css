@@ -4,10 +4,17 @@
     padding: 0;
     background-color: var(--color-background);
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     text-shadow: var(--text-shadow-std);
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+/* Scale up for Desktop */
+@media (min-width: 768px) {
+    :global(html) {
+        font-size: 110%;
+    }
 }
 
 :global(*), :global(*::before), :global(*::after) {

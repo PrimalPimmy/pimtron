@@ -2,7 +2,7 @@
     border-top: var(--border-dashed);
     background-color: transparent;
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-main);
     padding: 1rem 2rem;
     text-align: center;
     position: relative;
