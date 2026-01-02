@@ -1,6 +1,4 @@
 .article {
-    font-family: var(--font-mono);
-    color: var(--color-text);
     line-height: 1.7;
     overflow-wrap: break-word;
 }
@@ -28,7 +26,7 @@
 }
 
 .content {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--color-text-dim);
 }
 
@@ -41,17 +39,17 @@
 }
 
 .content h1 { 
-    font-size: 2.2rem; 
+    font-size: 2.4rem; 
     border-bottom: var(--border-dashed); 
     padding-bottom: 0.5rem;
     color: var(--color-primary);
 }
-.content h2 { font-size: 1.8rem; }
-.content h3 { font-size: 1.5rem; }
+.content h2 { font-size: 2.0rem; }
+.content h3 { font-size: 1.7rem; }
 
-.content p {
-    margin-bottom: 1.8rem;
-}
+/* .content p {
+    margin-bottom: 1.5rem;
+} */
 
 .content ul, .content ol {
     margin-bottom: 1.8rem;
@@ -129,7 +127,7 @@
     max-width: 100%;
     height: auto;
     border: var(--border-solid);
-    margin: 2rem 0;
+    margin: 1rem 0;
 }
 
 .content hr {
@@ -149,12 +147,12 @@
     }
 
     .content {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
-    .content h1 { font-size: 1.8rem; }
-    .content h2 { font-size: 1.5rem; }
-    .content h3 { font-size: 1.3rem; }
+    .content h1 { font-size: 2.0rem; }
+    .content h2 { font-size: 1.7rem; }
+    .content h3 { font-size: 1.5rem; }
     
     .content pre {
         padding: 1rem;

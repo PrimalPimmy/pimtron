@@ -3,7 +3,7 @@
     align-items: center;
     padding: 1rem 2rem;
     border-bottom: 2px solid var(--color-border);
-    background-color: var(--color-panel-bg);
+    background-color: transparent;
     font-family: var(--font-mono);
 }
 

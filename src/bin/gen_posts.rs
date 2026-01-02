@@ -88,20 +88,20 @@ fn main() {
     let generated_posts_dir = Path::new("generated_posts");
 
     if !generated_posts_dir.exists() {
-        fs::create_dir(generated_posts_dir).unwrap();
+        fs::create_dir(generated_posts_dir).expect("Failed to create 'generated_posts' directory");
     }
 
     let mut posts = Vec::new();
     // Temporary storage to hold parsed content before final formatting
     let mut raw_posts_data: Vec<(PostConfig, String)> = Vec::new();
 
-    for entry in fs::read_dir("posts").unwrap() {
-        let entry = entry.unwrap();
+    for entry in fs::read_dir("posts").expect("Failed to read 'posts' directory") {
+        let entry = entry.expect("Failed to read directory entry");
         let path = entry.path();
 
         if path.extension().is_some_and(|ext| ext == "md") {
             println!("Processing {:?}", path);
-            let content_str = fs::read_to_string(&path).unwrap();
+            let content_str = fs::read_to_string(&path).expect("Failed to read post file content");
             let matter = Matter::<YAML>::new();
             
             if let Ok(parsed) = matter.parse::<PostConfig>(&content_str) {

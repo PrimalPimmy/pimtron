@@ -72,12 +72,16 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
 
     let last_time = Rc::new(RefCell::new(performance.now()));
     let frame_count = Rc::new(RefCell::new(0));
+    // Use Arc<AtomicI32> for thread-safety (required by on_cleanup in Leptos 0.8+)
+    // Initialize with 0 (invalid ID)
+    let handle = std::sync::Arc::new(std::sync::atomic::AtomicI32::new(0));
 
     let f = Rc::new(RefCell::new(None::<Closure<dyn FnMut()>>));
     let g = f.clone();
     
     let window_clone = window.clone();
     let performance_clone = performance.clone();
+    let handle_clone = handle.clone();
 
     let loop_fn = move || {
         let now = performance_clone.now();
@@ -91,13 +95,24 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
         }
 
         if let Some(cb) = g.borrow().as_ref() {
-            let _ = window_clone.request_animation_frame(cb.as_ref().unchecked_ref());
+            let id = window_clone.request_animation_frame(cb.as_ref().unchecked_ref()).unwrap_or(0);
+            handle_clone.store(id, std::sync::atomic::Ordering::Relaxed);
         }
     };
 
     *f.borrow_mut() = Some(Closure::wrap(Box::new(loop_fn) as Box<dyn FnMut()>));
 
     if let Some(cb) = f.borrow().as_ref() {
-        let _ = window.request_animation_frame(cb.as_ref().unchecked_ref());
+        let id = window.request_animation_frame(cb.as_ref().unchecked_ref()).unwrap_or(0);
+        handle.store(id, std::sync::atomic::Ordering::Relaxed);
     }
+
+    on_cleanup(move || {
+        let id = handle.load(std::sync::atomic::Ordering::Relaxed);
+        if id != 0 {
+            if let Some(win) = web_sys::window() {
+                let _ = win.cancel_animation_frame(id);
+            }
+        }
+    });
 }

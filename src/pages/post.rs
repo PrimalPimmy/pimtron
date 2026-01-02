@@ -36,6 +36,18 @@ pub fn PostPage() -> impl IntoView {
             {move || match post_resource.get() {
                 Some(Some(p)) => view! {
                     <Title text=format!("Pimtron - {}", p.title) />
+                    <Meta name="description" content=p.summary.clone() />
+                    
+                    // Open Graph
+                    <Meta property="og:title" content=p.title.clone() />
+                    <Meta property="og:description" content=p.summary.clone() />
+                    <Meta property="og:type" content="article" />
+                    
+                    // Twitter
+                    <Meta name="twitter:title" content=p.title.clone() />
+                    <Meta name="twitter:description" content=p.summary.clone() />
+
+                    <Style>{ "body { background-color: var(--color-surface-read) !important; }" }</Style>
                     <div class=post_style::container>
                         <div class=post_style::back_link_container>
                             <a href="/blog" class=post_style::back_link>"< Back to Blog"</a>

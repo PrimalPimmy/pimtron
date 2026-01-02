@@ -1,6 +1,6 @@
 .footer {
     border-top: var(--border-dashed);
-    background-color: var(--color-panel-bg);
+    background-color: transparent;
     color: var(--color-text-muted);
     font-family: var(--font-mono);
     padding: 1rem 2rem;
