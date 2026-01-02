@@ -1,4 +1,8 @@
 /* Base Body Styles */
+html {
+    background-color: var(--color-background);
+}
+
 body {
     margin: 0;
     padding: 0;

@@ -20,7 +20,6 @@ stylance::import_style!(_app, "styles/app.module.css");
 
 fn main() {
     console_error_panic_hook::set_once();
-    // Initialize the app
     let window = web_sys::window().expect("no global `window` exists");
     let document = window.document().expect("should have a document on window");
     if let Some(loader) = document.get_element_by_id("loading-layer") {
@@ -39,9 +38,8 @@ fn App() -> impl IntoView {
     provide_meta_context();
 
     // Eagerly fetch posts as soon as the app starts
-    let posts_resource = LocalResource::new(|| async {
-        crate::utils::content::fetch_all_posts().await
-    });
+    let posts_resource =
+        LocalResource::new(|| async { crate::utils::content::fetch_all_posts().await });
     provide_context(posts_resource);
 
     view! {
