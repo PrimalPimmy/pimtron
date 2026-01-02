@@ -2,16 +2,14 @@
   Cache-Control: no-cache
 /index.html
   Cache-Control: no-cache
-/posts/*
-  Cache-Control: no-cache
 
 # Hashed assets
 /*.js
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=31536000, immutable, no-transform
 /*.wasm
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=31536000, immutable, no-transform
 /*.css
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=31536000, immutable, no-transform
 
 # Static assets
 /assets/*
