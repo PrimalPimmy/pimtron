@@ -514,7 +514,7 @@ body {
     display: inline-block;
 }
 
-/* Blinking Cursor */
+/* Blinking Cursor - Desktop Default */
 .hero_title-5182da4::after {
     content: "█";
     display: inline-block;
@@ -787,6 +787,12 @@ body {
 
     .hero_title-5182da4 {
         font-size: 2rem;
+    }
+
+    .hero_title-5182da4::after {
+        content: " █";
+        margin-left: 0;
+        vertical-align: baseline;
     }
     
     .hero_subtitle-5182da4 {

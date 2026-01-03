@@ -145,11 +145,7 @@
           }
         );
 
-        # Quick example on how to serve the app,
-        # This is just an example, not useful for production environments
-        serve-app = pkgs.writeShellScriptBin "serve-app" ''
-          ${pkgs.python3Minimal}/bin/python3 -m http.server --directory ${my-app} 8000
-        '';
+
       in
       {
         checks = {
@@ -177,10 +173,6 @@
         };
 
         packages.default = my-app;
-
-        apps.default = flake-utils.lib.mkApp {
-          drv = serve-app;
-        };
 
         devShells.default = craneLib.devShell {
           # Inherit inputs from checks.

@@ -109,10 +109,9 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
 
     on_cleanup(move || {
         let id = handle.load(std::sync::atomic::Ordering::Relaxed);
-        if id != 0 {
-            if let Some(win) = web_sys::window() {
+        if id != 0
+            && let Some(win) = web_sys::window() {
                 let _ = win.cancel_animation_frame(id);
             }
-        }
     });
 }
