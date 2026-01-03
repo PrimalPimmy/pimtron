@@ -5,7 +5,7 @@ stylance::import_style!(style, "../styles/markdown.module.css");
 
 #[component]
 pub fn About() -> impl IntoView {
-    let about_resource = LocalResource::new(move || fetch_about());
+    let about_resource = LocalResource::new(fetch_about);
 
     view! {
         <Suspense fallback=move || view! { <div class="loading">"INITIALIZING UPLINK..."</div> }>

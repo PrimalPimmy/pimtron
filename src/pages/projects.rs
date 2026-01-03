@@ -6,7 +6,7 @@ stylance::import_style!(md_style, "../styles/markdown.module.css");
 
 #[component]
 pub fn Projects() -> impl IntoView {
-    let projects_resource = LocalResource::new(move || fetch_projects());
+    let projects_resource = LocalResource::new(fetch_projects);
 
     view! {
         <Suspense fallback=move || view! { <div class=style::loading>"LOADING ARMORY MANIFEST..."</div> }>
