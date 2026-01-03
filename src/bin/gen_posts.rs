@@ -8,11 +8,22 @@ use std::path::Path;
 use syntect::{highlighting::ThemeSet, html::highlighted_html_for_string, parsing::SyntaxSet};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct ProjectItem {
+    pub name: String,
+    pub desc: String,
+    pub tech: Vec<String>,
+    pub link: String,
+    pub status: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct PostConfig {
     pub title: String,
     pub date: String,
     pub slug: String,
     pub summary: String,
+    #[serde(default)]
+    pub projects: Vec<ProjectItem>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -22,6 +33,8 @@ pub struct Post {
     pub slug: String,
     pub summary: String,
     pub content: String,
+    #[serde(default)]
+    pub projects: Vec<ProjectItem>,
 }
 
 fn highlight_code(events: Vec<Event<'_>>) -> Vec<Event<'_>> {
@@ -91,6 +104,7 @@ fn main() {
     for entry in fs::read_dir("posts").expect("Failed to read 'posts' directory") {
         let entry = entry.expect("Failed to read directory entry");
         let path = entry.path();
+        let filename = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
 
         if path.extension().is_some_and(|ext| ext == "md") {
             println!("Processing {:?}", path);
@@ -99,7 +113,55 @@ fn main() {
 
             if let Ok(parsed) = matter.parse::<PostConfig>(&content_str) {
                 if let Some(config) = parsed.data {
-                    // Store the config and the raw markdown content
+                    // Helper to generate HTML content
+                    let gen_html = |content: &str| {
+                        let parser = Parser::new(content);
+                        let events: Vec<_> = parser.collect();
+                        let highlighted_events = highlight_code(events);
+                        let mut html_output = String::new();
+                        html::push_html(&mut html_output, highlighted_events.into_iter());
+                        html_output
+                    };
+
+                    // Special handling for AboutMe.md
+                    if filename == "AboutMe.md" {
+                         let html_output = gen_html(&parsed.content);
+                         let about_post = Post {
+                             title: config.title,
+                             date: config.date,
+                             slug: config.slug,
+                             summary: config.summary,
+                             content: html_output,
+                             projects: vec![],
+                         };
+
+                         let json_path = generated_posts_dir.join("about.json");
+                         let json_str = serde_json::to_string(&about_post).unwrap();
+                         fs::write(json_path, json_str).unwrap();
+                         println!("Generated about.json");
+                         continue;
+                    }
+
+                    // Special handling for Projects.md
+                    if filename == "Projects.md" {
+                         let html_output = gen_html(&parsed.content);
+                         let project_post = Post {
+                             title: config.title,
+                             date: config.date,
+                             slug: config.slug,
+                             summary: config.summary,
+                             content: html_output,
+                             projects: config.projects,
+                         };
+
+                         let json_path = generated_posts_dir.join("projects.json");
+                         let json_str = serde_json::to_string(&project_post).unwrap();
+                         fs::write(json_path, json_str).unwrap();
+                         println!("Generated projects.json");
+                         continue;
+                    }
+
+                    // Store the config and the raw markdown content for regular posts
                     raw_posts_data.push((config, parsed.content));
                 }
             } else {
@@ -135,6 +197,7 @@ fn main() {
             slug: config.slug.clone(),
             summary: config.summary.clone(),
             content: html_output,
+            projects: vec![], // Regular posts don't have sub-projects
         };
 
         // Write individual post JSON

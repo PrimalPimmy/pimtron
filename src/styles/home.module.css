@@ -98,9 +98,9 @@
 /* Diagram Styles */
 .diagram_container {
     width: 100%;
-    height: 160vh; /* Significantly taller to make SVG bigger */
+    height: 180vh; /* Significantly taller to make SVG bigger */
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Changed from center to align with panel top */
     justify-content: flex-start;
     margin-top: 1rem;
     margin-left: -5%;
@@ -111,10 +111,92 @@
 }
 
 .diagram_image {
-    width: 100%;
+    width: 65%; /* Reduced to make room for panel */
     height: 100%;
-    background: url('/assets/mercury-diagram.svg') left center/contain no-repeat;
+    background: url('/assets/mercury-diagram.svg') left top/contain no-repeat; /* Changed to left top */
     opacity: 0.8;
+}
+
+/* Modules Panel (Right Side) */
+.modules_panel {
+    width: 30%;
+    margin-left: 2%;
+    margin-top: -0.5rem; /* Align perfectly with the top of the diagram container */
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: var(--font-mono);
+    pointer-events: auto; /* Enable clicks */
+    z-index: 10;
+}
+
+.modules_header {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.module_link {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+    border-left: 2px solid var(--color-text-muted);
+}
+
+.module_link:hover {
+    background: rgba(0, 239, 62, 0.05);
+    border-color: var(--color-primary);
+    border-left-width: 4px;
+    transform: translateX(5px);
+}
+
+.module_row_top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
+}
+
+.module_id {
+    font-weight: bold;
+    color: var(--color-text-muted);
+}
+
+.module_title {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.module_link:hover .module_title {
+    color: #fff;
+    text-shadow: 0 0 8px var(--color-primary);
+}
+
+.module_desc {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-family: var(--font-main);
+    opacity: 0.7;
+}
+
+.module_status_ok {
+    color: var(--color-primary);
+}
+
+.module_status_active {
+    color: var(--color-secondary);
+    animation: blink 2s infinite;
 }
 
 /* HUD Panel */
@@ -292,15 +374,27 @@
     }
     
     .diagram_container {
-        height: 50vh;
+        height: auto; /* Allow auto height for stacking */
         margin-top: 2rem;
         padding-left: 0;
         justify-content: center;
         align-self: center; /* Center on mobile */
+        flex-direction: column-reverse; /* Stack vertically, modules on top */
+        gap: 40px; /* Add space between modules and diagram */
     }
     
     .diagram_image {
+        width: 100%; /* Full width on mobile */
+        height: 50vh;
         background-position: center bottom;
+    }
+
+    .modules_panel {
+        width: 100%;
+        margin-left: 0;
+        margin-top: -10rem; /* Reset margin since we use gap now */
+        padding: 0 20px;
+        max-width: 400px;
     }
 }
 

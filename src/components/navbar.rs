@@ -8,6 +8,8 @@ pub fn Navbar() -> impl IntoView {
             <a href="/" class=style::logo>"Pimtron"</a>
             <div class=style::links>
                 <a href="/" class=style::link>"Home"</a>
+                <a href="/about" class=style::link>"About"</a>
+                <a href="/projects" class=style::link>"Projects"</a>
                 <a href="/blog" class=style::link>"Blog"</a>
             </div>
             <a href="https://github.com/primalpimmy" target="_blank" class=style::github_icon aria-label="GitHub">

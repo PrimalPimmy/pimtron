@@ -130,6 +130,38 @@ pub fn Home() -> impl IntoView {
             // Diagram Section
             <div class=style::diagram_container>
                  <div class=style::diagram_image></div>
+
+                 // System Modules (Right Side)
+                 <div class=style::modules_panel>
+                    <div class=style::modules_header>"// SYSTEM_MODULES"</div>
+
+                    <a href="/about" class=style::module_link>
+                        <div class=style::module_row_top>
+                            <span class=style::module_id>"MOD_01"</span>
+                            <span class=style::module_status_ok>"ONLINE"</span>
+                        </div>
+                        <div class=style::module_title>"ABOUT_ME"</div>
+                        <div class=style::module_desc>"User profile & bio-metrics"</div>
+                    </a>
+
+                    <a href="/blog" class=style::module_link>
+                        <div class=style::module_row_top>
+                            <span class=style::module_id>"MOD_02"</span>
+                            <span class=style::module_status_active>"STREAMING"</span>
+                        </div>
+                        <div class=style::module_title>"BLOG_DATA"</div>
+                        <div class=style::module_desc>"Thoughts & technical write-ups"</div>
+                    </a>
+
+                    <a href="/projects" class=style::module_link>
+                        <div class=style::module_row_top>
+                            <span class=style::module_id>"MOD_03"</span>
+                            <span class=style::module_status_ok>"LOADED"</span>
+                        </div>
+                        <div class=style::module_title>"PROJECTS"</div>
+                        <div class=style::module_desc>"Project artifacts & tools"</div>
+                    </a>
+                 </div>
             </div>
         </div>
     }

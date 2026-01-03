@@ -1,6 +1,38 @@
-.article {
-    line-height: 1.7;
-    overflow-wrap: break-word;
+.markdown_container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px 40px 40px;
+    color: var(--color-text);
+    font-family: var(--font-main);
+    width: 100%;
+}
+
+.back_link_container {
+    margin-bottom: 2rem;
+}
+
+.back_link {
+    display: inline-block;
+    color: var(--color-text);
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.0rem;
+    border: var(--border-solid);
+    padding: 8px 16px;
+    transition: all 0.2s;
+    border-color: var(--color-text);
+    font-family: var(--font-mono);
+}
+
+@media (hover: hover) {
+    .back_link:hover {
+        background-color: var(--color-background);
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 10px rgba(0, 239, 62, 0.3);
+        transform: translate(-2px, -2px);
+    }
 }
 
 .header {
@@ -17,17 +49,20 @@
     color: var(--color-primary);
     text-shadow: 0 0 4px rgba(0, 255, 0, 0.4);
     line-height: 1.1;
+    font-family: var(--font-mono);
 }
 
 .date {
     color: var(--color-text-muted);
     font-size: 1rem;
     font-style: italic;
+    font-family: var(--font-mono);
 }
 
 .content {
     font-size: 1.2rem;
-    color: var(--color-text-dim);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
 }
 
 /* Markdown Content Styling */
@@ -36,6 +71,7 @@
     margin-bottom: 1.5rem;
     font-weight: 700;
     color: var(--color-text);
+    font-family: var(--font-mono);
 }
 
 .content h1 { 
@@ -46,10 +82,6 @@
 }
 .content h2 { font-size: 2.0rem; }
 .content h3 { font-size: 1.7rem; }
-
-/* .content p {
-    margin-bottom: 1.5rem;
-} */
 
 .content ul, .content ol {
     margin-bottom: 1.8rem;
@@ -78,11 +110,6 @@
         background-color: rgba(0, 255, 0, 0.1);
         color: var(--color-text);
     }
-}
-
-.content a:active, .content a:focus {
-    background-color: rgba(0, 255, 0, 0.1);
-    color: var(--color-text);
 }
 
 .content blockquote {
@@ -121,6 +148,7 @@
 
 .content strong {
     color: var(--color-primary);
+    font-weight: bold;
 }
 
 .content img {
@@ -137,6 +165,10 @@
 }
 
 @media (max-width: 768px) {
+    .markdown_container {
+        padding: 80px 24px 40px;
+    }
+
     .title {
         font-size: 2rem;
     }
@@ -153,8 +185,4 @@
     .content h1 { font-size: 2.0rem; }
     .content h2 { font-size: 1.7rem; }
     .content h3 { font-size: 1.5rem; }
-    
-    .content pre {
-        padding: 1rem;
-    }
 }

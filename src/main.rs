@@ -14,6 +14,8 @@ use crate::components::navbar::Navbar;
 use crate::pages::blog_list::BlogList;
 use crate::pages::home::Home;
 use crate::pages::post::PostPage;
+use crate::pages::about::About;
+use crate::pages::projects::Projects;
 
 stylance::import_style!(_vars, "styles/variables.module.css");
 stylance::import_style!(_app, "styles/app.module.css");
@@ -54,6 +56,8 @@ fn App() -> impl IntoView {
                         <Route path=path!("/") view=Home />
                         <Route path=path!("/blog") view=BlogList />
                         <Route path=path!("/blog/:slug") view=PostPage />
+                        <Route path=path!("/about") view=About />
+                        <Route path=path!("/projects") view=Projects />
                     </Routes>
                 </main>
                 <Footer />
