@@ -1,7 +1,8 @@
 use leptos::prelude::*;
 use crate::utils::content::fetch_about;
 
-stylance::import_style!(style, "../styles/markdown.module.css");
+stylance::import_style!(article_style, "../styles/article.module.css");
+stylance::import_style!(md_style, "../styles/markdown.module.css");
 
 #[component]
 pub fn About() -> impl IntoView {
@@ -13,12 +14,12 @@ pub fn About() -> impl IntoView {
                 about_resource.get().map(|data| {
                     match data {
                         Some(post) => view! {
-                            <div class=style::markdown_container>
-                                <div class=style::header>
-                                    <h1 class=style::title>{post.title}</h1>
-                                    <div class=style::date>"ID: " {post.slug} " // LAST_UPDATE: " {post.date}</div>
+                            <div class=article_style::container>
+                                <div class=article_style::header>
+                                    <h1 class=article_style::title>{post.title}</h1>
+                                    <div class=article_style::date>"ID: " {post.slug} " // LAST_UPDATE: " {post.date}</div>
                                 </div>
-                                <div class=style::content inner_html=post.content></div>
+                                <div class=md_style::content inner_html=post.content></div>
                             </div>
                         }.into_any(),
                         None => view! { <div class="loading">"ERROR: DATA CORRUPTED"</div> }.into_any()
