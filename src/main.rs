@@ -11,11 +11,12 @@ use leptos_router::{
 
 use crate::components::footer::Footer;
 use crate::components::navbar::Navbar;
+use crate::pages::about::About;
 use crate::pages::blog_list::BlogList;
 use crate::pages::home::Home;
 use crate::pages::post::PostPage;
-use crate::pages::about::About;
 use crate::pages::projects::Projects;
+use crate::utils::state::{AboutResource, ProjectsResource};
 
 stylance::import_style!(_vars, "styles/variables.module.css");
 stylance::import_style!(_app, "styles/app.module.css");
@@ -43,6 +44,16 @@ fn App() -> impl IntoView {
     let posts_resource =
         LocalResource::new(|| async { crate::utils::content::fetch_all_posts().await });
     provide_context(posts_resource);
+
+    // Eagerly fetch About page
+    let about_resource =
+        LocalResource::new(|| async { crate::utils::content::fetch_about().await });
+    provide_context(AboutResource(about_resource));
+
+    // Eagerly fetch Projects page
+    let projects_resource =
+        LocalResource::new(|| async { crate::utils::content::fetch_projects().await });
+    provide_context(ProjectsResource(projects_resource));
 
     view! {
         <MetaTags />

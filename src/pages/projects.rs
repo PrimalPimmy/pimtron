@@ -1,4 +1,4 @@
-use crate::utils::content::fetch_projects;
+use crate::utils::state::ProjectsResource;
 use leptos::prelude::*;
 
 stylance::import_style!(style, "../styles/projects.module.css");
@@ -6,7 +6,9 @@ stylance::import_style!(md_style, "../styles/markdown.module.css");
 
 #[component]
 pub fn Projects() -> impl IntoView {
-    let projects_resource = LocalResource::new(fetch_projects);
+    let projects_resource = use_context::<ProjectsResource>()
+        .expect("ProjectsResource should be provided in App")
+        .0;
 
     view! {
         <Suspense fallback=move || view! { <div class=style::loading>"LOADING ARMORY MANIFEST..."</div> }>

@@ -1,12 +1,14 @@
 use leptos::prelude::*;
-use crate::utils::content::fetch_about;
+use crate::utils::state::AboutResource;
 
 stylance::import_style!(article_style, "../styles/article.module.css");
 stylance::import_style!(md_style, "../styles/markdown.module.css");
 
 #[component]
 pub fn About() -> impl IntoView {
-    let about_resource = LocalResource::new(fetch_about);
+    let about_resource = use_context::<AboutResource>()
+        .expect("AboutResource should be provided in App")
+        .0;
 
     view! {
         <Suspense fallback=move || view! { <div class="loading">"INITIALIZING UPLINK..."</div> }>
