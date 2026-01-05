@@ -1,6 +1,6 @@
 ---
 title: Lift Off! About this Site
-date: 2025-12-30
+date: 2026-01-05
 slug: lift-off
 summary: I talk about how I built this blog (P.S. it's not a JS framework)
 ---
