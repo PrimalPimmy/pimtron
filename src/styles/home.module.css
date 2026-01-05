@@ -415,8 +415,10 @@
 
     .hero_title::after {
         content: " █";
+        display: inline;
         margin-left: 0;
         vertical-align: baseline;
+        letter-spacing: normal;
     }
     
     .hero_subtitle {
