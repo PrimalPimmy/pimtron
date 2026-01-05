@@ -40,17 +40,17 @@ fn main() {
 fn App() -> impl IntoView {
     provide_meta_context();
 
-    // Eagerly fetch posts as soon as the app starts
+    // fetch posts as soon as the app starts
     let posts_resource =
         LocalResource::new(|| async { crate::utils::content::fetch_all_posts().await });
     provide_context(posts_resource);
 
-    // Eagerly fetch About page
+    // fetch About page
     let about_resource =
         LocalResource::new(|| async { crate::utils::content::fetch_about().await });
     provide_context(AboutResource(about_resource));
 
-    // Eagerly fetch Projects page
+    // fetch Projects page
     let projects_resource =
         LocalResource::new(|| async { crate::utils::content::fetch_projects().await });
     provide_context(ProjectsResource(projects_resource));

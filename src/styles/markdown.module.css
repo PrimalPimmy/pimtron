@@ -39,7 +39,8 @@
 .content a {
     color: var(--color-primary);
     text-decoration: underline;
-    text-decoration-style: dashed;
+    font-family: var(--font-mono);
+    text-decoration-style: solid;
     text-underline-offset: 4px;
     transition: all 0.2s;
 }
