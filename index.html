@@ -76,49 +76,51 @@
     </div>
     <script>
       (function() {
-        const starCount = 200;
-        const background = document.createElement('div');
-        background.id = 'star-background';
-        background.style.position = 'fixed';
-        background.style.top = '0';
-        background.style.left = '0';
-        background.style.width = '100%';
-        background.style.height = '100%';
-        background.style.zIndex = '-1';
-        background.style.pointerEvents = 'none';
-        background.style.backgroundColor = 'var(--color-background)'; 
+        const starCount = 120;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        
+        canvas.id = 'star-background';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-1';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.backgroundColor = 'var(--color-background)'; 
+        
         document.body.style.backgroundColor = 'transparent'; // Make body transparent
-        document.body.prepend(background); // Prepend to be at the bottom
+        document.body.prepend(canvas); // Prepend to be at the bottom
 
         const stars = [];
+        
+        // Initialize stars
         for (let i = 0; i < starCount; i++) {
-          const star = document.createElement('div');
-          star.style.position = 'absolute';
-          star.style.backgroundColor = '#878787';
-          star.style.width = '2px';
-          star.style.height = '2px';
-          star.style.borderRadius = '0'; // Pixelated (Square)
-          star.style.willChange = 'transform';
-          star.style.backfaceVisibility = 'hidden';
-          background.appendChild(star);
-          
           stars.push({
-            element: star,
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
-            r: Math.floor(Math.random() * 2) + 1, // Whole number scales
+            // Size: 2 or 3 (was 2 or 4) - Pushes them "back" visually
+            size: Math.floor(Math.random() * 2) + 2,
             speed: 0.1 + Math.random() * 0.4
           });
         }
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize(); // Initial sizing
 
         function updateVisibility() {
           const path = window.location.pathname;
           // Only show stars on the root path
           if (path === '/' || path === '/index.html' || path === "/blog") {
-            background.style.display = 'block';
+            canvas.style.display = 'block';
             document.body.style.backgroundColor = 'transparent';
           } else {
-            background.style.display = 'none';
+            canvas.style.display = 'none';
             document.body.style.backgroundColor = 'var(--color-surface-read)';
           }
         }
@@ -151,47 +153,51 @@
 
         function animate() {
           // Skip animation if not visible
-          if (background.style.display === 'none') {
+          if (canvas.style.display === 'none') {
             requestAnimationFrame(animate);
             return;
           }
 
-          const width = window.innerWidth;
-          const height = window.innerHeight;
+          const width = canvas.width;
+          const height = canvas.height;
           
           // Smooth out the scroll value (Linear Interpolation)
-          // This removes the jitter by making the stars "catch up" to the scroll
           currentScrollY += (targetScrollY - currentScrollY) * 0.1;
 
           // Calculate fade based on scroll position
-          // Fade starts at 0 scroll and is fully transparent at 500px scroll
           const fadeStart = 0;
           const fadeEnd = 500;
-          let opacity = 1;
+          let globalOpacity = 1;
           
           if (currentScrollY > fadeStart) {
-             opacity = 1 - Math.min((currentScrollY - fadeStart) / (fadeEnd - fadeStart), 1);
+             globalOpacity = 1 - Math.min((currentScrollY - fadeStart) / (fadeEnd - fadeStart), 1);
           }
 
+          // Clear canvas (reveals the CSS background color)
+          ctx.clearRect(0, 0, width, height);
+          ctx.fillStyle = '#878787';
+
           stars.forEach(star => {
-            star.x += star.r * 0.5;
+            star.x += (star.size) * 0.2; // Slower horizontal drift
             if (star.x > width) {
               star.x = 0;
               star.y = Math.random() * height;
             }
 
-            // Parallax scroll effect
-            const offset = (currentScrollY * star.speed * 0.5);
+            // Parallax scroll effect (Reduced intensity 0.5 -> 0.25)
+            const offset = (currentScrollY * star.speed * 0.25);
             const displayY = (star.y - offset) % height;
             const finalY = displayY < 0 ? height + displayY : displayY;
 
-            // Snap to whole pixels to keep it pixel-perfect/pixelated
+            // Snap to whole pixels
             const pxX = Math.floor(star.x);
             const pxY = Math.floor(finalY);
 
-            star.element.style.transform = `translate(${pxX}px, ${pxY}px) scale(${star.r})`;
-            // Combined opacity: star inherent opacity * scroll fade
-            star.element.style.opacity = (star.r / 2) * opacity;
+            // Opacity logic: Larger stars are brighter
+            // Normalize to max size 3
+            ctx.globalAlpha = (star.size / 3) * globalOpacity;
+            
+            ctx.fillRect(pxX, pxY, star.size, star.size);
           });
 
           requestAnimationFrame(animate);
