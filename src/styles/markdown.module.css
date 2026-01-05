@@ -56,13 +56,13 @@
     border-left: 4px solid var(--color-primary);
     margin: 2.5rem 0;
     padding: 1rem 2rem;
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-background);
     font-style: italic;
     color: #aaa;
 }
 
 .content pre {
-    background-color: var(--color-surface);
+    background-color: var(--color-background);
     padding: 1.5rem;
     border: var(--border-solid);
     overflow-x: auto;

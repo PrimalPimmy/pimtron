@@ -97,14 +97,16 @@
           star.style.backgroundColor = '#878787';
           star.style.width = '2px';
           star.style.height = '2px';
-          star.style.borderRadius = '50%';
+          star.style.borderRadius = '0'; // Pixelated (Square)
+          star.style.willChange = 'transform';
+          star.style.backfaceVisibility = 'hidden';
           background.appendChild(star);
           
           stars.push({
             element: star,
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
-            r: Math.random() * 2,
+            r: Math.floor(Math.random() * 2) + 1, // Whole number scales
             speed: 0.1 + Math.random() * 0.4
           });
         }
@@ -140,9 +142,11 @@
         // Handle browser back/forward buttons
         window.addEventListener('popstate', updateVisibility);
 
-        let scrollY = 0;
+        let targetScrollY = 0;
+        let currentScrollY = 0;
+        
         window.addEventListener('scroll', () => {
-          scrollY = window.scrollY;
+          targetScrollY = window.scrollY;
         });
 
         function animate() {
@@ -155,14 +159,18 @@
           const width = window.innerWidth;
           const height = window.innerHeight;
           
+          // Smooth out the scroll value (Linear Interpolation)
+          // This removes the jitter by making the stars "catch up" to the scroll
+          currentScrollY += (targetScrollY - currentScrollY) * 0.1;
+
           // Calculate fade based on scroll position
           // Fade starts at 0 scroll and is fully transparent at 500px scroll
           const fadeStart = 0;
           const fadeEnd = 500;
           let opacity = 1;
           
-          if (scrollY > fadeStart) {
-             opacity = 1 - Math.min((scrollY - fadeStart) / (fadeEnd - fadeStart), 1);
+          if (currentScrollY > fadeStart) {
+             opacity = 1 - Math.min((currentScrollY - fadeStart) / (fadeEnd - fadeStart), 1);
           }
 
           stars.forEach(star => {
@@ -173,11 +181,15 @@
             }
 
             // Parallax scroll effect
-            const offset = (scrollY * star.speed * 0.5);
+            const offset = (currentScrollY * star.speed * 0.5);
             const displayY = (star.y - offset) % height;
             const finalY = displayY < 0 ? height + displayY : displayY;
 
-            star.element.style.transform = `translate(${star.x}px, ${finalY}px) scale(${star.r})`;
+            // Snap to whole pixels to keep it pixel-perfect/pixelated
+            const pxX = Math.floor(star.x);
+            const pxY = Math.floor(finalY);
+
+            star.element.style.transform = `translate(${pxX}px, ${pxY}px) scale(${star.r})`;
             // Combined opacity: star inherent opacity * scroll fade
             star.element.style.opacity = (star.r / 2) * opacity;
           });

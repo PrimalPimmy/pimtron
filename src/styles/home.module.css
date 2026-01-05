@@ -22,14 +22,14 @@
     max-width: 900px;
     padding: 120px 20px 40px; /* Top padding to clear HUD/Clock */
     width: 100%;
-    min-height: 100vh; /* Take up full height to hide diagram initially */
+    min-height: 85vh; /* Adjusted from 70vh to move diagram down */
     position: relative;
     z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Left align */
     justify-content: center; /* Center content vertically */
-    margin-top: -10vh; /* Shift up slightly from center */
+    margin-top: -5vh; /* Adjusted from -10vh */
 }
 
 .hero_title {
@@ -72,28 +72,7 @@
     text-underline-offset: 6px;
 }
 
-.actions {
-    display: flex;
-    gap: 24px;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Left align */
-}
 
-.btn_primary {
-    background-color: transparent;
-    color: var(--color-primary);
-    padding: 16px 32px;
-    border: 3px dotted var(--color-primary);
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-family: var(--font-mono);
-    transition: all 0.2s ease-in-out;
-    display: inline-block;
-    letter-spacing: 1px;
-    text-align: center;
-}
 
 /* Diagram Styles */
 .diagram_container {
@@ -102,7 +81,7 @@
     display: flex;
     align-items: flex-start; /* Changed from center to align with panel top */
     justify-content: flex-start;
-    margin-top: 1rem;
+    margin-top: -8vh; /* Adjusted from -15vh to move down slightly */
     margin-left: -5%;
     align-self: flex-start; /* Align to the left edge naturally */
     pointer-events: none;
@@ -346,17 +325,6 @@
     bottom: 20px;
     right: 20px;
     border-width: 0 2px 2px 0;
-}
-
-@media (hover: hover) {
-    .btn_primary:hover {
-        background-color: var(--color-primary);
-        color: #000;
-    }
-}
-
-.btn_primary:active {
-    opacity: 0.8;
 }
 
 /* Mobile Responsiveness */

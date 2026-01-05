@@ -9,13 +9,9 @@
     /* Colors */
     --color-primary: #00ef3e; 
     --color-secondary: #ffb000; /* Amber for accents */
-    --color-alert: #ff3333; /* Tactical Red */
     
     --color-background: #0c0c0c; /* Deep, deep gray, almost black */
-    --color-surface: #0c0c0c;
-    --color-surface-hover: #0c0c0c;
     --color-panel-bg: rgba(10, 10, 10, 0.9);
-    --color-surface-read: #212121;
     
     /* NEUTRALIZED TEXT COLORS */
     --color-text: #eeeeee;
@@ -23,6 +19,12 @@
     --color-text-muted: #666666;    
     /* NEUTRALIZED BORDERS */
     --color-border: #333333;
+    
+    /* Space Theme */
+    --color-space-start: #101111;
+    --color-space-end: #090a0f;
+    --color-star: #878787;
+    --color-surface-read: #0c0c0c;
     
     /* Fonts */
     --font-mono: 'Departure Mono', monospace;

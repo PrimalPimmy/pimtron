@@ -122,9 +122,6 @@ pub fn Home() -> impl IntoView {
                     "I'm a " <span class=style::highlight>"Software Developer"</span>
                     ". I love to talk about the wide spectrum in Tech."
                 </p>
-                <div class=style::actions>
-                    <a href="/blog" class=style::btn_primary>"Read my blog"</a>
-                </div>
             </div>
 
             // Diagram Section
