@@ -2,7 +2,16 @@ use crate::utils::state::ProjectsResource;
 use leptos::prelude::*;
 
 stylance::import_style!(style, "../styles/projects.module.css");
-stylance::import_style!(md_style, "../styles/markdown.module.css");
+stylance::import_style!(
+    #[allow(unused)]
+    md_style,
+    "../styles/article.module.css"
+);
+stylance::import_style!(
+    #[allow(dead_code)]
+    common,
+    "../styles/common.module.css"
+);
 
 #[component]
 pub fn Projects() -> impl IntoView {
@@ -16,9 +25,9 @@ pub fn Projects() -> impl IntoView {
                 projects_resource.get().map(|data| {
                     match data {
                         Some(post) => view! {
-                            <div class=style::container>
+                            <div class=common::container>
                                 <div class=style::header>
-                                    <h1 class=style::title>"// " {post.title}</h1>
+                                    <h1 class=common::page_title>"// " {post.title}</h1>
                                 </div>
 
                                 // Use shared markdown style for the content, but keep layout container logic from projects

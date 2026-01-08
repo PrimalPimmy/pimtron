@@ -1,5 +1,9 @@
 use leptos::prelude::*;
-stylance::import_style!(style, "../styles/footer.module.css");
+stylance::import_style!(
+    #[allow(unused)]
+    style,
+    "../styles/navbar_footer.module.css"
+);
 
 #[component]
 pub fn Footer() -> impl IntoView {

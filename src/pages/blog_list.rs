@@ -2,6 +2,11 @@ use crate::utils::content::PostConfig;
 use leptos::prelude::*;
 use leptos_meta::*;
 stylance::import_style!(style, "../styles/blog.module.css");
+stylance::import_style!(
+    #[allow(unused)]
+    common,
+    "../styles/common.module.css"
+);
 
 #[component]
 pub fn BlogList() -> impl IntoView {
@@ -11,7 +16,7 @@ pub fn BlogList() -> impl IntoView {
 
     view! {
         <Title text="Pimtron - Blog" />
-        <div class=style::container>
+        <div class=common::container>
             <h1 class=style::title>"Latest Blog Posts"</h1>
             <div class=style::post_list>
                 <Suspense fallback=move || view! { <p>"Loading posts..."</p> }>
@@ -35,8 +40,8 @@ pub fn BlogList() -> impl IntoView {
                     }}
                 </Suspense>
             </div>
-            <div class=style::back_link_container>
-                <a href="/" class=style::back_link>"< Back to Home"</a>
+            <div class=common::back_link_container>
+                <a href="/" class=common::back_link>"< Back to Home"</a>
             </div>
         </div>
     }

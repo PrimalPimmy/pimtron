@@ -19,7 +19,11 @@ use crate::pages::projects::Projects;
 use crate::utils::state::{AboutResource, ProjectsResource};
 
 stylance::import_style!(_vars, "styles/variables.module.css");
-stylance::import_style!(_app, "styles/app.module.css");
+stylance::import_style!(
+    #[allow(unused)]
+    _app,
+    "styles/home.module.css"
+);
 
 fn main() {
     console_error_panic_hook::set_once();

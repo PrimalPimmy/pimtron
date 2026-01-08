@@ -110,3 +110,35 @@
         margin-left: auto; /* Ensure it stays on the right */
     }
 }
+
+.footer {
+    border-top: var(--border-dashed);
+    background-color: transparent;
+    color: var(--color-text-muted);
+    font-family: var(--font-main);
+    padding: 1rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::after {
+    content: "/// END OF LINE ///";
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    opacity: 0.3;
+    margin-top: 1rem;
+    letter-spacing: 2px;
+}
+
+.text {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.footer_highlight {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+}
