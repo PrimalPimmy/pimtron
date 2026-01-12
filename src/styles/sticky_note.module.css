@@ -1,0 +1,27 @@
+.sticky_note {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background-color: #feff9c;
+    color: #333;
+    padding: 20px;
+    font-family: 'Inter';
+    font-size: 1rem;
+    line-height: 1.5;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    transform: rotate(-3deg);
+    z-index: 1000;
+    font-style: italic;
+    border: 1px solid #e6e68a;
+    transition: transform 0.1s;
+    user-select: none;
+    /* Prevent text selection while dragging */
+}
+
+.sticky_note strong {
+    font-weight: 800;
+    color: #000;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 1px;
+}

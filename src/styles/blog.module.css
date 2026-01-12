@@ -1,6 +1,15 @@
 @keyframes pulse-green {
-    0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--color-primary); }
-    50% { opacity: 0.4; box-shadow: 0 0 0 transparent; }
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 2px 2px 0 var(--color-text-muted);
+    }
+
+    50% {
+        opacity: 0.4;
+        box-shadow: 0 0 0 transparent;
+    }
 }
 
 .title {
@@ -10,7 +19,6 @@
     margin-bottom: 3rem;
     text-align: center;
     color: var(--color-primary);
-    text-shadow: var(--shadow-glow);
     font-weight: 700;
     letter-spacing: -1px;
     display: flex;
@@ -33,7 +41,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    counter-reset: blog-post; /* Initialize Counter */
+    counter-reset: blog-post;
+    /* Initialize Counter */
 }
 
 .article_card {
@@ -47,8 +56,10 @@
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    counter-increment: blog-post; /* Increment Counter */
-    height: 100%; /* Equal height cards */
+    counter-increment: blog-post;
+    /* Increment Counter */
+    height: 100%;
+    /* Equal height cards */
     font-family: var(--font-mono);
 }
 
@@ -95,8 +106,9 @@
         box-shadow: var(--shadow-hard);
         transform: translate(-2px, -2px);
     }
-    
-    .article_card:hover::before, .article_card:hover::after {
+
+    .article_card:hover::before,
+    .article_card:hover::after {
         border-color: var(--color-primary);
         width: 20px;
         height: 20px;
@@ -117,7 +129,7 @@
     text-transform: uppercase;
     color: var(--color-text);
     transition: color 0.2s;
-    
+
     /* Alignment Fix */
     display: flex;
     align-items: baseline;
@@ -131,8 +143,10 @@
     font-size: 0.8em;
     font-weight: 400;
     opacity: 0.8;
-    white-space: nowrap; /* Keep index and slashes together */
-    flex-shrink: 0; /* Don't let the index shrink */
+    white-space: nowrap;
+    /* Keep index and slashes together */
+    flex-shrink: 0;
+    /* Don't let the index shrink */
 }
 
 @media (hover: hover) {
@@ -159,23 +173,25 @@
     line-height: 1.5;
     margin-bottom: 0;
     color: var(--color-text-secondary);
-    flex-grow: 1; /* Push bottom content down if needed */
+    flex-grow: 1;
+    /* Push bottom content down if needed */
 }
 
 @media (max-width: 768px) {
     .post_list {
-        grid-template-columns: 1fr; /* Stack on mobile */
+        grid-template-columns: 1fr;
+        /* Stack on mobile */
     }
 
     .title {
         font-size: 2.2rem;
         margin-bottom: 2rem;
     }
-    
+
     .article_card {
         padding: 1rem;
     }
-    
+
     .article_title {
         font-size: 1.1rem;
     }

@@ -1,4 +1,5 @@
 use crate::utils::state::AboutResource;
+use crate::components::navbar::Navbar;
 use leptos::prelude::*;
 
 stylance::import_style!(article_style, "../styles/article.module.css");
@@ -16,6 +17,7 @@ pub fn About() -> impl IntoView {
         .0;
 
     view! {
+        <Navbar />
         <Suspense fallback=move || view! { <div class="loading">"INITIALIZING UPLINK..."</div> }>
             {move || {
                 about_resource.get().map(|data| {

@@ -1,125 +1,105 @@
+/* NAVBAR STYLES */
 .nav {
     display: flex;
     align-items: center;
-    padding: 0.5rem 2rem; /* Reduced vertical padding to accommodate larger link padding */
+    justify-content: center;
+    padding: 1rem 0;
     border-bottom: 2px solid var(--color-border);
     background-color: transparent;
-    font-family: var(--font-mono); /* Changed to Departure Mono */
+    font-family: var(--font-mono);
     position: relative;
-    z-index: 100; /* Ensure navbar is above page content */
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--color-primary);
-    text-decoration: none;
-    letter-spacing: -1px;
-    text-shadow: 0 0 5px var(--color-primary);
+    z-index: 100;
+    width: 100%;
 }
 
 .links {
     display: flex;
-    gap: 0.5rem; /* Reduced gap because links now have more padding */
-    flex-grow: 1;
-    justify-content: left;
-    margin-left: 2rem;
+    gap: 40px;
+    /* Wide vintage spacing */
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .link {
     color: var(--color-text);
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 12px 16px; /* Increased padding for better clickability */
-    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border-bottom: 3px solid transparent;
     transition: all 0.2s ease;
     letter-spacing: 1px;
-    display: flex;
-    align-items: center;
 }
 
 @media (hover: hover) {
     .link:hover {
         color: var(--color-primary);
-        text-shadow: 0 0 8px var(--color-primary);
+        border-bottom-color: var(--color-primary);
         background-color: transparent;
-        border-color: transparent;
-        box-shadow: none; /* Removed stack effect */
     }
 }
 
 .link:active {
-    opacity: 0.7;
-    transform: none; /* Removed movement */
-    background-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
+    color: var(--color-background);
+    background-color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
 }
 
+
+
+/* GitHub Icon - keep it but style it minimal */
 .github_icon {
     color: var(--color-text);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px; /* Increased padding */
-    border: 1px solid transparent;
+    padding: 8px;
+    margin-left: 20px;
+    border: 2px solid transparent;
     transition: none;
 }
 
 @media (hover: hover) {
     .github_icon:hover {
         color: var(--color-primary);
-        background-color: rgba(51, 255, 0, 0.1);
-        border: 1px solid var(--color-primary);
-        box-shadow: 0 0 8px var(--color-primary);
+        background-color: transparent;
+        border: 2px solid var(--color-primary);
+        box-shadow: 2px 2px 0 var(--color-text-secondary);
     }
-}
-
-.github_icon:active {
-    color: var(--color-primary);
-    background-color: rgba(51, 255, 0, 0.2);
-    border: 1px solid var(--color-primary);
 }
 
 @media (max-width: 768px) {
     .nav {
-        padding: 0.25rem 0.75rem;
-    }
-
-    .logo {
-        display: none; /* Hide logo on mobile as requested */
+        padding: 0.5rem;
     }
 
     .links {
-        margin-left: 0;
-        gap: 0.2rem;
-        justify-content: flex-start; /* Shift links to the left */
+        gap: 15px;
     }
 
     .link {
-        font-size: 0.75rem;
-        padding: 10px 8px; /* Maintain decent hit area on mobile */
-        letter-spacing: 0px;
+        font-size: 0.9rem;
+        padding: 6px 8px;
     }
 
     .github_icon {
-        padding: 10px;
-        margin-left: auto; /* Ensure it stays on the right */
+        margin-left: 10px;
     }
 }
 
+/* FOOTER STYLES */
 .footer {
     border-top: var(--border-dashed);
     background-color: transparent;
     color: var(--color-text-muted);
     font-family: var(--font-main);
-    padding: 1rem 2rem;
+    padding: 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
+    margin-top: auto;
 }
 
 .footer::after {
@@ -127,9 +107,10 @@
     display: block;
     font-size: 0.7rem;
     color: var(--color-text-muted);
-    opacity: 0.3;
+    opacity: 0.5;
     margin-top: 1rem;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    font-family: var(--font-mono);
 }
 
 .text {
@@ -141,4 +122,5 @@
     font-size: 0.8rem;
     letter-spacing: 1px;
     color: var(--color-primary);
+    font-weight: bold;
 }

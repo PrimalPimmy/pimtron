@@ -10,7 +10,6 @@ use leptos_router::{
 };
 
 use crate::components::footer::Footer;
-use crate::components::navbar::Navbar;
 use crate::pages::about::About;
 use crate::pages::blog_list::BlogList;
 use crate::pages::home::Home;
@@ -65,7 +64,6 @@ fn App() -> impl IntoView {
         <Title text="Pimtron" />
         <Router>
             <div class="main-layout" style="display: flex; flex-direction: column; min-height: 100vh;">
-                <Navbar />
                 <main class="content" style="flex: 1; display: flex; flex-direction: column;">
                     <Routes fallback=|| view! { <h2>"404 Not Found"</h2> }>
                         <Route path=path!("/") view=Home />

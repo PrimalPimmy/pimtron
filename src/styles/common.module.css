@@ -15,7 +15,6 @@
     font-weight: 700;
     margin-bottom: 2rem;
     line-height: 1.1;
-    text-shadow: 0 0 4px rgba(0, 255, 0, 0.4);
 }
 
 .back_link_container {
@@ -66,7 +65,7 @@
         background-color: var(--color-background);
         color: var(--color-primary);
         border-color: var(--color-primary);
-        box-shadow: 0 0 10px rgba(0, 239, 62, 0.3);
+        box-shadow: var(--shadow-hard);
         transform: translate(-2px, -2px);
     }
 }
@@ -75,7 +74,7 @@
     .container {
         padding: 40px 16px;
     }
-    
+
     .page_title {
         font-size: 2rem;
     }

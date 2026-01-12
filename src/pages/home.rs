@@ -1,3 +1,5 @@
+use crate::components::navbar::Navbar;
+use crate::components::sticky_note::StickyNote;
 use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
 use leptos::html::Div;
@@ -13,42 +15,32 @@ pub fn Home() -> impl IntoView {
     let (webgpu_active, set_webgpu_active) = signal(false);
     let (fps, set_fps) = signal(0);
     let (time_str, set_time_str) = signal(String::new());
+
     let container_ref = NodeRef::<Div>::new();
 
     Effect::new(move |_| {
-        // Check WebGL
         if check_webgl_support() {
             set_webgl_active.set(true);
         }
-
-        // Check WebGPU
         leptos::task::spawn_local(async move {
             if check_webgpu_support().await {
                 set_webgpu_active.set(true);
             }
         });
-
         track_fps(set_fps);
 
-        // Earth Time Clock
         let handle = set_interval_with_handle(
             move || {
                 let now = js_sys::Date::new_0();
-                let hours = now.get_hours();
-                let minutes = now.get_minutes();
-                let seconds = now.get_seconds();
-                let milliseconds = now.get_milliseconds();
-
-                let formatted = format!(
-                    "{:02}:{:02}:{:02}:{:02}",
-                    hours,
-                    minutes,
-                    seconds,
-                    milliseconds / 10
+                let f = format!(
+                    "{:02}:{:02}:{:02}",
+                    now.get_hours(),
+                    now.get_minutes(),
+                    now.get_seconds()
                 );
-                set_time_str.set(formatted);
+                set_time_str.set(f);
             },
-            Duration::from_millis(33), // ~30fps update for clock
+            Duration::from_millis(1000),
         )
         .ok();
 
@@ -62,104 +54,110 @@ pub fn Home() -> impl IntoView {
     view! {
         <Title text="Pimtron" />
         <div class=style::home_container node_ref=container_ref>
-            <div class=style::page_corner_tl></div>
-            <div class=style::page_corner_tr></div>
-            <div class=style::page_corner_bl></div>
-            <div class=style::page_corner_br></div>
 
-            // Earth Time Clock
-            <div class=style::earth_clock>
-                <span class=style::earth_label>"EARTH TIME"</span>
-                <span class=style::earth_time>{time_str}</span>
+            // --- SECTION 1: MASTHEAD ---
+            <div class=style::masthead_container>
+                <h1 class=style::giant_title>"PIMTRON"</h1>
+
+                // Navbar is now just the link row, placed below header as requested
+                <div class=style::nav_row>
+                    <Navbar />
+                </div>
             </div>
 
-            <div class=style::hud_panel>
-                <div class=style::hud_group>
-                    <div class=style::hud_label>"SYS DIAG"</div>
+            // --- SECTION 2: SPLIT CONTENT ---
+            <div class=style::main_content_grid>
+                // STICKY NOTES LAYER (Absolute)
+                <StickyNote initial_x={-240.0} initial_y={200.0}>
+                    "Don't forget to check system logs."
+                    <br/>
+                    "P.S; These notes can be dragged with a mouse."
+                </StickyNote>
 
-                    // WebGL Status
-                    <div class=style::hud_row>
-                        <span class=move || if webgl_active.get() {
-                            format!("{} {}", style::hud_status_indicator, style::hud_status_active)
-                        } else {
-                            style::hud_status_indicator.to_string()
-                        }></span>
-                        <span>"WEBGL"</span>
-                        <div class=style::hud_spacer></div>
-                        <span class=style::hud_value>{move || if webgl_active.get() { "ON" } else { "OFF" }}</span>
+                <StickyNote initial_x={-125.0} initial_y={473.0}>
+                    "Review Diagram FIG_1.0"
+                    <br/>
+                    "Looks a bit small."
+                </StickyNote>
+
+                // LEFT: BLUEPRINT PANEL
+                <div class=style::blueprint_panel>
+                    <div class=style::blueprint_header>
+                        <span>"FIG_1.0: CORE_SYSTEMS"</span>
+                        <span>"REV_2026"</span>
                     </div>
 
-                    // WebGPU Status
-                    <div class=style::hud_row>
-                        <span class=move || if webgpu_active.get() {
-                            format!("{} {}", style::hud_status_indicator, style::hud_status_active)
-                        } else {
-                            style::hud_status_indicator.to_string()
-                        }></span>
-                        <span>"WEBGPU"</span>
-                        <div class=style::hud_spacer></div>
-                        <span class=style::hud_value>{move || if webgpu_active.get() { "ON" } else { "OFF" }}</span>
+                    <div class=style::blueprint_content>
+                        <div class=style::diagram_image></div>
                     </div>
+                </div>
 
-                    // FPS Counter
-                    <div class=style::hud_row>
-                        <span class=format!("{} {}", style::hud_status_indicator, style::hud_status_active)></span>
-                        <span>"FPS"</span>
-                        <div class=style::hud_bar_container>
-                             <div class=style::hud_bar_fill style:width=move || format!("{}%", (fps.get() as f32 / 144.0 * 100.0).min(100.0)) ></div>
+                // RIGHT: INSTRUMENT PANEL
+                <div class=style::instrument_panel>
+
+                    // VOLTMETER GAUGE
+                    <div class=style::voltmeter_container>
+                        <div class=style::gauge_label>"SYSTEM LOAD"</div>
+                        <div class=style::gauge_wrapper>
+                            <div class=style::gauge_dial>
+                                // Needle rotates based on FPS or random jitter
+                                <div class=style::gauge_needle style=move || format!("transform: rotate({}deg);", -45 + (fps.get() % 90))></div>
+                            </div>
                         </div>
-                        <span class=style::hud_value>{fps}</span>
+
+                        <div class=style::readout_row>
+                            <div class=style::digital_group>
+                                <span class=style::digital_label>"FPS"</span>
+                                <div class=style::digital_readout>{fps}</div>
+                            </div>
+                            <div class=style::digital_group>
+                                <span class=style::digital_label>"TIME"</span>
+                                <div class=style::digital_readout>{time_str}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    // STATUS MODULES
+                    <div class=style::voltmeter_container>
+                        <div class=style::gauge_label>"ACTIVE PROTOCOLS"</div>
+                        <div style="display:flex; flex-direction:column; gap:10px; width:100%; margin-top:10px;">
+                            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono);">
+                                <span>"WEBGL_RENDERER"</span>
+                                <span style="font-weight:bold; color:var(--color-primary)">
+                                    {move || if webgl_active.get() { "ONLINE" } else { "OFFLINE" }}
+                                </span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono);">
+                                <span>"WEBGPU_COMPUTE"</span>
+                                <span style="font-weight:bold; color:var(--color-primary)">
+                                    {move || if webgpu_active.get() { "ONLINE" } else { "OFFLINE" }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            // Main Content
-            <div class=style::content_wrapper>
-                <h1 class=style::hero_title>
-                    "Hey, I'm Prashant a.k.a Pimtron/Pimmy"
-                </h1>
-                <p class=style::hero_subtitle>
-                    "I'm a " <span class=style::highlight>"Software Developer"</span>
-                    ". I love to talk about the wide spectrum in Tech."
-                </p>
+            // --- SECTION 3: CONTROL DECK ---
+            <div class=style::control_deck>
+                <a href="/projects" class=style::control_module>
+                    <span class=style::module_label>"PROJECTS"</span>
+                    <span class=style::module_status>"View artifact database & tools >>"</span>
+                </a>
+                <a href="/about" class=style::control_module>
+                    <span class=style::module_label>"ABOUT"</span>
+                    <span class=style::module_status>"Access user profile & bio >>"</span>
+                </a>
+                <a href="/blog" class=style::control_module>
+                    <span class=style::module_label>"BLOG"</span>
+                    <span class=style::module_status>"Read transmission logs >>"</span>
+                </a>
+                 <a href="mailto:contact@pimtron.com" class=style::control_module>
+                    <span class=style::module_label>"CONTACT"</span>
+                    <span class=style::module_status>"Establish comms link >>"</span>
+                </a>
             </div>
 
-            // Diagram Section
-            <div class=style::diagram_container>
-                 <div class=style::diagram_image></div>
-
-                 // System Modules (Right Side)
-                 <div class=style::modules_panel>
-                    <div class=style::modules_header>"// SYSTEM_MODULES"</div>
-
-                    <a href="/about" class=style::module_link>
-                        <div class=style::module_row_top>
-                            <span class=style::module_id>"MOD_01"</span>
-                            <span class=style::module_status_ok>"ONLINE"</span>
-                        </div>
-                        <div class=style::module_title>"ABOUT_ME"</div>
-                        <div class=style::module_desc>"User profile & bio-metrics"</div>
-                    </a>
-
-                    <a href="/blog" class=style::module_link>
-                        <div class=style::module_row_top>
-                            <span class=style::module_id>"MOD_02"</span>
-                            <span class=style::module_status_active>"STREAMING"</span>
-                        </div>
-                        <div class=style::module_title>"BLOG_DATA"</div>
-                        <div class=style::module_desc>"Thoughts & technical write-ups"</div>
-                    </a>
-
-                    <a href="/projects" class=style::module_link>
-                        <div class=style::module_row_top>
-                            <span class=style::module_id>"MOD_03"</span>
-                            <span class=style::module_status_ok>"LOADED"</span>
-                        </div>
-                        <div class=style::module_title>"PROJECTS"</div>
-                        <div class=style::module_desc>"Project artifacts & tools"</div>
-                    </a>
-                 </div>
-            </div>
         </div>
     }
 }

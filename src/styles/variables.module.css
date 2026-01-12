@@ -6,44 +6,46 @@
 }
 
 :root {
+    /* ANALOG FUTURE / RETRO LAB THEME */
+
     /* Colors */
-    --color-primary: #00ef3e; 
-    --color-secondary: #ffb000; /* Amber for accents */
-    
-    --color-background: #0c0c0c; /* Deep, deep gray, almost black */
-    --color-panel-bg: rgba(10, 10, 10, 0.9);
-    
-    /* NEUTRALIZED TEXT COLORS */
-    --color-text: #eeeeee;
-    --color-text-secondary: #cccccc;
-    --color-text-muted: #666666;    
-    /* NEUTRALIZED BORDERS */
-    --color-border: #333333;
-    
-    /* Space Theme */
-    --color-space-start: #101111;
-    --color-space-end: #090a0f;
-    --color-star: #878787;
-    --color-surface-read: #0c0c0c;
-    
+    --color-primary: #af3a03;
+    /* Retro Safety Orange */
+    --color-secondary: #076678;
+    /* Deep Teal */
+
+    --color-background: #fbf1c7;
+    /* Warm Cream / Vintage Paper */
+    --color-panel-bg: #f2e5bc;
+    /* Darker Cream / Manilla Folder */
+
+    /* TEXT COLORS */
+    --color-text: #3c3836;
+    /* Soft Charcoal */
+    --color-text-secondary: #504945;
+    /* Dark Brown-Grey */
+    --color-text-muted: #7c6f64;
+    /* Muted Earth Tone */
+
+    /* BORDERS */
+    --color-border: #a89984;
+    /* Stone Grey */
+
     /* Fonts */
     --font-mono: 'Departure Mono', monospace;
     --font-main: 'Inter', sans-serif;
-    
-    /* Shadows & Glows */
-    /* --shadow-glow: 0 0 10px rgba(51, 255, 0, 0.4), 0 0 2px rgba(51, 255, 0, 0.2);
-    --shadow-glow-strong: 0 0 20px rgba(51, 255, 0, 0.6), 0 0 5px rgba(51, 255, 0, 0.4);
-    --shadow-hard: 2px 2px 0px 0px var(--color-primary); */
-    
-    /* REMOVED GLOBAL TEXT SHADOW (Set to none) */
+
+    /* Shadows & Effects */
+
+    /* Hard retro shadow for tactile feel */
+    --shadow-hard: 4px 4px 0px 0px var(--color-text-secondary);
+
     --text-shadow-std: none;
-    
-    /* Borders - Sci-Fi is rigid */
-    --border-dashed: 1px dashed var(--color-border);
-    --border-solid: 1px solid var(--color-border);
-    --border-primary: 1px solid var(--color-primary);
-    
-    /* CRT Effects */
-    --scanline-color: rgba(0, 0, 0, 0.5);
-    --scanline-size: 4px;
+
+    /* Borders - Solid & Tactile */
+    --border-dashed: 2px dashed var(--color-border);
+    --border-solid: 2px solid var(--color-text);
+    --border-primary: 2px solid var(--color-primary);
+
+
 }

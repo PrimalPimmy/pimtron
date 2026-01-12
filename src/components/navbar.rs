@@ -9,7 +9,6 @@ stylance::import_style!(
 pub fn Navbar() -> impl IntoView {
     view! {
         <nav class=style::nav>
-            <a href="/" class=style::logo>"Pimtron"</a>
             <div class=style::links>
                 <a href="/" class=style::link>"Home"</a>
                 <a href="/about" class=style::link>"About"</a>

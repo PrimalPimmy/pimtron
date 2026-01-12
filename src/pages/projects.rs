@@ -1,4 +1,5 @@
 use crate::utils::state::ProjectsResource;
+use crate::components::navbar::Navbar;
 use leptos::prelude::*;
 
 stylance::import_style!(style, "../styles/projects.module.css");
@@ -20,6 +21,7 @@ pub fn Projects() -> impl IntoView {
         .0;
 
     view! {
+        <Navbar />
         <Suspense fallback=move || view! { <div class=style::loading>"LOADING ARMORY MANIFEST..."</div> }>
             {move || {
                 projects_resource.get().map(|data| {
