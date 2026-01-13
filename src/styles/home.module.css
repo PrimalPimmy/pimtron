@@ -67,7 +67,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 8px 8px 0 var(--color-text-secondary);
     min-height: 400px;
 }
 
@@ -117,7 +116,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 8px 8px 0 var(--color-text-secondary);
 }
 
 .gauge_label {
@@ -232,12 +230,10 @@
     display: flex;
     flex-direction: column;
     transition: all 0.1s;
-    box-shadow: 4px 4px 0 var(--color-text-secondary);
 }
 
 .control_module:hover {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--color-text-secondary);
     border-color: var(--color-primary);
 }
 
@@ -266,9 +262,6 @@
     text-align: left;
     background-color: #ffeec1;
     border: 1px solid var(--color-text-muted);
-    box-shadow:
-        4px 4px 0 rgba(0, 0, 0, 0.15),
-        8px 8px 15px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
