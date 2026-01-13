@@ -24,7 +24,7 @@
     align-items: center;
     border-bottom: 4px solid var(--color-text);
     padding-bottom: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .giant_title {
@@ -261,7 +261,7 @@
 
 /* --- SECTION 4: INTRO --- */
 .intro_section {
-    margin: 20px auto auto 10px;
+    margin-bottom: 30px;
     padding: 20px 20px;
     text-align: left;
     background-color: #ffeec1;
@@ -274,9 +274,9 @@
 
 .intro_text {
     font-family: 'Departure Mono', var(--font-mono);
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
-    color: #3d3529;
+    color: #1e1d1b;
     margin: 0rem;
 }
 
@@ -316,6 +316,16 @@
 
     .control_deck {
         grid-template-columns: 1fr;
+    }
+
+    .intro_section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .intro_text {
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 }
 

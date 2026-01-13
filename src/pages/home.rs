@@ -65,7 +65,22 @@ pub fn Home() -> impl IntoView {
                 </div>
             </div>
 
-            // --- SECTION 2: SPLIT CONTENT ---
+            // --- SECTION 2: INTRO ---
+            <div class=style::intro_section>
+                <p class=style::intro_text>
+                    "Hey, I'm Prashant, a.k.a Pimtron/Pimmy. I love to explore about the wide spectrum in tech! I have worked in the "
+                    <strong>"Security"</strong>
+                    " field, especially in the "
+                    <strong>"Cloud Native"</strong>
+                    " side. I have also been exploring "
+                    <strong>"Graphics Programming"</strong>
+                    " and "
+                    <strong>"Distributed systems"</strong>
+                    ". So yeah, I do want to see if I can have the knowledge in many fields xD."
+                </p>
+            </div>
+
+            // --- SECTION 3: SPLIT CONTENT ---
             <div class=style::main_content_grid>
                 // STICKY NOTES LAYER (Absolute)
                 <StickyNote initial_x={-240.0} initial_y={200.0}>
@@ -142,21 +157,6 @@ pub fn Home() -> impl IntoView {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            // --- SECTION 3: INTRO ---
-            <div class=style::intro_section>
-                <p class=style::intro_text>
-                    "Hey, I'm Prashant, a.k.a Pimtron/Pimmy. I love to explore about the wide spectrum in tech! I have worked in the "
-                    <strong>"Security"</strong>
-                    " field, especially in the "
-                    <strong>"Cloud Native"</strong>
-                    " side. I have also been exploring "
-                    <strong>"Graphics Programming"</strong>
-                    " and "
-                    <strong>"Distributed systems"</strong>
-                    ". So yeah, I do want to see if I can have the knowledge in many fields xD."
-                </p>
             </div>
 
             // --- SECTION 4: CONTROL DECK ---
