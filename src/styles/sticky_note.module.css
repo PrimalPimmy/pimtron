@@ -25,3 +25,10 @@
     text-decoration-style: wavy;
     text-decoration-thickness: 1px;
 }
+
+/* Hide sticky notes on mobile - drag functionality doesn't work well with touch */
+@media (max-width: 768px) {
+    .sticky_note {
+        display: none;
+    }
+}

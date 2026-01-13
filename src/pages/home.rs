@@ -14,7 +14,7 @@ pub fn Home() -> impl IntoView {
     let (webgl_active, set_webgl_active) = signal(false);
     let (webgpu_active, set_webgpu_active) = signal(false);
     let (fps, set_fps) = signal(0);
-    let (time_str, set_time_str) = signal(String::new());
+    let (time_str, set_time_str) = signal("00:00:00".to_string());
 
     let container_ref = NodeRef::<Div>::new();
 
@@ -100,8 +100,14 @@ pub fn Home() -> impl IntoView {
                         <div class=style::gauge_label>"SYSTEM LOAD"</div>
                         <div class=style::gauge_wrapper>
                             <div class=style::gauge_dial>
-                                // Needle rotates based on FPS or random jitter
-                                <div class=style::gauge_needle style=move || format!("transform: rotate({}deg);", -45 + (fps.get() % 90))></div>
+                                // Needle is positioned at center with transform-origin: top center
+                                // Base rotation is 180deg (pointing up). Add -70 to +70 to sweep the semicircle
+                                <div class=style::gauge_needle style=move || {
+                                    let clamped_fps = fps.get().min(265) as f64;
+                                    // Map 0-265 FPS: 90deg (horizontal left) to 270deg (horizontal right)
+                                    let rotation = 90.0 + (clamped_fps / 265.0 * 180.0);
+                                    format!("transform: rotate({}deg); transition: transform 0.2s cubic-bezier(0.1, 0.7, 1.0, 0.1);", rotation)
+                                }></div>
                             </div>
                         </div>
 
@@ -138,7 +144,22 @@ pub fn Home() -> impl IntoView {
                 </div>
             </div>
 
-            // --- SECTION 3: CONTROL DECK ---
+            // --- SECTION 3: INTRO ---
+            <div class=style::intro_section>
+                <p class=style::intro_text>
+                    "Hey, I'm Prashant, a.k.a Pimtron/Pimmy. I love to explore about the wide spectrum in tech! I have worked in the "
+                    <strong>"Security"</strong>
+                    " field, especially in the "
+                    <strong>"Cloud Native"</strong>
+                    " side. I have also been exploring "
+                    <strong>"Graphics Programming"</strong>
+                    " and "
+                    <strong>"Distributed systems"</strong>
+                    ". So yeah, I do want to see if I can have the knowledge in many fields xD."
+                </p>
+            </div>
+
+            // --- SECTION 4: CONTROL DECK ---
             <div class=style::control_deck>
                 <a href="/projects" class=style::control_module>
                     <span class=style::module_label>"PROJECTS"</span>

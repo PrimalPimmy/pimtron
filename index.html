@@ -1,210 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link data-trunk rel="css" href="index.css" />
-    <link data-trunk rel="rust" data-bin="pimtron" />
-    <link data-trunk rel="copy-dir" href="assets" />
-    <link data-trunk rel="copy-dir" href="generated_posts" data-target-path="posts" />
-    <link data-trunk rel="copy-file" href="_redirects" />
-    <link data-trunk rel="copy-file" href="_headers" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Pimtron" />
-    <meta property="og:description" content="Welcome to Pimtron" />
-    <meta property="og:image" content="https://pimtron.pages.dev/assets/pim.png" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link data-trunk rel="css" href="index.css" />
+  <link data-trunk rel="rust" data-bin="pimtron" />
+  <link data-trunk rel="copy-dir" href="assets" />
+  <link data-trunk rel="copy-dir" href="generated_posts" data-target-path="posts" />
+  <link data-trunk rel="copy-file" href="_redirects" />
+  <link data-trunk rel="copy-file" href="_headers" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:title" content="Pimtron" />
-    <meta property="twitter:description" content="All about tech" />
-    <meta property="twitter:image" content="https://pimtron.pages.dev/assets/pim.png" />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pimtron" />
+  <meta property="og:description" content="Welcome to Pimtron" />
+  <meta property="og:image" content="https://pimtron.pages.dev/assets/pim.png" />
 
-    <title>Pimtron</title>
-    <style>
-      #loading-layer {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #000000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        flex-direction: column;
-        gap: 1.5rem;
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="Pimtron" />
+  <meta property="twitter:description" content="All about tech" />
+  <meta property="twitter:image" content="https://pimtron.pages.dev/assets/pim.png" />
+
+  <title>Pimtron</title>
+  <style>
+    #loading-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 2px dashed #333;
+      border-top: 2px solid #00ff00;
+      border-right: 2px solid #00ff00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+    }
+
+    .loading-text {
+      color: #00ff00;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      animation: blink 1.5s infinite;
+      text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
-      .spinner {
-        width: 60px;
-        height: 60px;
-        border: 2px dashed #333;
-        border-top: 2px solid #00ff00;
-        border-right: 2px solid #00ff00;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+
+      100% {
+        transform: rotate(360deg);
       }
-      .loading-text {
-        color: #00ff00;
-        font-size: 1rem;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        animation: blink 1.5s infinite;
-        text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
       }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+
+      50% {
+        opacity: 0.4;
       }
-      @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-      }
-    </style>
-  </head>
-  <body ontouchstart="">
-    <div id="loading-layer">
-      <div class="spinner"></div>
-      <div class="loading-text">INITIALIZING SYSTEM...</div>
-    </div>
-    <script>
-      (function() {
-        const starCount = 120;
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d', { alpha: true });
-        
-        canvas.id = 'star-background';
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.zIndex = '-1';
-        canvas.style.pointerEvents = 'none';
-        canvas.style.backgroundColor = 'var(--color-background)'; 
-        
-        document.body.style.backgroundColor = 'transparent'; // Make body transparent
-        document.body.prepend(canvas); // Prepend to be at the bottom
+    }
+  </style>
+</head>
 
-        const stars = [];
-        
-        // Initialize stars
-        for (let i = 0; i < starCount; i++) {
-          stars.push({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            // Size: 2 or 3 (was 2 or 4) - Pushes them "back" visually
-            size: Math.floor(Math.random() * 2) + 2,
-            speed: 0.1 + Math.random() * 0.4
-          });
-        }
+<body ontouchstart="">
+  <div id="loading-layer">
+    <div class="spinner"></div>
+    <div class="loading-text">INITIALIZING SYSTEM...</div>
+  </div>
+</body>
 
-        function resize() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize(); // Initial sizing
-
-        function updateVisibility() {
-          const path = window.location.pathname;
-          // Only show stars on the root path
-          if (path === '/' || path === '/index.html' || path === "/blog") {
-            canvas.style.display = 'block';
-            document.body.style.backgroundColor = 'transparent';
-          } else {
-            canvas.style.display = 'none';
-            document.body.style.backgroundColor = 'var(--color-surface-read)';
-          }
-        }
-
-        // Initial check
-        updateVisibility();
-
-        // Monkey patch history API to detect SPA navigation
-        const originalPushState = history.pushState;
-        history.pushState = function() {
-          originalPushState.apply(this, arguments);
-          updateVisibility();
-        };
-
-        const originalReplaceState = history.replaceState;
-        history.replaceState = function() {
-          originalReplaceState.apply(this, arguments);
-          updateVisibility();
-        };
-
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', updateVisibility);
-
-        let targetScrollY = 0;
-        let currentScrollY = 0;
-        
-        window.addEventListener('scroll', () => {
-          targetScrollY = window.scrollY;
-        });
-
-        function animate() {
-          // Skip animation if not visible
-          if (canvas.style.display === 'none') {
-            requestAnimationFrame(animate);
-            return;
-          }
-
-          const width = canvas.width;
-          const height = canvas.height;
-          
-          // Smooth out the scroll value (Linear Interpolation)
-          currentScrollY += (targetScrollY - currentScrollY) * 0.1;
-
-          // Calculate fade based on scroll position
-          const fadeStart = 0;
-          const fadeEnd = 500;
-          let globalOpacity = 1;
-          
-          if (currentScrollY > fadeStart) {
-             globalOpacity = 1 - Math.min((currentScrollY - fadeStart) / (fadeEnd - fadeStart), 1);
-          }
-
-          // Clear canvas (reveals the CSS background color)
-          ctx.clearRect(0, 0, width, height);
-          ctx.fillStyle = '#878787';
-
-          stars.forEach(star => {
-            star.x += (star.size) * 0.2; // Slower horizontal drift
-            if (star.x > width) {
-              star.x = 0;
-              star.y = Math.random() * height;
-            }
-
-            // Parallax scroll effect (Reduced intensity 0.5 -> 0.25)
-            const offset = (currentScrollY * star.speed * 0.25);
-            const displayY = (star.y - offset) % height;
-            const finalY = displayY < 0 ? height + displayY : displayY;
-
-            // Snap to whole pixels
-            const pxX = Math.floor(star.x);
-            const pxY = Math.floor(finalY);
-
-            // Opacity logic: Larger stars are brighter
-            // Normalize to max size 3
-            ctx.globalAlpha = (star.size / 3) * globalOpacity;
-            
-            ctx.fillRect(pxX, pxY, star.size, star.size);
-          });
-
-          requestAnimationFrame(animate);
-        }
-
-        requestAnimationFrame(animate);
-      })();
-    </script>
-  </body>
 </html>

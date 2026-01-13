@@ -573,7 +573,7 @@
     position: relative;
     width: 240px;
     height: 140px;
-    /* Semicircle */
+    /* Semicircle - clip anything outside this area */
     overflow: hidden;
     margin: 20px 0;
 }
@@ -585,26 +585,29 @@
     border: 12px solid var(--color-text);
     background: transparent;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .gauge_needle-5182da4 {
     position: absolute;
-    bottom: 0;
-    left: 50%;
+    /* Position needle pivot at center of the circle (120px from top of dial = bottom of visible semicircle) */
+    top: 120px;
+    left: calc(50% - 2px);
     width: 4px;
     height: 100px;
     background-color: var(--color-primary);
-    transform-origin: bottom center;
-    transition: transform 0.2s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+    transform-origin: top center;
     z-index: 2;
-    /* Jitter animation added via inline style or separate class if needed */
+    /* Rotate 90deg by default (0 FPS = horizontal left), then JS updates from there */
+    transform: rotate(90deg);
 }
 
 .gauge_needle-5182da4::after {
     content: "";
     /* Pivot point */
     position: absolute;
-    bottom: -6px;
+    top: -6px;
     left: -4px;
     width: 12px;
     height: 12px;
@@ -617,29 +620,38 @@
     gap: 20px;
     width: 100%;
     margin-top: 10px;
+    position: relative;
+    z-index: 10;
+    background-color: var(--color-panel-bg);
 }
 
 .digital_group-5182da4 {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    flex-grow: 1;
+    flex: 1;
+    min-width: 0;
 }
 
 .digital_label-5182da4 {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     color: var(--color-text-muted);
+    text-align: center;
 }
 
 .digital_readout-5182da4 {
     font-family: var(--font-mono);
     background-color: var(--color-text);
-    color: var(--color-primary);
-    padding: 5px 10px;
-    font-size: 1.2rem;
+    color: #ff4444;
+    padding: 4px 8px;
+    font-size: 1rem;
     border: 2px solid var(--color-text-muted);
-    text-align: right;
+    text-align: center;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* --- SECTION 3: CONTROL DECK (BOTTOM) --- */
@@ -686,6 +698,27 @@
     font-family: var(--font-mono);
 }
 
+/* --- SECTION 4: INTRO --- */
+.intro_section-5182da4 {
+    margin: 20px auto auto 10px;
+    padding: 20px 20px;
+    text-align: left;
+    background-color: #ffeec1;
+    border: 1px solid var(--color-text-muted);
+    box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.15),
+        8px 8px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.intro_text-5182da4 {
+    font-family: 'Departure Mono', var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #3d3529;
+    margin: 0rem;
+}
+
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {
@@ -707,10 +740,17 @@
 @media (max-width: 600px) {
     .giant_title-5182da4 {
         font-size: 3.5rem;
+        letter-spacing: -2px;
     }
 
     .home_container-5182da4 {
         padding: 20px;
+    }
+
+    .nav_row-5182da4 {
+        justify-content: center;
+        gap: 10px;
+        padding: 0;
     }
 
     .control_deck-5182da4 {
@@ -851,10 +891,14 @@ body {
 @media (max-width: 768px) {
     .nav-ef449aa {
         padding: 0.5rem;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .links-ef449aa {
         gap: 15px;
+        width: 100%;
+        justify-content: center;
     }
 
     .link-ef449aa {
@@ -863,7 +907,10 @@ body {
     }
 
     .github_icon-ef449aa {
-        margin-left: 10px;
+        margin-left: 0;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
     }
 }
 
@@ -1055,6 +1102,13 @@ body {
     text-decoration: underline;
     text-decoration-style: wavy;
     text-decoration-thickness: 1px;
+}
+
+/* Hide sticky notes on mobile - drag functionality doesn't work well with touch */
+@media (max-width: 768px) {
+    .sticky_note-72090c9 {
+        display: none;
+    }
 }
 
 @font-face {
