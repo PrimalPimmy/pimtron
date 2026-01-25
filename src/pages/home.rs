@@ -1,5 +1,4 @@
 use crate::components::navbar::Navbar;
-use crate::components::sticky_note::StickyNote;
 use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
 use leptos::html::Div;
@@ -82,19 +81,6 @@ pub fn Home() -> impl IntoView {
 
             // --- SECTION 3: SPLIT CONTENT ---
             <div class=style::main_content_grid>
-                // STICKY NOTES LAYER (Absolute)
-                <StickyNote initial_x={-240.0} initial_y={200.0}>
-                    "Don't forget to check system logs."
-                    <br/>
-                    "P.S; These notes can be dragged with a mouse."
-                </StickyNote>
-
-                <StickyNote initial_x={-125.0} initial_y={473.0}>
-                    "Review Diagram FIG_1.0"
-                    <br/>
-                    "Looks a bit small."
-                </StickyNote>
-
                 // LEFT: BLUEPRINT PANEL
                 <div class=style::blueprint_panel>
                     <div class=style::blueprint_header>
