@@ -748,7 +748,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -766,7 +765,6 @@ body {
     background: var(--color-text-muted);
 }
 
-/* Selection */
 ::selection {
     background: var(--color-primary);
     color: #ffffff;

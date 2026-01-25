@@ -351,7 +351,6 @@
     box-sizing: border-box;
 }
 
-/* Scrollbar Styling */
 :global(::-webkit-scrollbar) {
     width: 10px;
 }
@@ -369,7 +368,6 @@
     background: var(--color-text-muted);
 }
 
-/* Selection */
 :global(::selection) {
     background: var(--color-primary);
     color: #ffffff;

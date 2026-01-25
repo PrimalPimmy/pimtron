@@ -1,5 +1,5 @@
-use crate::utils::state::ProjectsResource;
 use crate::components::navbar::Navbar;
+use crate::utils::state::ProjectsResource;
 use leptos::prelude::*;
 
 stylance::import_style!(style, "../styles/projects.module.css");
@@ -9,7 +9,7 @@ stylance::import_style!(
     "../styles/article.module.css"
 );
 stylance::import_style!(
-    #[allow(dead_code)]
+    #[allow(unused)]
     common,
     "../styles/common.module.css"
 );

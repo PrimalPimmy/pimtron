@@ -1,82 +1,102 @@
+//! GPU capability detection and FPS tracking utilities.
+
 use leptos::prelude::*;
 use std::cell::RefCell;
 use std::rc::Rc;
+use std::sync::Arc;
+use std::sync::atomic::{AtomicI32, Ordering};
 use wasm_bindgen::JsCast;
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlCanvasElement;
 
+/// Interval in milliseconds for FPS calculation updates.
+const FPS_UPDATE_INTERVAL_MS: f64 = 1000.0;
+
+/// Type alias for the animation frame callback closure.
+type AnimationCallback = Rc<RefCell<Option<Closure<dyn FnMut()>>>>;
+
+/// Checks if WebGL (1 or 2) is supported in the current browser.
 pub fn check_webgl_support() -> bool {
-    let window = match web_sys::window() {
-        Some(w) => w,
-        None => return false,
+    let Some(window) = web_sys::window() else {
+        return false;
     };
-    let document = match window.document() {
-        Some(d) => d,
-        None => return false,
+    let Some(document) = window.document() else {
+        return false;
     };
 
-    if let Ok(canvas) = document.create_element("canvas")
-        && let Ok(canvas_el) = canvas.dyn_into::<HtmlCanvasElement>()
-    {
-        // Try webgl2 first, then webgl
-        let gl2 = canvas_el.get_context("webgl2");
-        let gl1 = canvas_el.get_context("webgl");
+    let Ok(canvas) = document.create_element("canvas") else {
+        return false;
+    };
+    let Ok(canvas_el) = canvas.dyn_into::<HtmlCanvasElement>() else {
+        return false;
+    };
 
-        if let Ok(Some(_)) = gl2 {
-            return true;
-        } else if let Ok(Some(_)) = gl1 {
-            return true;
-        }
+    // Try webgl2 first, then webgl
+    if let Ok(Some(_)) = canvas_el.get_context("webgl2") {
+        return true;
     }
+    if let Ok(Some(_)) = canvas_el.get_context("webgl") {
+        return true;
+    }
+
     false
 }
 
+/// Checks if WebGPU is supported in the current browser.
 pub async fn check_webgpu_support() -> bool {
-    let window = match web_sys::window() {
-        Some(w) => w,
-        None => return false,
+    let Some(window) = web_sys::window() else {
+        return false;
     };
     let navigator = window.navigator();
-
     let navigator_js: &wasm_bindgen::JsValue = navigator.as_ref();
-    if let Ok(gpu_val) = js_sys::Reflect::get(navigator_js, &"gpu".into())
-        && !gpu_val.is_undefined()
-        && !gpu_val.is_null()
-    {
-        let request_adapter_key = wasm_bindgen::JsValue::from_str("requestAdapter");
-        if let Ok(request_adapter_fn_val) = js_sys::Reflect::get(&gpu_val, &request_adapter_key)
-            && let Ok(request_adapter_fn) = request_adapter_fn_val.dyn_into::<js_sys::Function>()
-            && let Ok(promise_val) = request_adapter_fn.call0(&gpu_val)
-        {
-            let promise = promise_val.unchecked_into::<js_sys::Promise>();
-            if let Ok(adapter) = wasm_bindgen_futures::JsFuture::from(promise).await
-                && !adapter.is_null()
-                && !adapter.is_undefined()
-            {
-                return true;
-            }
-        }
+
+    // Check if navigator.gpu exists
+    let Ok(gpu_val) = js_sys::Reflect::get(navigator_js, &"gpu".into()) else {
+        return false;
+    };
+    if gpu_val.is_undefined() || gpu_val.is_null() {
+        return false;
     }
-    false
+
+    // Get requestAdapter function
+    let Ok(request_adapter_val) = js_sys::Reflect::get(&gpu_val, &"requestAdapter".into()) else {
+        return false;
+    };
+    let Ok(request_adapter_fn) = request_adapter_val.dyn_into::<js_sys::Function>() else {
+        return false;
+    };
+
+    // Call requestAdapter()
+    let Ok(promise_val) = request_adapter_fn.call0(&gpu_val) else {
+        return false;
+    };
+
+    let promise = promise_val.unchecked_into::<js_sys::Promise>();
+
+    matches!(
+        wasm_bindgen_futures::JsFuture::from(promise).await,
+        Ok(adapter) if !adapter.is_null() && !adapter.is_undefined()
+    )
 }
 
+/// Tracks FPS using requestAnimationFrame and updates the provided signal.
+///
+/// The FPS count is updated every second. Cleanup is handled automatically
+/// when the component is unmounted.
 pub fn track_fps(set_fps: WriteSignal<i32>) {
-    let window = match web_sys::window() {
-        Some(w) => w,
-        None => return,
+    let Some(window) = web_sys::window() else {
+        return;
     };
-    let performance = match window.performance() {
-        Some(p) => p,
-        None => return,
+    let Some(performance) = window.performance() else {
+        return;
     };
 
     let last_time = Rc::new(RefCell::new(performance.now()));
-    let frame_count = Rc::new(RefCell::new(0));
-    // Use Arc<AtomicI32> for thread-safety
-    // Initialize with 0 (invalid ID)
-    let handle = std::sync::Arc::new(std::sync::atomic::AtomicI32::new(0));
+    let frame_count = Rc::new(RefCell::new(0i32));
+    // Use Arc<AtomicI32> for on_cleanup which requires Send+Sync
+    let handle = Arc::new(AtomicI32::new(0));
 
-    let f = Rc::new(RefCell::new(None::<Closure<dyn FnMut()>>));
+    let f: AnimationCallback = Rc::new(RefCell::new(None));
     let g = f.clone();
 
     let window_clone = window.clone();
@@ -88,7 +108,7 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
         *frame_count.borrow_mut() += 1;
 
         let delta = now - *last_time.borrow();
-        if delta >= 1000.0 {
+        if delta >= FPS_UPDATE_INTERVAL_MS {
             set_fps.set(*frame_count.borrow());
             *frame_count.borrow_mut() = 0;
             *last_time.borrow_mut() = now;
@@ -98,7 +118,7 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
             let id = window_clone
                 .request_animation_frame(cb.as_ref().unchecked_ref())
                 .unwrap_or(0);
-            handle_clone.store(id, std::sync::atomic::Ordering::Relaxed);
+            handle_clone.store(id, Ordering::Relaxed);
         }
     };
 
@@ -108,11 +128,11 @@ pub fn track_fps(set_fps: WriteSignal<i32>) {
         let id = window
             .request_animation_frame(cb.as_ref().unchecked_ref())
             .unwrap_or(0);
-        handle.store(id, std::sync::atomic::Ordering::Relaxed);
+        handle.store(id, Ordering::Relaxed);
     }
 
     on_cleanup(move || {
-        let id = handle.load(std::sync::atomic::Ordering::Relaxed);
+        let id = handle.load(Ordering::Relaxed);
         if id != 0
             && let Some(win) = web_sys::window()
         {

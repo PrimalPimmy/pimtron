@@ -1,12 +1,14 @@
 use crate::components::navbar::Navbar;
 use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
-use leptos::html::Div;
 use leptos::leptos_dom::helpers::set_interval_with_handle;
 use leptos::prelude::*;
 use leptos_meta::*;
 use std::time::Duration;
 stylance::import_style!(style, "../styles/home.module.css");
+
+/// Maximum FPS value for the gauge display (maps to full rotation).
+const FPS_GAUGE_MAX: f64 = 265.0;
 
 #[component]
 pub fn Home() -> impl IntoView {
@@ -14,8 +16,6 @@ pub fn Home() -> impl IntoView {
     let (webgpu_active, set_webgpu_active) = signal(false);
     let (fps, set_fps) = signal(0);
     let (time_str, set_time_str) = signal("00:00:00".to_string());
-
-    let container_ref = NodeRef::<Div>::new();
 
     Effect::new(move |_| {
         if check_webgl_support() {
@@ -52,7 +52,7 @@ pub fn Home() -> impl IntoView {
 
     view! {
         <Title text="Pimtron" />
-        <div class=style::home_container node_ref=container_ref>
+        <div class=style::home_container>
 
             // --- SECTION 1: MASTHEAD ---
             <div class=style::masthead_container>
@@ -104,9 +104,9 @@ pub fn Home() -> impl IntoView {
                                 // Needle is positioned at center with transform-origin: top center
                                 // Base rotation is 180deg (pointing up). Add -70 to +70 to sweep the semicircle
                                 <div class=style::gauge_needle style=move || {
-                                    let clamped_fps = fps.get().min(265) as f64;
-                                    // Map 0-265 FPS: 90deg (horizontal left) to 270deg (horizontal right)
-                                    let rotation = 90.0 + (clamped_fps / 265.0 * 180.0);
+                                    let clamped_fps = (fps.get() as f64).min(FPS_GAUGE_MAX);
+                                    // Map 0-MAX FPS: 90deg (horizontal left) to 270deg (horizontal right)
+                                    let rotation = 90.0 + (clamped_fps / FPS_GAUGE_MAX * 180.0);
                                     format!("transform: rotate({}deg); transition: transform 0.2s cubic-bezier(0.1, 0.7, 1.0, 0.1);", rotation)
                                 }></div>
                             </div>
