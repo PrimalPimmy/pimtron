@@ -1,5 +1,3 @@
-/* Keyframes removed */
-
 /* Page Corners Removed */
 
 .home_container {
@@ -22,7 +20,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: 4px solid var(--color-text);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
@@ -30,7 +28,6 @@
 .giant_title {
     font-family: var(--font-mono);
     font-size: 8rem;
-    /* MASSIVE */
     font-weight: 900;
     line-height: 0.8;
     color: var(--color-text);
@@ -53,7 +50,6 @@
 .main_content_grid {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    /* 60/40 Split */
     gap: 40px;
     flex-grow: 1;
     min-height: 500px;
@@ -61,7 +57,7 @@
 
 /* LEFT: BLUEPRINT AREA */
 .blueprint_panel {
-    border: 2px solid var(--color-text);
+    border: var(--border-thin);
     background-color: var(--color-panel-bg);
     padding: 20px;
     position: relative;
@@ -74,7 +70,7 @@
     font-family: var(--font-mono);
     font-size: 0.9rem;
     color: var(--color-text-muted);
-    border-bottom: 1px solid var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 10px;
     margin-bottom: 20px;
     display: flex;
@@ -92,15 +88,10 @@
 .diagram_image {
     width: 100%;
     height: 400px;
-    /* Increased Height */
     background: url('/assets/mercury-diagram.svg') center/contain no-repeat;
     opacity: 0.9;
-    /* Filter to turn white/black into Deep Brown (#5D4037 approx) */
-    filter: invert(1) sepia(1) saturate(3) hue-rotate(-50deg) contrast(0.8) brightness(0.6);
+    filter: brightness(0);
 }
-
-/* Sticky Note styles moved to sticky_note.module.css */
-
 
 /* RIGHT: INSTRUMENT PANEL */
 .instrument_panel {
@@ -111,7 +102,7 @@
 
 .voltmeter_container {
     background-color: var(--color-panel-bg);
-    border: 2px solid var(--color-text);
+    border: var(--border-thin);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -121,18 +112,21 @@
 .gauge_label {
     font-family: var(--font-mono);
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.85rem;
     margin-bottom: 10px;
     width: 100%;
     text-align: left;
-    border-bottom: 2px solid var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
 }
 
 .gauge_wrapper {
     position: relative;
     width: 240px;
     height: 140px;
-    /* Semicircle - clip anything outside this area */
     overflow: hidden;
     margin: 20px 0;
 }
@@ -141,7 +135,7 @@
     width: 240px;
     height: 240px;
     border-radius: 50%;
-    border: 12px solid var(--color-text);
+    border: 8px solid var(--color-border);
     background: transparent;
     box-sizing: border-box;
     position: relative;
@@ -150,7 +144,6 @@
 
 .gauge_needle {
     position: absolute;
-    /* Position needle pivot at center of the circle (120px from top of dial = bottom of visible semicircle) */
     top: 120px;
     left: calc(50% - 2px);
     width: 4px;
@@ -158,13 +151,11 @@
     background-color: var(--color-primary);
     transform-origin: top center;
     z-index: 2;
-    /* Rotate 90deg by default (0 FPS = horizontal left), then JS updates from there */
     transform: rotate(90deg);
 }
 
 .gauge_needle::after {
     content: "";
-    /* Pivot point */
     position: absolute;
     top: -6px;
     left: -4px;
@@ -197,17 +188,18 @@
     font-size: 0.7rem;
     color: var(--color-text-muted);
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .digital_readout {
     font-family: var(--font-mono);
     background-color: var(--color-text);
-    color: #ff4444;
-    padding: 4px 8px;
+    color: var(--color-primary);
+    padding: 8px 12px;
     font-size: 1rem;
-    border: 2px solid var(--color-text-muted);
     text-align: center;
-    height: 32px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,18 +215,19 @@
 }
 
 .control_module {
-    background-color: var(--color-background);
-    border: 2px solid var(--color-text);
-    padding: 15px;
+    background-color: var(--color-panel-bg);
+    border: var(--border-thin);
+    padding: 20px;
     text-decoration: none;
     display: flex;
     flex-direction: column;
-    transition: all 0.1s;
+    transition: all 0.2s ease;
 }
 
 .control_module:hover {
-    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hover);
     border-color: var(--color-primary);
+    transform: translateY(-2px);
 }
 
 .control_module:hover .module_label {
@@ -245,8 +238,10 @@
     font-family: var(--font-mono);
     font-weight: bold;
     color: var(--color-text);
-    font-size: 1.2rem;
-    margin-bottom: 5px;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .module_status {
@@ -258,19 +253,24 @@
 /* --- SECTION 4: INTRO --- */
 .intro_section {
     margin-bottom: 30px;
-    padding: 20px 20px;
+    padding: 24px;
     text-align: left;
-    background-color: #ffeec1;
-    border: 1px solid var(--color-text-muted);
+    background-color: var(--color-panel-bg);
+    border: var(--border-thin);
     position: relative;
 }
 
 .intro_text {
-    font-family: 'Departure Mono', var(--font-mono);
-    font-size: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
     line-height: 1.8;
-    color: #1e1d1b;
-    margin: 0rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.intro_text strong {
+    color: var(--color-primary);
+    font-weight: 700;
 }
 
 
@@ -322,7 +322,7 @@
     }
 }
 
-/* Base Body Styles - COPIED FROM ORIGINAL TO MAINTAIN GLOBALS */
+/* Base Body Styles */
 :global(html) {
     background-color: var(--color-background);
 }
@@ -353,29 +353,25 @@
 
 /* Scrollbar Styling */
 :global(::-webkit-scrollbar) {
-    width: 14px;
+    width: 10px;
 }
 
 :global(::-webkit-scrollbar-track) {
     background: var(--color-background);
-    border-left: var(--border-solid);
 }
 
 :global(::-webkit-scrollbar-thumb) {
-    background: var(--color-text-secondary);
-    /* Dark thumb */
-    border: 2px solid var(--color-background);
-    /* Creates a "gap" feel */
-    border-radius: 0;
+    background: var(--color-border);
+    border-radius: 5px;
 }
 
 :global(::-webkit-scrollbar-thumb:hover) {
-    background: var(--color-primary);
+    background: var(--color-text-muted);
 }
 
 /* Selection */
 :global(::selection) {
     background: var(--color-primary);
-    color: var(--color-background);
+    color: #ffffff;
     text-shadow: none;
 }

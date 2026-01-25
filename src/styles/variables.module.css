@@ -6,46 +6,47 @@
 }
 
 :root {
-    /* ANALOG FUTURE / RETRO LAB THEME */
+    /* CLEAN CARD THEME - Inspired by ChainGPT Labs */
 
-    /* Colors */
-    --color-primary: #af3a03;
-    /* Retro Safety Orange */
-    --color-secondary: #076678;
-    /* Deep Teal */
+    /* Primary Accent */
+    --color-primary: #ff6b35;
 
-    --color-background: #fbf1c7;
-    /* Warm Cream / Vintage Paper */
-    --color-panel-bg: #f2e5bc;
-    /* Darker Cream / Manilla Folder */
+    /* Backgrounds */
+    --color-background: #f5f5f5;
+    /* Light grey page background */
+    --color-panel-bg: #ffffff;
+    /* White cards */
 
-    /* TEXT COLORS */
-    --color-text: #3c3836;
-    /* Soft Charcoal */
-    --color-text-secondary: #504945;
-    /* Dark Brown-Grey */
-    --color-text-muted: #7c6f64;
-    /* Muted Earth Tone */
+    /* Text Colors */
+    --color-text: #1a1a1a;
+    /* Dark charcoal */
+    --color-text-secondary: #4a4a4a;
+    /* Medium grey */
+    --color-text-muted: #8a8a8a;
+    /* Light grey text */
 
-    /* BORDERS */
-    --color-border: #a89984;
-    /* Stone Grey */
+    /* Borders */
+    --color-border: #e0e0e0;
+    /* Light grey borders */
 
     /* Fonts */
     --font-mono: 'Departure Mono', monospace;
-    --font-main: 'Inter', sans-serif;
+    --font-main: 'Departure Mono', monospace;
+    /* Main font is now Departure Mono */
+    --font-body: 'Inter', sans-serif;
+    /* Body text for articles */
 
     /* Shadows & Effects */
-
-    /* Hard retro shadow for tactile feel */
-    --shadow-hard: 4px 4px 0px 0px var(--color-text-secondary);
+    --shadow-hard: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Subtle shadow */
+    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+    /* Hover shadow */
 
     --text-shadow-std: none;
 
-    /* Borders - Solid & Tactile */
-    --border-dashed: 2px dashed var(--color-border);
-    --border-solid: 2px solid var(--color-text);
+    /* Borders - Clean & Minimal */
+    --border-thin: 1px solid var(--color-border);
+    --border-solid: 1px solid var(--color-border);
+    --border-dashed: 1px dashed var(--color-border);
     --border-primary: 2px solid var(--color-primary);
-
-
 }

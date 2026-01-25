@@ -10,7 +10,7 @@
 .page_title {
     font-family: var(--font-mono);
     font-size: 2.5rem;
-    color: var(--color-primary);
+    color: var(--color-text);
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 2rem;
@@ -32,6 +32,7 @@
     transition: all 0.2s;
     font-family: var(--font-mono);
     display: inline-block;
+    font-size: 0.9rem;
 }
 
 @media (hover: hover) {
@@ -52,21 +53,21 @@
     text-transform: uppercase;
     font-weight: 600;
     text-decoration: none;
-    font-size: 1.0rem;
-    border: var(--border-solid);
-    padding: 8px 16px;
-    transition: all 0.2s;
-    border-color: var(--color-text);
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    padding: 10px 20px;
+    transition: all 0.2s ease;
     font-family: var(--font-mono);
+    background-color: var(--color-panel-bg);
 }
 
 @media (hover: hover) {
     .back_link_button:hover {
-        background-color: var(--color-background);
+        background-color: var(--color-panel-bg);
         color: var(--color-primary);
         border-color: var(--color-primary);
         box-shadow: var(--shadow-hard);
-        transform: translate(-2px, -2px);
+        transform: translateY(-2px);
     }
 }
 

@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     padding: 1rem 0;
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
     background-color: transparent;
     font-family: var(--font-mono);
     position: relative;
@@ -15,7 +15,6 @@
 .links {
     display: flex;
     gap: 40px;
-    /* Wide vintage spacing */
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
@@ -26,9 +25,9 @@
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     padding: 8px 12px;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
     transition: all 0.2s ease;
     letter-spacing: 1px;
 }
@@ -42,14 +41,13 @@
 }
 
 .link:active {
-    color: var(--color-background);
-    background-color: var(--color-primary);
+    color: var(--color-primary);
     border-bottom-color: var(--color-primary);
 }
 
 
 
-/* GitHub Icon - keep it but style it minimal */
+/* GitHub Icon */
 .github_icon {
     color: var(--color-text);
     display: flex;
@@ -57,16 +55,15 @@
     justify-content: center;
     padding: 8px;
     margin-left: 20px;
-    border: 2px solid transparent;
-    transition: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 @media (hover: hover) {
     .github_icon:hover {
         color: var(--color-primary);
         background-color: transparent;
-        border: 2px solid var(--color-primary);
-        box-shadow: 2px 2px 0 var(--color-text-secondary);
+        border: 1px solid var(--color-primary);
     }
 }
 
@@ -84,7 +81,7 @@
     }
 
     .link {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         padding: 6px 8px;
     }
 
@@ -98,10 +95,10 @@
 
 /* FOOTER STYLES */
 .footer {
-    border-top: var(--border-dashed);
+    border-top: 1px solid var(--color-border);
     background-color: transparent;
     color: var(--color-text-muted);
-    font-family: var(--font-main);
+    font-family: var(--font-mono);
     padding: 2rem;
     text-align: center;
     position: relative;

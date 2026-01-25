@@ -1,5 +1,5 @@
 .header {
-    border-bottom: 2px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 1rem;
     margin-bottom: 2rem;
     display: flex;
@@ -10,18 +10,18 @@
 .project_grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(352px, 1fr));
-    gap: 33px;
+    gap: 24px;
     margin-top: 3rem;
 }
 
 .card {
-    background-color: var(--color-background);
-    border: var(--border-solid);
-    padding: 28px;
+    background-color: var(--color-panel-bg);
+    border: var(--border-thin);
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 16.5px;
-    transition: all 0.2s ease-in-out;
+    gap: 16px;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
     text-decoration: none;
@@ -31,72 +31,76 @@
 .card:hover {
     border-color: var(--color-primary);
     transform: translateY(-4px);
-    box-shadow: var(--shadow-hard);
+    box-shadow: var(--shadow-hover);
 }
-
-/* Scanner Line Effect Removed */
 
 .card_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px dashed var(--color-border);
-    padding-bottom: 11px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 12px;
 }
 
 .card_name {
     font-family: var(--font-mono);
-    font-size: 1.32rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    color: var(--color-primary);
+    color: var(--color-text);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
+.card:hover .card_name {
+    color: var(--color-primary);
+}
+
 .card_status {
     font-family: var(--font-mono);
-    font-size: 0.77rem;
-    padding: 2.2px 6.6px;
-    border: 1px solid var(--color-text-muted);
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border: 1px solid var(--color-border);
     color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .status_online {
     color: var(--color-primary) !important;
     border-color: var(--color-primary) !important;
+    background-color: rgba(255, 107, 53, 0.1);
 }
 
 .card_desc {
     color: var(--color-text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    line-height: 1.6;
     flex-grow: 1;
+    font-family: var(--font-mono);
 }
 
 .tech_stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 8.8px;
+    gap: 8px;
     margin-top: auto;
-    /* Push to bottom */
 }
 
 .tech_tag {
     font-family: var(--font-mono);
-    font-size: 0.77rem;
-    color: var(--color-text);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
     border: 1px solid var(--color-border);
-    background-color: transparent;
-    padding: 4.4px 8.8px;
-    border-radius: 2.2px;
+    background-color: var(--color-background);
+    padding: 4px 8px;
 }
 
 .loading {
     font-family: var(--font-mono);
     color: var(--color-primary);
-    font-size: 1.32rem;
+    font-size: 1.2rem;
     text-align: center;
-    padding-top: 110px;
+    padding-top: 100px;
     animation: blink 1s infinite;
 }
 
@@ -120,6 +124,6 @@
     .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 11px;
+        gap: 12px;
     }
 }
