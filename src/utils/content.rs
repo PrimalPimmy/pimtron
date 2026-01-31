@@ -1,7 +1,5 @@
-// Re-export types for convenience
 pub use crate::utils::types::{Post, PostConfig};
 
-/// Fetches all post configs from the posts.json listing.
 pub async fn fetch_all_posts() -> Vec<PostConfig> {
     use gloo_net::http::Request;
 
