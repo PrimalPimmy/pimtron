@@ -444,6 +444,10 @@
     filter: brightness(0);
 }
 
+[data-theme="dark"] .diagram_image-5182da4 {
+    filter: brightness(0) invert(1);
+}
+
 /* RIGHT: INSTRUMENT PANEL */
 .instrument_panel-5182da4 {
     display: flex;
@@ -872,6 +876,36 @@ body {
     font-weight: bold;
 }
 
+/* Theme Switcher */
+.theme_switcher-ef449aa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+    .theme_switcher-ef449aa:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+        background-color: transparent;
+    }
+}
+
+.theme_switcher-ef449aa:active {
+    transform: translateY(1px);
+}
+
 .header-233421b {
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 1rem;
@@ -1053,4 +1087,32 @@ body {
     --border-solid: 1px solid var(--color-border);
     --border-dashed: 1px dashed var(--color-border);
     --border-primary: 2px solid var(--color-primary);
+}
+
+/* DARK THEME*/
+[data-theme="dark"] {
+    --color-primary: #ff6b35;
+
+    --color-background: #141414;
+    --color-panel-bg: #1c1c1c;
+
+    --color-text: #e0e0e0;
+    --color-text-secondary: #b0b0b0;
+    --color-text-muted: #707070;
+
+
+    --color-border: #3a3a3a;
+
+
+
+    --shadow-hard: 0 4px 12px rgba(0, 0, 0, 0.6);
+    --shadow-hover: 0 8px 24px rgba(255, 107, 53, 0.15);
+
+}
+
+/* Smooth transitions for theme changes */
+*,
+*::before,
+*::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

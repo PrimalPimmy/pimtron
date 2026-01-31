@@ -93,6 +93,10 @@
     filter: brightness(0);
 }
 
+[data-theme="dark"] .diagram_image {
+    filter: brightness(0) invert(1);
+}
+
 /* RIGHT: INSTRUMENT PANEL */
 .instrument_panel {
     display: flex;
