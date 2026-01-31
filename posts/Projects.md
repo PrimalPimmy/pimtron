@@ -10,5 +10,3 @@ projects:
     link: "https://github.com/primalpimmy/pimtron"
     status: "ONLINE"
 ---
-
-### Below is a list of my projects :D

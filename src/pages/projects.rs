@@ -29,7 +29,7 @@ pub fn Projects() -> impl IntoView {
                         Some(post) => view! {
                             <div class=common::container>
                                 <div class=style::header>
-                                    <h1 class=common::page_title>"// " {post.title}</h1>
+                                    <h1 class=common::page_title>{post.title}</h1>
                                 </div>
 
                                 // Use shared markdown style for the content, but keep layout container logic from projects

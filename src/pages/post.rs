@@ -1,5 +1,5 @@
-use crate::utils::content::fetch_post;
 use crate::components::navbar::Navbar;
+use crate::utils::content::fetch_post;
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::hooks::use_params_map;
@@ -55,18 +55,12 @@ pub fn PostPage() -> impl IntoView {
                     <Meta name="twitter:description" content=p.summary.clone() />
 
                     <div class=common::container>
-                        <div class=common::back_link_container>
-                            <a href="/blog" class=common::back_link_button>"< Back to Blog"</a>
-                        </div>
                         <PostContent title=p.title date=p.date content=p.content />
                     </div>
                 }.into_any(),
                 Some(None) => view! {
                     <Title text="Pimtron - Post Not Found" />
                     <div class=common::container>
-                        <div class=common::back_link_container>
-                            <a href="/blog" class=common::back_link_button>"< Back to Blog"</a>
-                        </div>
                         <p>"Post not found"</p>
                     </div>
                 }.into_any(),

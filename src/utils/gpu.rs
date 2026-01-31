@@ -12,7 +12,6 @@ use web_sys::HtmlCanvasElement;
 /// Interval in milliseconds for FPS calculation updates.
 const FPS_UPDATE_INTERVAL_MS: f64 = 1000.0;
 
-/// Type alias for the animation frame callback closure.
 type AnimationCallback = Rc<RefCell<Option<Closure<dyn FnMut()>>>>;
 
 /// Checks if WebGL (1 or 2) is supported in the current browser.
@@ -58,7 +57,6 @@ pub async fn check_webgpu_support() -> bool {
         return false;
     }
 
-    // Get requestAdapter function
     let Ok(request_adapter_val) = js_sys::Reflect::get(&gpu_val, &"requestAdapter".into()) else {
         return false;
     };
@@ -66,7 +64,6 @@ pub async fn check_webgpu_support() -> bool {
         return false;
     };
 
-    // Call requestAdapter()
     let Ok(promise_val) = request_adapter_fn.call0(&gpu_val) else {
         return false;
     };
