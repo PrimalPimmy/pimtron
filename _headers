@@ -1,7 +1,9 @@
 /
   Cache-Control: no-cache, no-transform
+  CDN-Cache-Control: no-store
 /index.html
   Cache-Control: no-cache, no-transform
+  CDN-Cache-Control: no-store
 
 # Hashed assets
 /*.js
