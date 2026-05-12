@@ -149,7 +149,7 @@ pub fn Home() -> impl IntoView {
                     <span class=style::module_label>"BLOG"</span>
                     <span class=style::module_status>"Read transmission logs >>"</span>
                 </a>
-                 <a href="mailto:contact@pimtron.com" class=style::control_module>
+                 <a href="mailto:prashant20.pm@gmail.com" class=style::control_module>
                     <span class=style::module_label>"CONTACT"</span>
                     <span class=style::module_status>"Establish comms link >>"</span>
                 </a>
