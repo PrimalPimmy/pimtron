@@ -1,6 +1,6 @@
 ---
 title: "About Me"
-date: "2024-01-01"
+date: "2026-05-13"
 slug: "about"
 summary: "System Bio"
 ---

@@ -36,13 +36,28 @@
 
   <title>Pimtron</title>
   <style>
+    /* Loading screen theme colors (mirrors variables.module.css) */
+    #loading-layer {
+      --_bg: #f5f5f5;
+      --_accent: #ff6b35;
+      --_border: #e0e0e0;
+      --_text: #1a1a1a;
+    }
+
+    [data-theme="dark"] #loading-layer {
+      --_bg: #141414;
+      --_accent: #ff6b35;
+      --_border: #3a3a3a;
+      --_text: #e0e0e0;
+    }
+
     #loading-layer {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #000000;
+      background-color: var(--_bg);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -54,21 +69,22 @@
     .spinner {
       width: 60px;
       height: 60px;
-      border: 2px dashed #333;
-      border-top: 2px solid #00ff00;
-      border-right: 2px solid #00ff00;
+      border: 2px dashed var(--_border);
+      border-top: 2px solid var(--_accent);
+      border-right: 2px solid var(--_accent);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
     }
 
     .loading-text {
-      color: #00ff00;
+      color: var(--_accent);
       font-size: 1rem;
       letter-spacing: 4px;
       text-transform: uppercase;
       animation: blink 1.5s infinite;
-      text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+      text-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
+      font-family: monospace;
     }
 
     @keyframes spin {
