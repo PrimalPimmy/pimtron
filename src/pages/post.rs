@@ -1,4 +1,3 @@
-use crate::components::navbar::Navbar;
 use crate::utils::content::fetch_post;
 use leptos::prelude::*;
 use leptos_meta::*;
@@ -38,7 +37,6 @@ pub fn PostPage() -> impl IntoView {
     });
 
     view! {
-        <Navbar />
         <Suspense fallback=move || view! { <div class=common::container><p>"Loading post..."</p></div> }>
             {move || match post_resource.get() {
                 Some(Some(p)) => view! {
@@ -69,3 +67,4 @@ pub fn PostPage() -> impl IntoView {
         </Suspense>
     }
 }
+

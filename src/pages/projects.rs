@@ -1,4 +1,3 @@
-use crate::components::navbar::Navbar;
 use crate::utils::state::ProjectsResource;
 use leptos::prelude::*;
 
@@ -21,7 +20,6 @@ pub fn Projects() -> impl IntoView {
         .0;
 
     view! {
-        <Navbar />
         <Suspense fallback=move || view! { <div class=style::loading>"LOADING ARMORY MANIFEST..."</div> }>
             {move || {
                 projects_resource.get().map(|data| {
@@ -65,3 +63,4 @@ pub fn Projects() -> impl IntoView {
         </Suspense>
     }
 }
+

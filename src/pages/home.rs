@@ -1,4 +1,3 @@
-use crate::components::navbar::Navbar;
 use crate::utils::gpu::{check_webgl_support, check_webgpu_support, track_fps};
 
 use leptos::leptos_dom::helpers::set_interval_with_handle;
@@ -54,15 +53,6 @@ pub fn Home() -> impl IntoView {
         <Title text="Pimtron" />
         <div class=style::home_container>
 
-            // --- SECTION 1: MASTHEAD ---
-            <div class=style::masthead_container>
-                <h1 class=style::giant_title>"PIMTRON"</h1>
-
-                // Navbar is now just the link row, placed below header as requested
-                <div class=style::nav_row>
-                    <Navbar />
-                </div>
-            </div>
 
             // --- SECTION 2: INTRO ---
             <div class=style::intro_section>

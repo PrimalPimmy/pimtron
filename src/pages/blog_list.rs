@@ -1,4 +1,3 @@
-use crate::components::navbar::Navbar;
 use crate::utils::content::PostConfig;
 use leptos::prelude::*;
 use leptos_meta::*;
@@ -17,7 +16,6 @@ pub fn BlogList() -> impl IntoView {
 
     view! {
         <Title text="Pimtron - Blog" />
-        <Navbar />
         <div class=common::container>
             <h1 class=common::page_title>"TRANSMISSIONS"</h1>
             <div class=style::post_list>
@@ -48,3 +46,4 @@ pub fn BlogList() -> impl IntoView {
         </div>
     }
 }
+

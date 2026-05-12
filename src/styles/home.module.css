@@ -14,36 +14,6 @@
     position: relative;
 }
 
-/* --- SECTION 1: MASTHEAD & NAV --- */
-
-.masthead_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-}
-
-.giant_title {
-    font-family: var(--font-mono);
-    font-size: 8rem;
-    font-weight: 900;
-    line-height: 0.8;
-    color: var(--color-text);
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: -4px;
-}
-
-.nav_row {
-    display: flex;
-    gap: 40px;
-    margin-top: 20px;
-    width: 100%;
-    justify-content: space-between;
-    padding: 0 10px;
-}
 
 /* --- SECTION 2: SPLIT LAYOUT --- */
 
@@ -278,37 +248,17 @@
 }
 
 
+
 /* RESPONSIVE */
 @media (max-width: 1024px) {
-    .giant_title {
-        font-size: 5rem;
-    }
-
     .main_content_grid {
         grid-template-columns: 1fr;
-    }
-
-    .nav_row {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
     }
 }
 
 @media (max-width: 600px) {
-    .giant_title {
-        font-size: 3.5rem;
-        letter-spacing: -2px;
-    }
-
     .home_container {
         padding: 20px;
-    }
-
-    .nav_row {
-        justify-content: center;
-        gap: 10px;
-        padding: 0;
     }
 
     .control_deck {
@@ -325,6 +275,7 @@
         line-height: 1.6;
     }
 }
+
 
 /* Base Body Styles */
 :global(html) {

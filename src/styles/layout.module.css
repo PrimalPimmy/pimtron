@@ -1,0 +1,65 @@
+/* Shared Masthead (PIMTRON title + nav links) */
+.masthead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 40px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+
+.giant_title {
+    font-family: var(--font-mono);
+    font-size: 6.5rem;
+    font-weight: 900;
+    line-height: 0.8;
+    color: var(--color-text);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -4px;
+    text-decoration: none;
+    display: block;
+}
+
+.nav_row {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .giant_title {
+        font-size: 3.5rem;
+    }
+
+    .nav_row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .giant_title {
+        font-size: 2.5rem;
+        letter-spacing: -2px;
+    }
+
+    .masthead {
+        padding: 20px 20px 0;
+    }
+
+    .nav_row {
+        justify-content: center;
+        gap: 10px;
+        padding: 0;
+    }
+}

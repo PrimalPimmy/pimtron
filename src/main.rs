@@ -10,6 +10,7 @@ use leptos_router::{
 };
 
 use crate::components::footer::Footer;
+use crate::components::navbar::Navbar;
 use crate::pages::about::About;
 use crate::pages::blog_list::BlogList;
 use crate::pages::home::Home;
@@ -23,6 +24,7 @@ stylance::import_style!(
     _app,
     "styles/home.module.css"
 );
+stylance::import_style!(layout, "styles/layout.module.css");
 
 fn main() {
     console_error_panic_hook::set_once();
@@ -64,6 +66,13 @@ fn App() -> impl IntoView {
         <Title text="Pimtron" />
         <Router>
             <div class="main-layout" style="display: flex; flex-direction: column; min-height: 100vh;">
+                // Shared masthead: PIMTRON logo + nav links (persists across pages)
+                <div class=layout::masthead>
+                    <a href="/" class=layout::giant_title style="text-decoration: none;">"PIMTRON"</a>
+                    <div class=layout::nav_row>
+                        <Navbar />
+                    </div>
+                </div>
                 <main class="content" style="flex: 1; display: flex; flex-direction: column;">
                     <Routes fallback=|| view! { <h2>"404 Not Found"</h2> }>
                         <Route path=path!("/") view=Home />
@@ -78,3 +87,4 @@ fn App() -> impl IntoView {
         </Router>
     }
 }
+
