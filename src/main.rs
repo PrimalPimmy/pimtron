@@ -13,6 +13,7 @@ use crate::components::footer::Footer;
 use crate::components::navbar::Navbar;
 use crate::pages::about::About;
 use crate::pages::blog_list::BlogList;
+use crate::pages::contact::Contact;
 use crate::pages::home::Home;
 use crate::pages::post::PostPage;
 use crate::pages::projects::Projects;
@@ -80,6 +81,7 @@ fn App() -> impl IntoView {
                         <Route path=path!("/blog/:slug") view=PostPage />
                         <Route path=path!("/about") view=About />
                         <Route path=path!("/projects") view=Projects />
+                        <Route path=path!("/contact") view=Contact />
                     </Routes>
                 </main>
                 <Footer />

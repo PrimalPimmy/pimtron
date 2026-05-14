@@ -67,170 +67,63 @@
     filter: brightness(0) invert(1);
 }
 
-/* RIGHT: INSTRUMENT PANEL */
-.instrument_panel {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.voltmeter_container {
+/* RIGHT: DIGITAL CLOCK PANEL */
+.clock_panel {
     background-color: var(--color-panel-bg);
     border: var(--border-thin);
-    padding: 20px;
+    border-radius: 12px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.gauge_label {
-    font-family: var(--font-mono);
-    font-weight: bold;
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding-bottom: 8px;
-}
-
-.gauge_wrapper {
-    position: relative;
-    width: 240px;
-    height: 140px;
-    overflow: hidden;
-    margin: 20px 0;
-}
-
-.gauge_dial {
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    border: 8px solid var(--color-border);
-    background: transparent;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-}
-
-.gauge_needle {
-    position: absolute;
-    top: 120px;
-    left: calc(50% - 2px);
-    width: 4px;
-    height: 100px;
-    background-color: var(--color-primary);
-    transform-origin: top center;
-    z-index: 2;
-    transform: rotate(90deg);
-}
-
-.gauge_needle::after {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: -4px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: var(--color-text);
-}
-
-.readout_row {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    margin-top: 10px;
-    position: relative;
-    z-index: 10;
-    background-color: var(--color-panel-bg);
-}
-
-.digital_group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1;
-    min-width: 0;
-}
-
-.digital_label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--color-text-muted);
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.digital_readout {
-    font-family: var(--font-mono);
-    background-color: var(--color-text);
-    color: var(--color-primary);
-    padding: 8px 12px;
-    font-size: 1rem;
-    text-align: center;
-    height: 36px;
-    display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 400px;
 }
 
-/* --- SECTION 3: CONTROL DECK (BOTTOM) --- */
-
-.control_deck {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.control_module {
-    background-color: var(--color-panel-bg);
-    border: var(--border-thin);
-    padding: 20px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.2s ease;
-}
-
-.control_module:hover {
-    box-shadow: var(--shadow-hover);
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-}
-
-.control_module:hover .module_label {
-    color: var(--color-primary);
-}
-
-.module_label {
+.clock_label {
     font-family: var(--font-mono);
-    font-weight: bold;
-    color: var(--color-text);
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.module_status {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
 }
 
-/* --- SECTION 4: INTRO --- */
+.clock_display {
+    font-family: var(--font-mono);
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--color-text);
+    letter-spacing: 4px;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(255, 107, 53, 0.15);
+}
+
+@media (max-width: 1024px) {
+    .clock_panel {
+        min-height: 200px;
+    }
+
+    .clock_display {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .clock_display {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+    }
+}
+
+/* --- INTRO SECTION --- */
 .intro_section {
     margin-bottom: 30px;
     padding: 24px;
     text-align: left;
     background-color: var(--color-panel-bg);
     border: var(--border-thin);
+    border-radius: 12px;
     position: relative;
 }
 
@@ -247,6 +140,167 @@
     font-weight: 700;
 }
 
+/* --- SECTION 4: BENTO GRID --- */
+
+.bento_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+/* Base tile */
+.bento_tile {
+    background-color: var(--color-panel-bg);
+    border: var(--border-thin);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+    color: var(--color-text);
+    min-height: 100px;
+}
+
+@media (hover: hover) {
+    .bento_tile:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 8px 32px rgba(255, 107, 53, 0.1);
+        transform: translateY(-3px);
+    }
+
+    .bento_tile:hover .tile_icon {
+        color: var(--color-primary);
+        text-shadow: 0 0 12px rgba(255, 107, 53, 0.4);
+    }
+
+    .bento_tile:hover .tile_title {
+        color: var(--color-primary);
+    }
+}
+
+/* Tile size variants */
+.bento_wide {
+    grid-column: span 1;
+    min-height: 160px;
+}
+
+.bento_tall {
+    grid-column: span 1;
+    min-height: 160px;
+}
+
+.bento_medium {
+    grid-column: span 1;
+}
+
+/* Icon */
+.tile_icon {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+/* Content block */
+.tile_content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-grow: 1;
+}
+
+.tile_eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.tile_title {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+    line-height: 1.3;
+}
+
+.tile_date {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.tile_subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Recent posts list inside tile */
+.recent_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+}
+
+.recent_item {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--color-border);
+    line-height: 1.4;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.recent_item:last-child {
+    border-bottom: none;
+}
+
+@media (hover: hover) {
+    .recent_item:hover {
+        color: var(--color-primary);
+        background-color: rgba(255, 107, 53, 0.06);
+    }
+
+    .recent_item:hover .recent_item_title {
+        color: var(--color-primary);
+    }
+}
+
+.recent_item_title {
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recent_item_date {
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
 
 
 /* RESPONSIVE */
@@ -261,8 +315,14 @@
         padding: 20px;
     }
 
-    .control_deck {
+    .bento_grid {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .bento_wide,
+    .bento_tall {
+        min-height: 120px;
     }
 
     .intro_section {

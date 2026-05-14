@@ -4,9 +4,6 @@ Hey, welcome to Pimtron. This is just my personal portfolio website where I keep
 
 If you are curious about the code or want to run it locally to see how it works, here is a quick guide.
 
-> **IMPORTANT**:
-> This project is used with AI Assistance. Mostly for the CSS part and a few rust segments. I do not like to code CSS. The CSS might be wonky. I will work on improving it soon.
-
 ## Getting Started
 
 You can set this up the standard way with Cargo, or if you use Nix, I have a flake included to make it easier.

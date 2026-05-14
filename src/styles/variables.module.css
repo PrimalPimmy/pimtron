@@ -51,24 +51,21 @@
     --border-primary: 2px solid var(--color-primary);
 }
 
-/* DARK THEME*/
+/* DARK THEME — AMOLED Black */
 [data-theme="dark"] {
     --color-primary: #ff6b35;
 
-    --color-background: #141414;
-    --color-panel-bg: #1c1c1c;
+    --color-background: #000000;
+    --color-panel-bg: #0d0d0d;
 
     --color-text: #e0e0e0;
-    --color-text-secondary: #b0b0b0;
-    --color-text-muted: #707070;
+    --color-text-secondary: #a0a0a0;
+    --color-text-muted: #606060;
 
+    --color-border: #1f1f1f;
 
-    --color-border: #3a3a3a;
-
-
-
-    --shadow-hard: 0 4px 12px rgba(0, 0, 0, 0.6);
-    --shadow-hover: 0 8px 24px rgba(255, 107, 53, 0.15);
+    --shadow-hard: 0 4px 12px rgba(0, 0, 0, 0.9);
+    --shadow-hover: 0 8px 28px rgba(255, 107, 53, 0.12);
 
 }
 
