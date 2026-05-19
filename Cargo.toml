@@ -24,8 +24,7 @@ chrono = { version = "0.4", features = ["wasmbind"] }
 opt-level = 3
 
 [profile.release]
-codegen-units = 1
-lto = true
+lto = "thin"
 opt-level = "z"
 
 [[bin]]
