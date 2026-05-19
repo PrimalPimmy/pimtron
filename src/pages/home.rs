@@ -48,7 +48,6 @@ pub fn Home() -> impl IntoView {
         <div class=style::home_container>
 
 
-            // --- SECTION 2: INTRO ---
             <div class=style::intro_section>
                 <p class=style::intro_text>
                     "I " <strong>"build, break, and rebuild " </strong>
@@ -57,9 +56,7 @@ pub fn Home() -> impl IntoView {
                 </p>
             </div>
 
-            // --- SECTION 3: SPLIT CONTENT ---
             <div class=style::main_content_grid>
-                // LEFT: BLUEPRINT PANEL
                 <div class=style::blueprint_panel>
                     <div class=style::blueprint_header>
                         <span>"FIG_1.0: CORE_SYSTEMS"</span>
