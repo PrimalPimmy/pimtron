@@ -20,7 +20,7 @@ I currently work as a contractor at one of my country's largest Telecom buisines
 
 I know people are gonna say that most people are not going to care about privacy, and that is true. But that does not mean we don't implement something that gives the user the ownership of their own data.
 
-Projects like [Atproto](https://atproto.com/) are proofs that there is indeed a way for ownership of data to be in the hands of the user. There is this amazing article that explains the concept: [Open Social](https://overreacted.io/open-social/).
+Protocols like [Atproto](https://atproto.com/) are proofs that there is indeed a way for ownership of data to be in the hands of the user. There is this amazing article that explains the concept: [Open Social](https://overreacted.io/open-social/).
 
 I want to live in the [Atmosphere](https://atproto.com/) instead, where all my thoughts could be collectively shared to sites which support Atproto. I am the owner of my own content, I can choose to host my things wherever I want, and not some paywalled site like Medium (eugh). And I believe in the goal of one identity to rule them all. Unfortunately, I still have to use LinkedIn, Twitter, Instagram, etc due to, advertising myself (Ironic). 
 
