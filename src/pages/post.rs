@@ -12,6 +12,11 @@ stylance::import_style!(
 
 #[component]
 fn PostContent(title: String, date: String, content: String) -> impl IntoView {
+    Effect::new(move |_| {
+        // Automatically highlight codeblocks after rendering
+        let _ = js_sys::eval("if (window.Prism) { setTimeout(() => Prism.highlightAll(), 10); }");
+    });
+
     view! {
         <article>
             <header class=article_style::header>

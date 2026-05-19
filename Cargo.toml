@@ -16,12 +16,8 @@ js-sys = "0.3.83"
 wasm-bindgen-futures = "0.4.56"
 gloo-net = "0.6.0"
 serde_json = "1.0.148"
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-gray_matter = "0.3.2"
 pulldown-cmark = "0.13.0"
-syntect = "5.3.0"
-chrono = "0.4"
+chrono = { version = "0.4", features = ["wasmbind"] }
 
 # Optimize dependencies even in dev builds to reduce binary size and memory usage
 [profile.dev.package."*"]
@@ -35,8 +31,4 @@ opt-level = "z"
 [[bin]]
 name = "pimtron"
 path = "src/main.rs"
-
-[[bin]]
-name = "gen_posts"
-path = "src/bin/gen_posts.rs"
 

@@ -33,3 +33,30 @@ pub struct Post {
     #[serde(default)]
     pub projects: Vec<ProjectItem>,
 }
+
+// --- AT Protocol Response Structs ---
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ListRecordsResponse {
+    pub records: Vec<AtprotoRecord>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AtprotoRecord {
+    pub uri: String,
+    pub value: StandardDocument,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StandardDocument {
+    pub title: String,
+    #[serde(default)]
+    pub description: String,
+    pub path: String,
+    #[serde(rename = "publishedAt", default)]
+    pub published_at: String,
+    #[serde(rename = "textContent", default)]
+    pub text_content: String,
+    #[serde(default)]
+    pub content: Option<serde_json::Value>,
+}

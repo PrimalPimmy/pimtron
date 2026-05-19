@@ -15,10 +15,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax Highlighting (PrismJS) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+  
   <link data-trunk rel="css" href="index.css" />
   <link data-trunk rel="rust" data-bin="pimtron" />
   <link data-trunk rel="copy-dir" href="assets" />
-  <link data-trunk rel="copy-dir" href="generated_posts" data-target-path="posts" />
+  <link data-trunk rel="copy-dir" href="public/.well-known" data-target-path=".well-known" />
   <link data-trunk rel="copy-file" href="_redirects" />
   <link data-trunk rel="copy-file" href="_headers" />
 
@@ -116,6 +120,10 @@
     <div class="spinner"></div>
     <div class="loading-text">INITIALIZING SYSTEM...</div>
   </div>
-</body>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
 </html>
