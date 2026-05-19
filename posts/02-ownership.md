@@ -1,7 +1,7 @@
 ---
 title: We shouldn't pay for Ownership
-date: 2026-05-04
-slug: declaration-of-ownership
+date: 2026-05-19
+slug: ownership
 summary: Why I think we should own our data.
 ---
 
