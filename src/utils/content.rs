@@ -4,6 +4,10 @@ const ATPROTO_DID: &str = "did:plc:kdcc475mwmfd7ehlvhqxgrqr";
 const COLLECTION: &str = "site.standard.document";
 
 pub async fn fetch_all_posts() -> Vec<PostConfig> {
+    fetch_all_posts_inner().await.unwrap_or_default()
+}
+
+async fn fetch_all_posts_inner() -> Option<Vec<PostConfig>> {
     use crate::utils::types::ListRecordsResponse;
     use gloo_net::http::Request;
 
@@ -11,50 +15,47 @@ pub async fn fetch_all_posts() -> Vec<PostConfig> {
         "https://bsky.social/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
         ATPROTO_DID, COLLECTION
     );
-    let response = Request::get(&url).send().await;
-
-    if let Ok(resp) = response {
-        if resp.ok() {
-            if let Ok(data) = resp.json::<ListRecordsResponse>().await {
-                let mut posts = Vec::new();
-                for record in data.records {
-                    let doc = record.value;
-                    let rkey = record.uri.split('/').last().unwrap_or("").to_string();
-
-                    let mut slug = doc.path.split('/').last().unwrap_or("").to_string();
-
-                    if slug.is_empty() {
-                        slug = rkey.clone();
-                    }
-
-                    // Skip special pages
-                    if rkey == "aboutme"
-                        || rkey == "projects"
-                        || slug.to_lowercase() == "aboutme"
-                        || slug.to_lowercase() == "projects"
-                    {
-                        continue;
-                    }
-
-                    let date = chrono::DateTime::parse_from_rfc3339(&doc.published_at)
-                        .map(|dt| dt.format("%B %d, %Y").to_string())
-                        .unwrap_or(doc.published_at);
-
-                    posts.push(PostConfig {
-                        title: doc.title,
-                        date,
-                        slug,
-                        summary: doc.description,
-                        projects: vec![],
-                    });
-                }
-                // Sort posts by date descending
-                posts.sort_by(|a, b| b.date.cmp(&a.date));
-                return posts;
-            }
-        }
+    let resp = Request::get(&url).send().await.ok()?;
+    if !resp.ok() {
+        return None;
     }
-    Vec::new()
+    let data = resp.json::<ListRecordsResponse>().await.ok()?;
+
+    let mut posts: Vec<PostConfig> = data
+        .records
+        .into_iter()
+        .filter_map(|record| {
+            let rkey = record.uri.rsplit('/').next().unwrap_or_default();
+            let slug = record.value.path.rsplit('/').next().unwrap_or_default();
+            let slug = if slug.is_empty() {
+                rkey.to_owned()
+            } else {
+                slug.to_owned()
+            };
+
+            // Skip special pages
+            if matches!(rkey, "aboutme" | "projects")
+                || matches!(slug.to_lowercase().as_str(), "aboutme" | "projects")
+            {
+                return None;
+            }
+
+            let date = chrono::DateTime::parse_from_rfc3339(&record.value.published_at)
+                .map(|dt| dt.format("%B %d, %Y").to_string())
+                .unwrap_or(record.value.published_at);
+
+            Some(PostConfig {
+                title: record.value.title,
+                date,
+                slug,
+                summary: record.value.description,
+                projects: vec![],
+            })
+        })
+        .collect();
+
+    posts.sort_by(|a, b| b.date.cmp(&a.date));
+    Some(posts)
 }
 
 /// Fetches a single post by slug (either rkey or path slug).
@@ -63,76 +64,44 @@ pub async fn fetch_post(slug: &str) -> Option<Post> {
     use gloo_net::http::Request;
     use pulldown_cmark::{Parser, html};
 
-    // instead of getRecord (which strictly requires the rkey), we fetch listRecords
-    // and find the one that matches our desired slug in the path
     let url = format!(
         "https://bsky.social/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
         ATPROTO_DID, COLLECTION
     );
-    let response = Request::get(&url).send().await.ok()?;
-
-    if !response.ok() {
+    let resp = Request::get(&url).send().await.ok()?;
+    if !resp.ok() {
         return None;
     }
 
-    let data = response.json::<ListRecordsResponse>().await.ok()?;
+    let data = resp.json::<ListRecordsResponse>().await.ok()?;
 
-    let mut found_doc = None;
-    for record in data.records {
-        let rkey = record.uri.split('/').last().unwrap_or("");
-        let path_slug = record.value.path.split('/').last().unwrap_or("");
+    let doc = data.records.into_iter().find_map(|record| {
+        let rkey = record.uri.rsplit('/').next().unwrap_or_default();
+        let path_slug = record.value.path.rsplit('/').next().unwrap_or_default();
+        let clean = strip_tid_prefix(path_slug);
 
-        let mut clean_path_slug = path_slug.to_string();
-        if clean_path_slug.len() > 14 && clean_path_slug.chars().nth(13) == Some('-') {
-            let is_tid = clean_path_slug
-                .chars()
-                .take(13)
-                .all(|c| c.is_ascii_alphanumeric());
-            if is_tid {
-                clean_path_slug = clean_path_slug[14..].to_string();
-            }
+        if clean == slug || rkey == slug || path_slug == slug {
+            Some(record.value)
+        } else {
+            None
         }
-
-        if clean_path_slug == slug || rkey == slug || path_slug == slug {
-            found_doc = Some(record.value);
-            break;
-        }
-    }
-
-    let doc = found_doc?;
+    })?;
 
     let date = chrono::DateTime::parse_from_rfc3339(&doc.published_at)
         .map(|dt| dt.format("%B %d, %Y").to_string())
         .unwrap_or(doc.published_at.clone());
 
-    // Standard textContent fallback
     let mut markdown = doc.text_content.clone();
 
-    // Fallback for Leaflet which uses a custom block-based schema instead of textContent
+    // fallback for Leaflet's block-based content schema
     if markdown.is_empty() {
-        if let Some(content_val) = &doc.content {
-            if let Some(pages) = content_val.get("pages").and_then(|p| p.as_array()) {
-                if let Some(first_page) = pages.first() {
-                    if let Some(blocks) = first_page.get("blocks").and_then(|b| b.as_array()) {
-                        for block_wrapper in blocks {
-                            if let Some(block) = block_wrapper.get("block") {
-                                if let Some(plaintext) =
-                                    block.get("plaintext").and_then(|t| t.as_str())
-                                {
-                                    markdown.push_str(plaintext);
-                                    markdown.push_str("\n\n");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        if let Some(ref content) = doc.content {
+            markdown = extract_leaflet_text(content);
         }
     }
 
     let mut html_output = String::new();
-    let parser = Parser::new(&markdown);
-    html::push_html(&mut html_output, parser);
+    html::push_html(&mut html_output, Parser::new(&markdown));
 
     Some(Post {
         title: doc.title,
@@ -144,103 +113,135 @@ pub async fn fetch_post(slug: &str) -> Option<Post> {
     })
 }
 
-fn parse_frontmatter(frontmatter: &str) -> (String, String, String, String) {
-    let mut title = String::new();
-    let mut date = String::new();
-    let mut slug = String::new();
-    let mut summary = String::new();
+/// strips offprint's 13-char TID prefix (e.g. `3mm7vpa7rt223-slug` → `slug`). Although this is not necessary if I dont use offprint.
+fn strip_tid_prefix(slug: &str) -> String {
+    if slug.len() > 14
+        && slug.as_bytes().get(13) == Some(&b'-')
+        && slug[..13].chars().all(|c| c.is_ascii_alphanumeric())
+    {
+        slug[14..].to_string()
+    } else {
+        slug.to_string()
+    }
+}
+
+/// Extracts plaintext from Leaflet's nested block-based content structure.
+fn extract_leaflet_text(content: &serde_json::Value) -> String {
+    let mut out = String::new();
+
+    let blocks = content
+        .get("pages")
+        .and_then(|p| p.as_array())
+        .and_then(|pages| pages.first())
+        .and_then(|page| page.get("blocks"))
+        .and_then(|b| b.as_array());
+
+    if let Some(blocks) = blocks {
+        for wrapper in blocks {
+            if let Some(text) = wrapper
+                .get("block")
+                .and_then(|b| b.get("plaintext"))
+                .and_then(|t| t.as_str())
+            {
+                out.push_str(text);
+                out.push_str("\n\n");
+            }
+        }
+    }
+
+    out
+}
+
+struct Frontmatter {
+    title: String,
+    date: String,
+    slug: String,
+    summary: String,
+}
+
+fn parse_frontmatter(frontmatter: &str) -> Frontmatter {
+    let mut fm = Frontmatter {
+        title: String::new(),
+        date: String::new(),
+        slug: String::new(),
+        summary: String::new(),
+    };
 
     for line in frontmatter.lines() {
         if let Some((k, v)) = line.split_once(':') {
             let key = k.trim();
             let val = v.trim().trim_matches('"').trim_matches('\'');
             match key {
-                "title" => title = val.to_string(),
+                "title" => fm.title = val.to_string(),
                 "date" => {
-                    date = chrono::NaiveDate::parse_from_str(val, "%Y-%m-%d")
+                    fm.date = chrono::NaiveDate::parse_from_str(val, "%Y-%m-%d")
                         .map(|d| d.format("%B %d, %Y").to_string())
                         .unwrap_or_else(|_| val.to_string());
                 }
-                "slug" => slug = val.to_string(),
-                "summary" => summary = val.to_string(),
+                "slug" => fm.slug = val.to_string(),
+                "summary" => fm.summary = val.to_string(),
                 _ => {}
             }
         }
     }
-    (title, date, slug, summary)
+
+    fm
+}
+
+/// Parses an embedded markdown file (with frontmatter) into a `Post`.
+fn parse_embedded_post(raw: &str, default_title: &str, default_slug: &str) -> Post {
+    use pulldown_cmark::{Parser, html};
+
+    let parts: Vec<&str> = raw.splitn(3, "---").collect();
+    let (frontmatter, body) = if parts.len() >= 3 {
+        (parts[1], parts[2])
+    } else {
+        ("", raw)
+    };
+
+    let fm = parse_frontmatter(frontmatter);
+    let title = if fm.title.is_empty() {
+        default_title.to_owned()
+    } else {
+        fm.title
+    };
+    let slug = if fm.slug.is_empty() {
+        default_slug.to_owned()
+    } else {
+        fm.slug
+    };
+
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, Parser::new(body));
+
+    Post {
+        title,
+        date: fm.date,
+        slug,
+        summary: fm.summary,
+        content: html_output,
+        projects: vec![],
+    }
 }
 
 pub async fn fetch_about() -> Option<Post> {
-    use pulldown_cmark::{Parser, html};
-    let raw = include_str!("../../posts/AboutMe.md");
-
-    let parts: Vec<&str> = raw.splitn(3, "---").collect();
-    let (frontmatter, body) = if parts.len() >= 3 {
-        (parts[1], parts[2])
-    } else {
-        ("", raw)
-    };
-
-    let (mut title, date, mut slug, summary) = parse_frontmatter(frontmatter);
-    if title.is_empty() {
-        title = "About Me".to_string();
-    }
-    if slug.is_empty() {
-        slug = "aboutme".to_string();
-    }
-
-    let mut html_output = String::new();
-    let parser = Parser::new(body);
-    html::push_html(&mut html_output, parser);
-
-    Some(Post {
-        title,
-        date,
-        slug,
-        summary,
-        content: html_output,
-        projects: vec![],
-    })
+    Some(parse_embedded_post(
+        include_str!("../../posts/AboutMe.md"),
+        "About Me",
+        "aboutme",
+    ))
 }
 
 pub async fn fetch_projects() -> Option<Post> {
-    use pulldown_cmark::{Parser, html};
     let raw = include_str!("../../posts/Projects.md");
 
     let parts: Vec<&str> = raw.splitn(3, "---").collect();
-    let (frontmatter, body) = if parts.len() >= 3 {
-        (parts[1], parts[2])
-    } else {
-        ("", raw)
-    };
-
-    let (title, date, slug, summary) = parse_frontmatter(frontmatter);
+    let frontmatter = if parts.len() >= 3 { parts[1] } else { "" };
     let projects = parse_projects(frontmatter);
 
-    // Fallbacks if missing
-    let title = if title.is_empty() {
-        "PROJECT ARCHIVES".to_string()
-    } else {
-        title
-    };
-    let slug = if slug.is_empty() {
-        "projects".to_string()
-    } else {
-        slug
-    };
-
-    let mut html_output = String::new();
-    let parser = Parser::new(body);
-    html::push_html(&mut html_output, parser);
-
-    Some(Post {
-        title,
-        date,
-        slug,
-        summary,
-        content: html_output,
-        projects,
-    })
+    let mut post = parse_embedded_post(raw, "PROJECT ARCHIVES", "projects");
+    post.projects = projects;
+    Some(post)
 }
 
 fn parse_projects(frontmatter: &str) -> Vec<crate::utils::types::ProjectItem> {
