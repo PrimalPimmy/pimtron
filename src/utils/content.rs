@@ -3,6 +3,40 @@ pub use crate::utils::types::{Post, PostConfig};
 const ATPROTO_DID: &str = "did:plc:kdcc475mwmfd7ehlvhqxgrqr";
 const COLLECTION: &str = "site.standard.document";
 
+async fn resolve_pds_endpoint(did: &str) -> String {
+    use gloo_net::http::Request;
+    use serde::Deserialize;
+
+    #[derive(Deserialize)]
+    struct Service {
+        id: String,
+        #[serde(rename = "type")]
+        service_type: String,
+        #[serde(rename = "serviceEndpoint")]
+        service_endpoint: String,
+    }
+
+    #[derive(Deserialize)]
+    struct DidDoc {
+        service: Vec<Service>,
+    }
+
+    let url = format!("https://plc.directory/{}", did);
+    if let Ok(resp) = Request::get(&url).send().await {
+        if resp.ok() {
+            if let Ok(doc) = resp.json::<DidDoc>().await {
+                if let Some(pds) = doc.service.into_iter().find(|s| {
+                    s.service_type == "AtprotoPersonalDataServer" || s.id == "#atproto_pds"
+                }) {
+                    return pds.service_endpoint;
+                }
+            }
+        }
+    }
+    // Fallback to public federated AppView if resolution fails
+    "https://public.api.bsky.app".to_string()
+}
+
 pub async fn fetch_all_posts() -> Vec<PostConfig> {
     fetch_all_posts_inner().await.unwrap_or_default()
 }
@@ -11,9 +45,10 @@ async fn fetch_all_posts_inner() -> Option<Vec<PostConfig>> {
     use crate::utils::types::ListRecordsResponse;
     use gloo_net::http::Request;
 
+    let pds = resolve_pds_endpoint(ATPROTO_DID).await;
     let url = format!(
-        "https://bsky.social/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
-        ATPROTO_DID, COLLECTION
+        "{}/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
+        pds, ATPROTO_DID, COLLECTION
     );
     let resp = Request::get(&url).send().await.ok()?;
     if !resp.ok() {
@@ -64,9 +99,10 @@ pub async fn fetch_post(slug: &str) -> Option<Post> {
     use gloo_net::http::Request;
     use pulldown_cmark::{Parser, html};
 
+    let pds = resolve_pds_endpoint(ATPROTO_DID).await;
     let url = format!(
-        "https://bsky.social/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
-        ATPROTO_DID, COLLECTION
+        "{}/xrpc/com.atproto.repo.listRecords?repo={}&collection={}",
+        pds, ATPROTO_DID, COLLECTION
     );
     let resp = Request::get(&url).send().await.ok()?;
     if !resp.ok() {
