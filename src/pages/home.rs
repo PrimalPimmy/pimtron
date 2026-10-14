@@ -1,48 +1,16 @@
+use crate::components::orbit_clock::OrbitClock;
 use crate::utils::content::PostConfig;
 
-use leptos::leptos_dom::helpers::set_interval_with_handle;
 use leptos::prelude::*;
 use leptos_meta::*;
-use std::time::Duration;
-stylance::import_style!(style, "../styles/home.module.css");
+stylance::import_style!(
+    #[allow(unused)]
+    style,
+    "../styles/home.module.css"
+);
 
 #[component]
 pub fn Home() -> impl IntoView {
-    let (time_str, set_time_str) = signal("00:00:00".to_string());
-
-    Effect::new(move |_| {
-        // Set immediately so it doesn't flash 00:00:00
-        {
-            let now = js_sys::Date::new_0();
-            set_time_str.set(format!(
-                "{:02}:{:02}:{:02}",
-                now.get_hours(),
-                now.get_minutes(),
-                now.get_seconds()
-            ));
-        }
-
-        let handle = set_interval_with_handle(
-            move || {
-                let now = js_sys::Date::new_0();
-                set_time_str.set(format!(
-                    "{:02}:{:02}:{:02}",
-                    now.get_hours(),
-                    now.get_minutes(),
-                    now.get_seconds()
-                ));
-            },
-            Duration::from_millis(1000),
-        )
-        .ok();
-
-        on_cleanup(move || {
-            if let Some(h) = handle {
-                h.clear();
-            }
-        });
-    });
-
     view! {
         <Title text="Pimtron" />
         <div class=style::home_container>
@@ -68,11 +36,8 @@ pub fn Home() -> impl IntoView {
                     </div>
                 </div>
 
-                // RIGHT: DIGITAL CLOCK
-                <div class=style::clock_panel>
-                    <div class=style::clock_label>"LOCAL TIME"</div>
-                    <div class=style::clock_display>{time_str}</div>
-                </div>
+                // RIGHT: ORBITAL CLOCK
+                <OrbitClock/>
             </div>
 
 
