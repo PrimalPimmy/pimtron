@@ -62,6 +62,7 @@
             ) unfilteredRoot)
             (lib.fileset.maybeMissing ./assets)
             (lib.fileset.maybeMissing ./posts)
+            (lib.fileset.maybeMissing ./src/shaders)
             (lib.fileset.maybeMissing ./public)
             (lib.fileset.maybeMissing ./_redirects)
             (lib.fileset.maybeMissing ./_headers)
@@ -129,14 +130,14 @@
             wasm-bindgen-cli = pkgs.buildWasmBindgenCli rec {
               src = pkgs.fetchCrate {
                 pname = "wasm-bindgen-cli";
-                version = "0.2.106";
-                hash = "sha256-M6WuGl7EruNopHZbqBpucu4RWz44/MSdv6f0zkYw+44";
+                version = "0.2.129";
+                hash = "sha256-pcecKQd7E8Opw6bkFoE569epUi7gh5qpQF1e5PJY6V8=";
               };
 
               cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
                 inherit src;
                 inherit (src) pname version;
-                hash = "sha256-ElDatyOwdKwHg3bNH/1pcxKI7LXkhsotlDPQjiLHBwA=";
+                hash = "sha256-vmUrWVU7kPJJxO5qIVeAkwQyWDELO1Z4Z5gitz2kco8=";
               };
             };
           }
