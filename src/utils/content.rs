@@ -3,6 +3,19 @@ pub use crate::utils::types::{Post, PostConfig};
 const ATPROTO_DID: &str = "did:plc:kdcc475mwmfd7ehlvhqxgrqr";
 const COLLECTION: &str = "site.standard.document";
 
+fn render_markdown(markdown: &str) -> String {
+    use pulldown_cmark::{Options, Parser, html};
+
+    let options = Options::ENABLE_STRIKETHROUGH
+        | Options::ENABLE_TABLES
+        | Options::ENABLE_TASKLISTS
+        | Options::ENABLE_FOOTNOTES
+        | Options::ENABLE_GFM;
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, Parser::new_ext(markdown, options));
+    html_output
+}
+
 async fn resolve_pds_endpoint(did: &str) -> String {
     use gloo_net::http::Request;
     use serde::Deserialize;
@@ -97,7 +110,6 @@ async fn fetch_all_posts_inner() -> Option<Vec<PostConfig>> {
 pub async fn fetch_post(slug: &str) -> Option<Post> {
     use crate::utils::types::ListRecordsResponse;
     use gloo_net::http::Request;
-    use pulldown_cmark::{Parser, html};
 
     let pds = resolve_pds_endpoint(ATPROTO_DID).await;
     let url = format!(
@@ -136,8 +148,7 @@ pub async fn fetch_post(slug: &str) -> Option<Post> {
         }
     }
 
-    let mut html_output = String::new();
-    html::push_html(&mut html_output, Parser::new(&markdown));
+    let html_output = render_markdown(&markdown);
 
     Some(Post {
         title: doc.title,
@@ -226,7 +237,6 @@ fn parse_frontmatter(frontmatter: &str) -> Frontmatter {
 
 /// Parses an embedded markdown file (with frontmatter) into a `Post`.
 fn parse_embedded_post(raw: &str, default_title: &str, default_slug: &str) -> Post {
-    use pulldown_cmark::{Parser, html};
 
     let parts: Vec<&str> = raw.splitn(3, "---").collect();
     let (frontmatter, body) = if parts.len() >= 3 {
@@ -247,8 +257,7 @@ fn parse_embedded_post(raw: &str, default_title: &str, default_slug: &str) -> Po
         fm.slug
     };
 
-    let mut html_output = String::new();
-    html::push_html(&mut html_output, Parser::new(body));
+    let html_output = render_markdown(body);
 
     Post {
         title,
